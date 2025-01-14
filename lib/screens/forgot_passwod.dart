@@ -1,3 +1,4 @@
+import 'package:app/screens/login_page.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -16,32 +17,48 @@ class ForgotPasswordPage extends StatelessWidget {
           // Main Content
           Column(
             children: [
-              // Move the text closer to the top
-              SizedBox(height: 20), // Reduced space from the top
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Oh no! I forgot',
-                      style: TextStyle(
-                        fontSize: 32,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        text: 'my password',
-                        style: TextStyle(
-                          fontSize: 32,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+              // Adjust the top layout with Row for positioning the arrow and text
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  // Arrow Button (Back to Login)
+                  IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      // Navigate to the login page
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                  ),
+                  // The "Oh no!" text
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          'Oh no! I forgot',
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                      textAlign: TextAlign.center,
+                        Text.rich(
+                          TextSpan(
+                            text: 'my password',
+                            style: TextStyle(
+                              fontSize: 32,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
 
               // Adjust the bottom layout
@@ -51,28 +68,85 @@ class ForgotPasswordPage extends StatelessWidget {
                   children: [
                     // White Box with Rounded Corners
                     Positioned(
-                      top: MediaQuery.of(context).size.height *
-                          0.4, // Start from halfway down
+                      top: MediaQuery.of(context).size.height * 0.35,
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.75,
+                        height: MediaQuery.of(context).size.height * 0.55,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          color: Colors.white
-                              .withOpacity(0.6), // Less transparency
+                          color: Colors.white.withOpacity(0.6),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(30),
                             topRight: Radius.circular(30),
                           ),
                         ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 40.0, left: 16.0, right: 16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 25),
+                              Text(
+                                "Don’t worry, it happens to the best of us!",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                "Enter your email to reset your password!",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 24), // Space before text field
+                              TextField(
+                                decoration: InputDecoration(
+                                  labelText: "Email Address",
+                                  hintText: "Enter your email",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  prefixIcon: Icon(Icons.email),
+                                ),
+                              ),
+                              SizedBox(height: 26), // Space before button
+                              ElevatedButton(
+                                onPressed: () {
+                                  // Add your button action here
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Color.fromARGB(255, 29, 112, 180),
+                                  onPrimary: Colors.white,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 40,
+                                    vertical: 15,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Send",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
 
-                    // Larger Mushroom Image
+                    // Mushroom Image
                     Positioned(
-                      top: 0, // Adjusted to move the mushroom image higher
+                      top: -100, // Moved the mushroom higher
                       child: Image.asset(
-                        'assets/images/mushroom.png', // Replace with your mushroom image path
-                        height: 450, // Adjusted mushroom size
+                        'assets/images/mushroom.png',
+                        height: 500, // Reduced the size slightly
                         width: 500,
                       ),
                     ),
