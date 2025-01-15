@@ -23,10 +23,10 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
 
-          // Animated cloud images
+          // cloud Animation
           child: Stack(
             children: [
-              // Cloud 1 (top-left, appearing from the left)
+              // Cloud 1 appearing from the left
               Positioned(
                 left: -70, // Start off-screen
                 top: 50, // Distance from the top
@@ -38,10 +38,10 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
 
-              // Cloud 2 (top-right, appearing from the right to the left)
+              // Cloud 2 appearing from the right to the left
               Positioned(
-                right: -50, // Slightly further right than Cloud 1
-                top: 10, // Lower down than Cloud 1
+                right: -50,
+                top: 10,
                 width: 150,
                 height: 150,
                 child: FadeInLeft(
@@ -50,10 +50,10 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
 
-              // Back button (Arrow)
+              // Back arrow
               Positioned(
-                top: 30, // Position it at the top-left of the screen
-                left: 10, // Adjust the left margin
+                top: 30,
+                left: 10,
                 child: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () {
@@ -66,14 +66,14 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
 
-              // Rest of the screen content
+              // sign up content
               Center(
                 child: Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.start, // Align to the start
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    // Add space above the white box
-                    SizedBox(height: 120), // Move everything down more
+                    //space above the white box
+                    SizedBox(height: 120),
+
                     // Sign Up heading outside the white box
                     Text(
                       'Sign Up',
@@ -87,14 +87,13 @@ class SignUpScreen extends StatelessWidget {
                       padding: EdgeInsets.all(20),
                       width: 350,
                       decoration: BoxDecoration(
-                        color: Colors.white
-                            .withOpacity(0.5), // Transparent white box
+                        color: Colors.white.withOpacity(0.5),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // Name Field with box-like appearance
+                          // Name Field
                           TextField(
                             controller: nameController,
                             decoration: InputDecoration(
@@ -106,7 +105,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
 
-                          // Email Field with box-like appearance
+                          // Email Field
                           TextField(
                             controller: emailController,
                             decoration: InputDecoration(
@@ -117,7 +116,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
 
-                          // Password Field with box-like appearance
+                          // Password Field
                           TextField(
                             controller: passwordController,
                             obscureText: true,
@@ -130,7 +129,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
 
-                          // Confirm Password Field with box-like appearance
+                          // Confirm Password Field
                           TextField(
                             controller: confirmPasswordController,
                             obscureText: true,
@@ -154,12 +153,11 @@ class SignUpScreen extends StatelessWidget {
                                         content:
                                             Text('Passwords do not match')));
                               } else {
-                                // Proceed with sign-up logic (e.g., API call)
+                                // sign-up logic wull come here
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(
-                                  255, 51, 155, 55), // Button color
+                              backgroundColor: Color.fromARGB(255, 51, 155, 55),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -170,8 +168,7 @@ class SignUpScreen extends StatelessWidget {
                               child: Text(
                                 'Sign Up',
                                 style: TextStyle(
-                                  fontSize:
-                                      20, // Bigger font size for login text
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -180,7 +177,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
 
-                          // Navigation to Login screen
+                          // Navigate to Login screen
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

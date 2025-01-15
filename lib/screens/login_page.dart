@@ -9,18 +9,16 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                    'assets/images/login_background.png'), // Background image path
+                image: AssetImage('assets/images/login_background.png'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
 
-          // Animated light images
+          //lights animation
           Positioned(
             left: 30,
             width: 80,
@@ -57,12 +55,12 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 150), // Move everything down
+                SizedBox(height: 150),
 
                 // Login title outside the box
                 Positioned(
-                  top: 180, //  distance  for the title from the top
-                  left: 20, // Adjust as needed for positioning
+                  top: 180, //  distance from the top
+                  left: 20,
                   child: Text(
                     'Login',
                     style: TextStyle(
@@ -75,18 +73,18 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                     height: 10), // Space between the title and the white box
 
-                // White box
+                // White box curled
                 Container(
                   padding: EdgeInsets.all(20),
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.5), // More transparent
+                    color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Email/Username field with placeholder
+                      // Email/Username field
                       TextField(
                         decoration: InputDecoration(
                           labelText: 'Email/Username',
@@ -95,6 +93,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 15),
+
                       // Password field
                       TextField(
                         obscureText: true,
@@ -105,19 +104,20 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 10),
+
                       // Remember Me checkbox
                       Row(
                         children: [
                           Checkbox(
                             value: false,
                             onChanged: (bool? value) {
-                              // Handle checkbox logic
+                              // checkbox logic
                             },
                           ),
                           Text(
                             'Remember Me',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold, // Make bold
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
@@ -127,11 +127,10 @@ class LoginPage extends StatelessWidget {
                       // Login button
                       ElevatedButton(
                         onPressed: () {
-                          // Handle login logic here
+                          // login logic
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(
-                              255, 22, 110, 211), // Darker blue button color
+                          backgroundColor: Color.fromARGB(255, 22, 110, 211),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -142,7 +141,7 @@ class LoginPage extends StatelessWidget {
                           child: Text(
                             'Login',
                             style: TextStyle(
-                              fontSize: 20, // Bigger font size for login text
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -150,10 +149,11 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 10),
+
                       // Forgot Password
                       TextButton(
                         onPressed: () {
-                          // Navigate to Forgot Password screen
+                          // Go to Forgot Password screen
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -167,6 +167,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 10),
+
                       // Sign-up link
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
