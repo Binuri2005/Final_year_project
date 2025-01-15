@@ -10,36 +10,40 @@ class ForgotPasswordPage extends StatelessWidget {
         children: [
           // Background Image
           Image.asset(
-            'assets/images/background_1.png', // Replace with your background image path
+            'assets/images/background_1.png',
             fit: BoxFit.cover,
           ),
 
           // Main Content
           Column(
             children: [
-              // Adjust the top layout with Row for positioning the arrow and text
               SizedBox(height: 20),
               Row(
                 children: [
-                  // Arrow Button (Back to Login)
-                  IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () {
-                      // Navigate to the login page
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
-                    },
+                  // Back Arrow
+                  Positioned(
+                    top: 30,
+                    left: 10,
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () {
+                        // Navigate to the login page
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginPage()),
+                        );
+                      },
+                    ),
                   ),
-                  // The "Oh no!" text
+
+                  // Heading sentences
                   Expanded(
                     child: Column(
                       children: [
                         Text(
                           'Oh no! I forgot',
                           style: TextStyle(
-                            fontSize: 32,
+                            fontSize: 28,
                             color: Colors.white,
                             fontWeight: FontWeight.normal,
                           ),
@@ -61,12 +65,12 @@ class ForgotPasswordPage extends StatelessWidget {
                 ],
               ),
 
-              // Adjust the bottom layout
+              // bottom layout
               Expanded(
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
-                    // White Box with Rounded Corners
+                    // White Box with curled Corners
                     Positioned(
                       top: MediaQuery.of(context).size.height * 0.35,
                       child: Container(
@@ -103,7 +107,7 @@ class ForgotPasswordPage extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 24), // Space before text field
+                              SizedBox(height: 24),
                               TextField(
                                 decoration: InputDecoration(
                                   labelText: "Email Address",
@@ -117,7 +121,7 @@ class ForgotPasswordPage extends StatelessWidget {
                               SizedBox(height: 26), // Space before button
                               ElevatedButton(
                                 onPressed: () {
-                                  // Add your button action here
+                                  //send button
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Color.fromARGB(255, 29, 112, 180),
@@ -143,10 +147,10 @@ class ForgotPasswordPage extends StatelessWidget {
 
                     // Mushroom Image
                     Positioned(
-                      top: -100, // Moved the mushroom higher
+                      top: -100,
                       child: Image.asset(
                         'assets/images/mushroom.png',
-                        height: 500, // Reduced the size slightly
+                        height: 500,
                         width: 500,
                       ),
                     ),
