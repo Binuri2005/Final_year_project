@@ -1,6 +1,7 @@
 import 'package:app/screens/forgot_passwod.dart';
 import 'package:flutter/material.dart';
 import 'signup_screen.dart'; // Import the sign-up screen
+import 'package:animate_do/animate_do.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -18,23 +19,62 @@ class LoginPage extends StatelessWidget {
               ),
             ),
           ),
+
+          // Animated light images
+          Positioned(
+            left: 30,
+            width: 80,
+            height: 200,
+            child: FadeInUp(
+              duration: Duration(seconds: 2),
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/light_1.png'),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 160,
+            width: 60,
+            height: 120,
+            child: FadeInUp(
+              duration: Duration(milliseconds: 1500),
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/light_2.png'),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
           // Login content
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Add space above the login title
-                SizedBox(height: 100), // Move everything down
+                SizedBox(height: 150), // Move everything down
+
                 // Login title outside the box
-                Text(
-                  'Login',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                Positioned(
+                  top: 180, //  distance  for the title from the top
+                  left: 20, // Adjust as needed for positioning
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-                SizedBox(height: 50),
+                SizedBox(
+                    height: 10), // Space between the title and the white box
+
                 // White box
                 Container(
                   padding: EdgeInsets.all(20),
@@ -137,7 +177,8 @@ class LoginPage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SignUpScreen()),
+                                  builder: (context) => SignUpScreen(),
+                                ),
                               );
                             },
                             child: Text(
