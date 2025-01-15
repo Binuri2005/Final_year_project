@@ -87,10 +87,12 @@ class LoginPage extends StatelessWidget {
                       // Email/Username field
                       TextField(
                         decoration: InputDecoration(
-                          labelText: 'Email/Username',
-                          hintText: 'example@gmail.com', // Placeholder text
-                          border: OutlineInputBorder(),
-                        ),
+                            labelText: 'Email/Username',
+                            hintText: 'example@gmail.com', // Placeholder text
+                            border: OutlineInputBorder(),
+                            labelStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            )),
                       ),
                       SizedBox(height: 15),
 
@@ -98,10 +100,12 @@ class LoginPage extends StatelessWidget {
                       TextField(
                         obscureText: true,
                         decoration: InputDecoration(
-                          labelText: 'Password',
-                          hintText: 'Enter your password', // Placeholder text
-                          border: OutlineInputBorder(),
-                        ),
+                            labelText: 'Password',
+                            hintText: 'Enter your password', // Placeholder text
+                            border: OutlineInputBorder(),
+                            labelStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            )),
                       ),
                       SizedBox(height: 10),
 

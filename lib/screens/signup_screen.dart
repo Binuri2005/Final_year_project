@@ -97,11 +97,13 @@ class SignUpScreen extends StatelessWidget {
                           TextField(
                             controller: nameController,
                             decoration: InputDecoration(
-                              labelText: 'Name',
-                              hintText:
-                                  'Enter your full name', // Placeholder text
-                              border: OutlineInputBorder(),
-                            ),
+                                labelText: 'Name',
+                                hintText:
+                                    'Enter your full name', // Placeholder text
+                                border: OutlineInputBorder(),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
                           ),
                           SizedBox(height: 10),
 
@@ -109,10 +111,13 @@ class SignUpScreen extends StatelessWidget {
                           TextField(
                             controller: emailController,
                             decoration: InputDecoration(
-                              labelText: 'Email',
-                              hintText: 'example@gmail.com', // Placeholder text
-                              border: OutlineInputBorder(),
-                            ),
+                                labelText: 'Email',
+                                hintText:
+                                    'example@gmail.com', // Placeholder text
+                                border: OutlineInputBorder(),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
                           ),
                           SizedBox(height: 10),
 
@@ -121,11 +126,13 @@ class SignUpScreen extends StatelessWidget {
                             controller: passwordController,
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'Password',
-                              hintText:
-                                  'Enter your password', // Placeholder text
-                              border: OutlineInputBorder(),
-                            ),
+                                labelText: 'Password',
+                                hintText:
+                                    'Enter your password', // Placeholder text
+                                border: OutlineInputBorder(),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
                           ),
                           SizedBox(height: 10),
 
@@ -134,11 +141,13 @@ class SignUpScreen extends StatelessWidget {
                             controller: confirmPasswordController,
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'Confirm Password',
-                              hintText:
-                                  'Re-enter your password', // Placeholder text
-                              border: OutlineInputBorder(),
-                            ),
+                                labelText: 'Confirm Password',
+                                hintText:
+                                    'Re-enter your password', // Placeholder text
+                                border: OutlineInputBorder(),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
                           ),
                           SizedBox(height: 20),
 
