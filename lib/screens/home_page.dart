@@ -11,12 +11,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0; // To track the currently selected tab
 
-  final List<Widget> _pages = [
-    NotificationsPage(),  // Notifications page content
-    ProfilePage(),  // Profile page content
-    RewardsPage(),  // Favorites page content
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,10 +20,10 @@ class _HomePageState extends State<HomePage> {
           color: Color(0xFFCADEEB),
           padding: EdgeInsets.only(left: 30, right: 30, top: 5),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // Align texts to the left
+            crossAxisAlignment:
+                CrossAxisAlignment.start, // Align texts to the left
             children: [
-              // Removed AppBar, back button, and CareBloom heading
-              // Keeping only the content below
+              
 
               // "Hello Binu!" and image
               Row(
@@ -118,7 +112,8 @@ class _HomePageState extends State<HomePage> {
               // Second box for "Social Skills"
               Center(
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 10), // Space between boxes
+                  margin:
+                      EdgeInsets.symmetric(vertical: 10), // Space between boxes
                   padding: EdgeInsets.all(20),
                   height: 150,
                   width: 300,
@@ -154,7 +149,8 @@ class _HomePageState extends State<HomePage> {
               // Third box for "Daily Life Skills"
               Center(
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 10), // Space between boxes
+                  margin:
+                      EdgeInsets.symmetric(vertical: 10), // Space between boxes
                   padding: EdgeInsets.all(20),
                   height: 150,
                   width: 300,
@@ -194,7 +190,7 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
-            _currentIndex = index;  // Update the selected tab
+            _currentIndex = index; // Update the selected tab
           });
         },
         type: BottomNavigationBarType.fixed,
@@ -210,12 +206,12 @@ class _HomePageState extends State<HomePage> {
             label: 'Notifications',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.star),
+            label: 'Rewards',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: 'Favorites',
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
       ),
