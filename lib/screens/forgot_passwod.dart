@@ -8,7 +8,6 @@ class ForgotPasswordPage extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background Image
           Image.asset(
             'assets/images/background_1.png',
             fit: BoxFit.cover,

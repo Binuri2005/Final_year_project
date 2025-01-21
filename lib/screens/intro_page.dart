@@ -10,7 +10,8 @@ class _IntroPageState extends State<IntroPage> {
   @override
   void initState() {
     super.initState();
-    // Navigate to LoginPage after a delay
+
+    // Navigate to LoginPage after the wait
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
@@ -25,13 +26,12 @@ class _IntroPageState extends State<IntroPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background Image
           Image.asset(
-            'assets/images/background_1.png', // Background image path
+            'assets/images/background_1.png', 
             fit: BoxFit.cover,
           ),
 
-          // Centered logo
+          // logo
           Center(
             child: Image.asset(
               'assets/images/logo.png', // Logo image path
