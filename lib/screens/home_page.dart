@@ -1,6 +1,4 @@
 import 'package:app/screens/dashboard_screen.dart';
-import 'package:app/screens/notifications.dart';
-import 'package:app/screens/profile_page.dart';
 import 'package:app/screens/social_skills_page.dart';
 import 'package:flutter/material.dart';
 
