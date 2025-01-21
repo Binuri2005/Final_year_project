@@ -12,7 +12,7 @@ class _IntroPageState extends State<IntroPage> {
     super.initState();
 
     // Navigate to LoginPage after the wait
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 1), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
@@ -27,7 +27,7 @@ class _IntroPageState extends State<IntroPage> {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/images/background_1.png', 
+            'assets/images/background_1.png',
             fit: BoxFit.cover,
           ),
 

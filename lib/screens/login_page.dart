@@ -1,7 +1,8 @@
 import 'package:app/screens/forgot_passwod.dart';
 import 'package:flutter/material.dart';
-import 'signup_screen.dart'; // Import the sign-up screen
+import 'signup_screen.dart';
 import 'package:animate_do/animate_do.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -131,7 +132,15 @@ class LoginPage extends StatelessWidget {
                       // Login button
                       ElevatedButton(
                         onPressed: () {
-                          // login logic
+                          // login logic here (for now we directly navigate to HomePage)
+
+                          // Navigate to HomePage after successful login
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    HomePage()), // HomePage after login
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromARGB(255, 22, 110, 211),
@@ -152,6 +161,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                       ),
+
                       SizedBox(height: 10),
 
                       // Forgot Password
