@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/screens/level_1_Game_Page.dart';
 
 class SocialSkillsPage extends StatelessWidget {
   @override
@@ -163,113 +164,119 @@ class SocialSkillsPage extends StatelessWidget {
               ),
 
               // Three smaller boxes below the Play and Match Emotions Game box (stacked vertically)
-              Column(
-                children: [
-                  // First smaller box
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.all(10),
-                    height: 50,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blue.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
+              GestureDetector(
+                onTap: () {
+                  // Navigate to the Level 1 game page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Level1GamePage()), // Navigate to Level1GamePage
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.all(10),
+                  height: 50,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
                     ),
-                    child: Center(
-                      child: Text(
-                        'Level 01',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blue.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Level 01',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
+                ),
+              ),
 
-                  // Second smaller box
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.all(10),
-                    height: 50,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blue.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
+              // Second smaller box
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.all(10),
+                height: 50,
+                width: 150,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
                     ),
-                    child: Center(
-                      child: Text(
-                        'Level 02',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    'Level 02',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                ),
+              ),
 
-                  // Third smaller box
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.all(10),
-                    height: 50,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blue.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
+              // Third smaller box
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.all(10),
+                height: 50,
+                width: 150,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
                     ),
-                    child: Center(
-                      child: Text(
-                        'Level 03',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    'Level 03',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                ],
+                ),
               ),
             ],
           ),
