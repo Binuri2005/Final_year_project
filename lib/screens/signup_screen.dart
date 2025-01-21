@@ -1,3 +1,4 @@
+import 'package:app/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'package:animate_do/animate_do.dart';
@@ -162,7 +163,12 @@ class SignUpScreen extends StatelessWidget {
                                         content:
                                             Text('Passwords do not match')));
                               } else {
-                                // sign-up logic wull come here
+                                // If passwords match, navigate to the HomePage
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage()),
+                                );
                               }
                             },
                             style: ElevatedButton.styleFrom(
