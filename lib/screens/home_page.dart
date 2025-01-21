@@ -1,6 +1,7 @@
 import 'package:app/screens/dashboard_screen.dart';
 import 'package:app/screens/notifications.dart';
 import 'package:app/screens/profile_page.dart';
+import 'package:app/screens/social_skills_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,8 +24,6 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment:
                 CrossAxisAlignment.start, // Align texts to the left
             children: [
-              
-
               // "Hello Binu!" and image
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -111,35 +110,48 @@ class _HomePageState extends State<HomePage> {
 
               // Second box for "Social Skills"
               Center(
-                child: Container(
-                  margin:
-                      EdgeInsets.symmetric(vertical: 10), // Space between boxes
-                  padding: EdgeInsets.all(20),
-                  height: 150,
-                  width: 300,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF8EE6C),
-                    borderRadius: BorderRadius.circular(15), // Rounded corners
-                    border: Border.all(
-                      color: Colors.black, // Black border color
-                      width: 1, // Thin border width
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                child: GestureDetector(
+                  onTap: () {
+                    // Navigate to the Social Skills page when tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SocialSkillsPage(), // Navigate to SocialSkillsPage
                       ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Social Skills',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                        vertical: 10), // Space between boxes
+                    padding: EdgeInsets.all(20),
+                    height: 150,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF8EE6C),
+                      borderRadius:
+                          BorderRadius.circular(15), // Rounded corners
+                      border: Border.all(
+                        color: Colors.black, // Black border color
+                        width: 1, // Thin border width
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Social Skills',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
