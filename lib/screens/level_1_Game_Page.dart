@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Main widget for the game page
 class Level1GamePage extends StatefulWidget {
   @override
   _Level1GamePageState createState() => _Level1GamePageState();
@@ -16,7 +17,7 @@ class _Level1GamePageState extends State<Level1GamePage> {
     {"term": "Love", "emoji": "😍"},
   ];
 
-  // Map to track the current drop status of each expression
+  // Map to track which emoji has been dropped onto each expression
   Map<String, String> droppedExpressions = {};
 
   @override
@@ -26,9 +27,10 @@ class _Level1GamePageState extends State<Level1GamePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Draggable Emojis
+            // shows Draggable Emojis
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(
+                  16.0), // padding to add tht box around the emoji set
               child: Column(
                 children: [
                   // First Row of Emojis (3 emojis)
@@ -39,7 +41,8 @@ class _Level1GamePageState extends State<Level1GamePage> {
                         data: expression['emoji'],
                         child: EmojiBox(emoji: expression['emoji']!),
                         feedback: EmojiBox(emoji: expression['emoji']!),
-                        childWhenDragging: EmojiBox(emoji: "❓"),
+                        childWhenDragging:
+                            EmojiBox(emoji: "❓"), // Placeholder during drag
                       );
                     }).toList(),
                   ),
@@ -60,7 +63,8 @@ class _Level1GamePageState extends State<Level1GamePage> {
               ),
             ),
             SizedBox(height: 20),
-            // Drop targets for terms with smaller answer boxes
+
+            // Drop targets for matching expressions to emojis
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -68,6 +72,7 @@ class _Level1GamePageState extends State<Level1GamePage> {
                   return DragTarget<String>(
                     onAccept: (data) {
                       setState(() {
+                        // Store the emoji dropped on this expression
                         droppedExpressions[expression['term']!] = data;
                       });
                     },
@@ -84,6 +89,7 @@ class _Level1GamePageState extends State<Level1GamePage> {
                         ),
                         child: Center(
                           child: Text(
+                            // Display the dropped emoji or the term
                             droppedExpressions[expression['term']!] ??
                                 expression['term']!,
                             style: TextStyle(
@@ -100,7 +106,7 @@ class _Level1GamePageState extends State<Level1GamePage> {
             // Button to check answers
             ElevatedButton(
               onPressed: () {
-                checkAnswers();
+                checkAnswers(); // Call the answer checking function
               },
               child: Text("Check Answers"),
             ),
@@ -112,16 +118,19 @@ class _Level1GamePageState extends State<Level1GamePage> {
 
   // Method to check if all the answers are correct
   void checkAnswers() {
-    bool isCorrect = true;
+    bool isCorrect = true; // Assume answers are correct
     expressions.forEach((expression) {
       if (droppedExpressions[expression['term']!] != expression['emoji']) {
-        isCorrect = false;
+        isCorrect = false; // Set to false if any match is incorrect
       }
     });
 
     String message = isCorrect
         ? "Congratulations! All matches are correct!"
         : "Oops! Try again!";
+
+    // Show a dialog with the result
+
     showDialog(
       context: context,
       builder: (context) {
@@ -148,7 +157,7 @@ class _Level1GamePageState extends State<Level1GamePage> {
 
 // Widget for displaying emojis inside a box
 class EmojiBox extends StatelessWidget {
-  final String emoji;
+  final String emoji; // Emoji to display
 
   EmojiBox({required this.emoji});
 

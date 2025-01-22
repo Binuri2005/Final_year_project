@@ -6,14 +6,12 @@ class SocialSkillsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        // Wrap the Column inside a SingleChildScrollView
         child: Container(
-          color: Colors.white, // Set background color
+          color: Colors.white,
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.center, // Center the children
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Back Button and "Home Page" text next to each other
+              // Back Button with home page text to show it moves back to HP
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
@@ -21,12 +19,10 @@ class SocialSkillsPage extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.arrow_back),
                       onPressed: () {
-                        Navigator.pop(context); // Go back to the previous page
-                      },
+                        Navigator.pop(context);
+                      }
                     ),
-                    SizedBox(
-                        width:
-                            8), // Small space between the back button and text
+                    SizedBox(width: 8),
                     Text(
                       'Home Page',
                       style: TextStyle(
@@ -38,26 +34,23 @@ class SocialSkillsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                  height: 20), // Space between back button and welcome message
+              SizedBox(height: 20),
 
-              // Welcome Message
+              // Welcome to the social skills page Message
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
                   'Welcome to Social Skills! Enjoyy',
                   style: TextStyle(
-                    fontSize: 16, // Larger font size for the welcome message
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
               ),
-              SizedBox(
-                  height:
-                      20), // Space between the welcome message and other content
+              SizedBox(height: 20),
 
-              // First Box: Social Scenarios
+              // First Big Box for Role play feature
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 padding: EdgeInsets.all(20),
@@ -91,18 +84,18 @@ class SocialSkillsPage extends StatelessWidget {
                 ),
               ),
 
-              // Smaller box below the Social Scenarios box
+              // Smaller sub box below the Role play box
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 padding: EdgeInsets.all(10),
                 height: 50,
-                width: 150, // Adjust width to make room for text
+                width: 150,
                 decoration: BoxDecoration(
-                  color: Colors.white, // Box color
-                  borderRadius: BorderRadius.circular(15), // Rounded corners
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
                   border: Border.all(
-                    color: Colors.black, // Border color
-                    width: 1, // Border width
+                    color: Colors.black,
+                    width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -117,30 +110,29 @@ class SocialSkillsPage extends StatelessWidget {
                   child: Text(
                     'Scenarios',
                     style: TextStyle(
-                      fontSize: 10, // Smaller font size
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
-                      overflow: TextOverflow.ellipsis, // Prevent text overflow
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
               ),
 
-              // Add space between the first smaller box and the second big box
-              SizedBox(height: 20), // Adjust the height to create more space
+              SizedBox(height: 20),
 
-              // Second Box: Match and play Emotions Game
+              // Second Big box for the Match and play Emotions Game
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 padding: EdgeInsets.all(20),
                 height: 100,
                 width: 300,
                 decoration: BoxDecoration(
-                  color: Color(0xFF4CAF50), // Box color
-                  borderRadius: BorderRadius.circular(15), // Rounded corners
+                  color: Color(0xFF4CAF50),
+                  borderRadius: BorderRadius.circular(15),
                   border: Border.all(
-                    color: Colors.black, // Border color
-                    width: 1, // Border width
+                    color: Colors.black,
+                    width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -163,10 +155,9 @@ class SocialSkillsPage extends StatelessWidget {
                 ),
               ),
 
-              // Three smaller boxes below the Play and Match Emotions Game box (stacked vertically)
+              // Three smaller boxes below the Play and Match Emotions Game box to showcase 3 levels
               GestureDetector(
                 onTap: () {
-                  // Navigate to the Level 1 game page
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -174,6 +165,7 @@ class SocialSkillsPage extends StatelessWidget {
                             Level1GamePage()), // Navigate to Level1GamePage
                   );
                 },
+                //first small box for ht e2nd big box - level 1 game
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
                   padding: EdgeInsets.all(10),
@@ -209,7 +201,7 @@ class SocialSkillsPage extends StatelessWidget {
                 ),
               ),
 
-              // Second smaller box
+              // Second smaller box for level 2
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 padding: EdgeInsets.all(10),
@@ -244,7 +236,7 @@ class SocialSkillsPage extends StatelessWidget {
                 ),
               ),
 
-              // Third smaller box
+              // Third smaller box for level 3
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 padding: EdgeInsets.all(10),

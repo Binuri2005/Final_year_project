@@ -8,21 +8,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0; // To track the currently selected tab
+  int _currentIndex = 0; // To track the currently selected tab in navigator bar
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        // Wrap the content inside SingleChildScrollView
+      body: SingleChildScrollView( // make sure the content is scrollable
         child: Container(
           color: Color(0xFFCADEEB),
           padding: EdgeInsets.only(left: 30, right: 30, top: 5),
           child: Column(
             crossAxisAlignment:
-                CrossAxisAlignment.start, // Align texts to the left
+                CrossAxisAlignment.start,
             children: [
-              // "Hello Binu!" and image
+
+              // Welcome messsage 
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,18 +35,17 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(width: 10), // Space between text and image
+                  SizedBox(width: 10), 
                   Image.asset(
-                    'assets/images/cartoon_cat.png', // Adjust the path to your image
-                    height: 60, // Control the size of the image
-                    width: 60, // Control the size of the image
-                    fit: BoxFit.contain, // Ensures the image fits well
+                    'assets/images/cartoon_cat.png',
+                    height: 60, 
+                    width: 60, 
+                    fit: BoxFit.contain, 
                   ),
                 ],
               ),
               SizedBox(height: 2), // Space between the headings
 
-              // "Welcome to CareBloom!" description below the heading
               Text(
                 'Welcome to CareBloom! Choose a category to start learning and have fun improving your skills.',
                 style: TextStyle(
@@ -55,9 +54,9 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 20), // Approx. 3cm space between the messages
+              SizedBox(height: 20), 
 
-              // "Category" heading centered below the welcome text
+              // Category heading 
               Center(
                 child: Text(
                   'Category',
@@ -68,9 +67,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              SizedBox(height: 8), // Space between Category and the boxes
+              SizedBox(height: 8), 
 
-              // First box for "Speech Skills" with a black border
+              /////////// box one for SPEECH SKILLS MODULES ///////////////////
               Center(
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
@@ -78,11 +77,11 @@ class _HomePageState extends State<HomePage> {
                   height: 150,
                   width: 300,
                   decoration: BoxDecoration(
-                    color: Color(0xFFFCC0C5), // Speech Skills box color
+                    color: Color(0xFFFCC0C5), 
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(
-                      color: Colors.black, // Black border color
-                      width: 1, // Thin border width
+                      color: Colors.black, 
+                      width: 1, 
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -106,32 +105,31 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
-              // Second box for "Social Skills"
+              ////////// SOCIAL SKILLS MODULE box //////////////////////
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    // Navigate to the Social Skills page when tapped
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            SocialSkillsPage(), // Navigate to SocialSkillsPage
+                            SocialSkillsPage(), // Navigate to SocialskillsPage
                       ),
                     );
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(
-                        vertical: 10), // Space between boxes
+                        vertical: 10),
                     padding: EdgeInsets.all(20),
                     height: 150,
                     width: 300,
                     decoration: BoxDecoration(
                       color: Color(0xFFF8EE6C),
                       borderRadius:
-                          BorderRadius.circular(15), // Rounded corners
+                          BorderRadius.circular(15), 
                       border: Border.all(
-                        color: Colors.black, // Black border color
-                        width: 1, // Thin border width
+                        color: Colors.black, 
+                        width: 1, 
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -156,11 +154,11 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
-              // Third box for "Daily Life Skills"
+              ////////////// box for daily life skills module /////////
               Center(
                 child: Container(
                   margin:
-                      EdgeInsets.symmetric(vertical: 10), // Space between boxes
+                      EdgeInsets.symmetric(vertical: 10), 
                   padding: EdgeInsets.all(20),
                   height: 150,
                   width: 300,
@@ -168,9 +166,9 @@ class _HomePageState extends State<HomePage> {
                     color: Color(0xFFF6C6FA),
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(
-                      color: Colors.black, // Black border color
-                      width: 1, // Thin border width
-                    ), // Rounded corners
+                      color: Colors.black, 
+                      width: 1, 
+                    ), 
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
@@ -197,7 +195,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: _currentIndex, // Highlights the selected tab
         onTap: (index) {
           setState(() {
             _currentIndex = index; // Update the selected tab
