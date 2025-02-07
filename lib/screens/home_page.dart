@@ -1,5 +1,5 @@
 import 'package:app/screens/dashboard_screen.dart';
-import 'package:app/screens/social_skills_page.dart';
+import 'package:app/social_skills_module/main_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            SocialSkillsPage(), // Navigate to SocialskillsPage
+                            SocialskillsPage(), // Navigate to SocialskillsPage
                       ),
                     );
                   },
@@ -226,3 +226,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
