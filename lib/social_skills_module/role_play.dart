@@ -1,4 +1,8 @@
+import 'package:app/social_skills_module/select_and_play_roleplay.dart';
 import 'package:flutter/material.dart';
+import 'individual_roleplay.dart';
+import 'group_roleplay.dart';
+import 'select_and_play_roleplay.dart';
 
 class RolePlayPage extends StatelessWidget {
   @override
@@ -60,12 +64,18 @@ class RolePlayPage extends StatelessWidget {
                 ),
                 SizedBox(height: 30), // Pushes boxes lower
 
-                // Role Play Boxes
-                Center(child: _buildBox('Individual Role-plays', () {})),
+                // Role Play Boxes with Navigation
+                Center(
+                    child: _buildBox(context, 'Individual Role-plays',
+                        IndividualRolePlayPage())),
                 SizedBox(height: 40),
-                Center(child: _buildBox('Dual Role-plays', () {})),
+                Center(
+                    child: _buildBox(
+                        context, 'Group Role-plays', GroupRolePlayPage())),
                 SizedBox(height: 40),
-                Center(child: _buildBox('Peer Role-plays', () {})),
+                Center(
+                    child: _buildBox(context, 'Select, play and Win rewards',
+                        PlayAndWinPage())),
               ],
             ),
           ),
@@ -75,9 +85,15 @@ class RolePlayPage extends StatelessWidget {
   }
 }
 
-Widget _buildBox(String text, VoidCallback onTap) {
+// Function to create a box with navigation
+Widget _buildBox(BuildContext context, String text, Widget page) {
   return GestureDetector(
-    onTap: onTap,
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => page),
+      );
+    },
     child: Stack(
       alignment: Alignment.center,
       children: [
