@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'play_game.dart'; // Import the PlayGamePage
 
 class SocialskillsPage extends StatelessWidget {
   @override
@@ -49,24 +50,31 @@ class SocialskillsPage extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 5),
+            SizedBox(height: 10),
             Text(
-              'Enhance your social interactions & communication skills',
+              'Improve your social skills with roleplay & fun drag-and-drop games to match emotions',
               style: TextStyle(
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.black54,
+                fontWeight: FontWeight.normal,
+                color: Color.fromARGB(255, 222, 52, 108),
               ),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 60),
 
             // First Box (Role Play)
-            _buildBox('Role Play'),
+            _buildBox('ROLE PLAY', () {
+              // Handle Role Play navigation here if needed
+            }),
             SizedBox(height: 50),
 
             // Second Box (Play Game)
-            _buildBox('Play Game'),
+            _buildBox('PLAY GAME', () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PlayGamePage()),
+              );
+            }),
             SizedBox(height: 35),
           ],
         ),
@@ -75,47 +83,50 @@ class SocialskillsPage extends StatelessWidget {
   }
 
   // Widget for Box Design
-  Widget _buildBox(String text) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        // Blue Outline Shadow
-        Container(
-          height: 110,
-          width: 250,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
-                spreadRadius: 4,
-                blurRadius: 8,
-                offset: Offset(0, 4),
-              ),
-            ],
+  Widget _buildBox(String text, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap, // Call the onTap function when the box is tapped
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Blue Outline Shadow
+          Container(
+            height: 110,
+            width: 250,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
+                  spreadRadius: 4,
+                  blurRadius: 8,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
           ),
-        ),
-        // Whitish Opaque Box
-        Container(
-          height: 110,
-          width: 250,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.8),
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: Colors.black, width: 1),
-          ),
-          child: Center(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black, // Navy Blue
+          // Whitish Opaque Box
+          Container(
+            height: 110,
+            width: 250,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: Colors.black, width: 1),
+            ),
+            child: Center(
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black, // Navy Blue
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
