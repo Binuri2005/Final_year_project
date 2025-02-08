@@ -72,7 +72,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                    height: 10), // Space between the title and the white box
+                    height: 10), 
 
                 // White box curled
                 Container(
@@ -132,7 +132,7 @@ class LoginPage extends StatelessWidget {
                       // Login button
                       ElevatedButton(
                         onPressed: () {
-                          // login logic here (for now we directly navigate to HomePage)
+                          // login logic here 
 
                           // Navigate to HomePage after successful login
                           Navigator.pushReplacement(

@@ -74,8 +74,9 @@ class RolePlayPage extends StatelessWidget {
                         context, 'Group Role-plays', GroupRolePlayPage())),
                 SizedBox(height: 40),
                 Center(
-                    child: _buildBox(context, 'Select, play and Win rewards',
-                        PlayAndWinPage())),
+                    child: _buildBox(
+                        context, 'Play & Win rewards', PlayAndWinPage())),
+                SizedBox(height: 40),
               ],
             ),
           ),
