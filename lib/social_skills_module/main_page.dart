@@ -1,3 +1,4 @@
+import 'package:app/social_skills_module/role_play.dart';
 import 'package:flutter/material.dart';
 import 'play_game.dart'; // Import the PlayGamePage
 
@@ -25,15 +26,6 @@ class SocialskillsPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    'Home Page',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                    ),
                   ),
                 ],
               ),
@@ -64,9 +56,12 @@ class SocialskillsPage extends StatelessWidget {
 
             // First Box (Role Play)
             _buildBox('ROLE PLAY', () {
-              // Handle Role Play navigation here if needed
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RolePlayPage()),
+              );
             }),
-            SizedBox(height: 50),
+            SizedBox(height: 30),
 
             // Second Box (Play Game)
             _buildBox('PLAY GAME', () {

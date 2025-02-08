@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PlayGamePage extends StatelessWidget {
+class RolePlayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,8 +13,8 @@ class PlayGamePage extends StatelessWidget {
         ),
         child: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height *
-                1.05, // Adjust height to move boxes down
+            height:
+                MediaQuery.of(context).size.height * 1.05, // Moves boxes down
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -32,11 +32,12 @@ class PlayGamePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 20), // More spacing after the AppBar
+                SizedBox(height: 10), // More spacing after the AppBar
 
+                // Centered Title
                 Center(
                   child: Text(
-                    'Drag and Drop Play',
+                    'Welcome to Role Plays',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -48,7 +49,7 @@ class PlayGamePage extends StatelessWidget {
                 SizedBox(height: 10),
                 Center(
                   child: Text(
-                    'Match accordingly and earn rewards ',
+                    'Engage with different scenarios and improve your social and communication skills',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
@@ -57,15 +58,14 @@ class PlayGamePage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 30), // Pushes boxes lower
 
-                /// Increased spacing to push boxes lower
-
-                Center(child: _buildBox('LEVEL 01', () {})),
+                // Role Play Boxes
+                Center(child: _buildBox('Individual Role-plays', () {})),
                 SizedBox(height: 40),
-                Center(child: _buildBox('LEVEL 02', () {})),
+                Center(child: _buildBox('Dual Role-plays', () {})),
                 SizedBox(height: 40),
-                Center(child: _buildBox('LEVEL 03', () {})),
+                Center(child: _buildBox('Peer Role-plays', () {})),
               ],
             ),
           ),
