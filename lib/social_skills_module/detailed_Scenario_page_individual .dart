@@ -20,7 +20,7 @@ class ScenarioDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -37,10 +37,10 @@ class ScenarioDetailPage extends StatelessWidget {
                 child: Text(
                   scenario,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
 
               // Image
               Center(
@@ -51,32 +51,32 @@ class ScenarioDetailPage extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               // Description Box
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Text(
                   scenarioContent['description'], // Dynamically set description
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                   textAlign: TextAlign.left, // Align text to the left
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // "Steps to Follow" Heading
-              Center(
+              const Center(
                 child: Text(
                   "Steps to Follow",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               // Steps Boxes with Borders and Left-aligned Text
               Column(
@@ -84,8 +84,8 @@ class ScenarioDetailPage extends StatelessWidget {
                     .map<Widget>(
                       (step) => Container(
                         width: double.infinity,
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(bottom: 10),
                         decoration: BoxDecoration(
                           color: Colors.blue[100],
                           borderRadius: BorderRadius.circular(10),
@@ -96,7 +96,7 @@ class ScenarioDetailPage extends StatelessWidget {
                         ),
                         child: Text(
                           step,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                           textAlign:
                               TextAlign.left, // Align step text to the left
                         ),

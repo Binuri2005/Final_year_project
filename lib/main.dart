@@ -6,20 +6,22 @@ import 'screens/intro_page.dart';
 import 'package:app/screens/home_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: IntroPage(),
+      home: const IntroPage(),
       routes: {
-        '/login': (context) => LoginPage(),
+        '/login': (context) => const LoginPage(),
         '/signup': (context) => SignUpScreen(),
-        '/forgot-password': (context) => ForgotPasswordPage(),
-        '/home': (context) => HomePage(),
+        '/forgot-password': (context) => const ForgotPasswordPage(),
+        '/home': (context) => const HomePage(),
       
 
 

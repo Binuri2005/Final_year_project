@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'play_game.dart'; 
 
 class SocialskillsPage extends StatelessWidget {
+  const SocialskillsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/light_background.png"),
             fit: BoxFit.cover,
@@ -22,7 +24,7 @@ class SocialskillsPage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.black),
+                    icon: const Icon(Icons.arrow_back, color: Colors.black),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -30,10 +32,10 @@ class SocialskillsPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Welcome Message
-            Text(
+            const Text(
               'Welcome to Social Skills',
               style: TextStyle(
                 fontSize: 22,
@@ -42,8 +44,8 @@ class SocialskillsPage extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'Improve your social skills with roleplay & fun drag-and-drop games to match emotions',
               style: TextStyle(
                 fontSize: 14,
@@ -52,25 +54,25 @@ class SocialskillsPage extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 60),
+            const SizedBox(height: 60),
 
             // First Box (Role Play)
             _buildBox('ROLE PLAY', () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RolePlayPage()),
+                MaterialPageRoute(builder: (context) => const RolePlayPage()),
               );
             }),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             // Second Box (Play Game)
             _buildBox('PLAY GAME', () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PlayGamePage()),
+                MaterialPageRoute(builder: (context) => const PlayGamePage()),
               );
             }),
-            SizedBox(height: 35),
+            const SizedBox(height: 35),
           ],
         ),
       ),
@@ -92,10 +94,10 @@ class SocialskillsPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
-                  color: Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
+                  color: const Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
                   spreadRadius: 4,
                   blurRadius: 8,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -112,7 +114,7 @@ class SocialskillsPage extends StatelessWidget {
             child: Center(
               child: Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black, // Navy Blue

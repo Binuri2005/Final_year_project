@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 // Main widget for the game page
 class Level1GamePage extends StatefulWidget {
+  const Level1GamePage({super.key});
+
   @override
   _Level1GamePageState createState() => _Level1GamePageState();
 }
@@ -23,7 +25,7 @@ class _Level1GamePageState extends State<Level1GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Match the Emoji!")),
+      appBar: AppBar(title: const Text("Match the Emoji!")),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -39,30 +41,31 @@ class _Level1GamePageState extends State<Level1GamePage> {
                     children: expressions.sublist(0, 3).map((expression) {
                       return Draggable<String>(
                         data: expression['emoji'],
-                        child: EmojiBox(emoji: expression['emoji']!),
                         feedback: EmojiBox(emoji: expression['emoji']!),
-                        childWhenDragging:
-                            EmojiBox(emoji: "❓"), // Placeholder during drag
+                        childWhenDragging: const EmojiBox(emoji: "❓"),
+                        child: EmojiBox(
+                            emoji: expression[
+                                'emoji']!), // Placeholder during drag
                       );
                     }).toList(),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Second Row of Emojis (3 emojis)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: expressions.sublist(3, 6).map((expression) {
                       return Draggable<String>(
                         data: expression['emoji'],
-                        child: EmojiBox(emoji: expression['emoji']!),
                         feedback: EmojiBox(emoji: expression['emoji']!),
-                        childWhenDragging: EmojiBox(emoji: "❓"),
+                        childWhenDragging: const EmojiBox(emoji: "❓"),
+                        child: EmojiBox(emoji: expression['emoji']!),
                       );
                     }).toList(),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Drop targets for matching expressions to emojis
             Padding(
@@ -70,16 +73,16 @@ class _Level1GamePageState extends State<Level1GamePage> {
               child: Column(
                 children: expressions.map((expression) {
                   return DragTarget<String>(
-                    onAccept: (data) {
+                    onAcceptWithDetails: (data) {
                       setState(() {
                         // Store the emoji dropped on this expression
-                        droppedExpressions[expression['term']!] = data;
+                        // droppedExpressions[expression['term']!] = data;
                       });
                     },
                     builder: (context, candidateData, rejectedData) {
                       return Container(
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        padding: EdgeInsets.all(8),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.all(8),
                         height: 40, // Smaller height
                         width: 100, // Smaller width
                         decoration: BoxDecoration(
@@ -92,7 +95,7 @@ class _Level1GamePageState extends State<Level1GamePage> {
                             // Display the dropped emoji or the term
                             droppedExpressions[expression['term']!] ??
                                 expression['term']!,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -102,13 +105,13 @@ class _Level1GamePageState extends State<Level1GamePage> {
                 }).toList(),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Button to check answers
             ElevatedButton(
               onPressed: () {
                 checkAnswers(); // Call the answer checking function
               },
-              child: Text("Check Answers"),
+              child: const Text("Check Answers"),
             ),
           ],
         ),
@@ -119,11 +122,11 @@ class _Level1GamePageState extends State<Level1GamePage> {
   // Method to check if all the answers are correct
   void checkAnswers() {
     bool isCorrect = true; // Assume answers are correct
-    expressions.forEach((expression) {
+    for (var expression in expressions) {
       if (droppedExpressions[expression['term']!] != expression['emoji']) {
         isCorrect = false; // Set to false if any match is incorrect
       }
-    });
+    }
 
     String message = isCorrect
         ? "Congratulations! All matches are correct!"
@@ -135,7 +138,7 @@ class _Level1GamePageState extends State<Level1GamePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Result"),
+          title: const Text("Result"),
           content: Text(message),
           actions: [
             TextButton(
@@ -146,7 +149,7 @@ class _Level1GamePageState extends State<Level1GamePage> {
                       .clear(); // Clear all the dropped expressions to start over
                 });
               },
-              child: Text("Try Again"),
+              child: const Text("Try Again"),
             ),
           ],
         );
@@ -159,13 +162,13 @@ class _Level1GamePageState extends State<Level1GamePage> {
 class EmojiBox extends StatelessWidget {
   final String emoji; // Emoji to display
 
-  EmojiBox({required this.emoji});
+  const EmojiBox({super.key, required this.emoji});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.yellow[100],
         borderRadius: BorderRadius.circular(15),
@@ -174,7 +177,7 @@ class EmojiBox extends StatelessWidget {
       child: Center(
         child: Text(
           emoji,
-          style: TextStyle(fontSize: 36),
+          style: const TextStyle(fontSize: 36),
         ),
       ),
     );

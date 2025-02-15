@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:app/social_skills_module/detailed_Scenario_page_individual%20.dart';
+import 'package:flutter/material.dart';
 
 class GroupRolePlayPage extends StatelessWidget {
   // Define a list of scenarios for each box
@@ -16,12 +16,13 @@ class GroupRolePlayPage extends StatelessWidget {
     '10. Thanking Someone',
   ];
 
+  GroupRolePlayPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/light_background.png"),
             fit: BoxFit.cover,
@@ -36,7 +37,7 @@ class GroupRolePlayPage extends StatelessWidget {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.black),
+                      icon: const Icon(Icons.arrow_back, color: Colors.black),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -44,8 +45,8 @@ class GroupRolePlayPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 5),
-              Center(
+              const SizedBox(height: 5),
+              const Center(
                 child: Text(
                   'Select Scenario',
                   style: TextStyle(
@@ -56,7 +57,7 @@ class GroupRolePlayPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               // Generate scenario boxes dynamically
               for (String scenario in scenarios)
@@ -94,10 +95,10 @@ Widget _buildBox(String text, BuildContext context) {
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
+                color: const Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
                 spreadRadius: 4,
                 blurRadius: 8,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -111,10 +112,10 @@ Widget _buildBox(String text, BuildContext context) {
             border: Border.all(color: Colors.white, width: 1),
           ),
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 10),
           child: Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
               color: Colors.black,

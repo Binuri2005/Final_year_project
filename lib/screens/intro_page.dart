@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'login_page.dart'; // Import your login page here
 
 class IntroPage extends StatefulWidget {
+  const IntroPage({super.key});
+
   @override
   _IntroPageState createState() => _IntroPageState();
 }
@@ -12,10 +14,10 @@ class _IntroPageState extends State<IntroPage> {
     super.initState();
 
     // Navigate to LoginPage after the wait
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     });
   }
@@ -41,7 +43,7 @@ class _IntroPageState extends State<IntroPage> {
           ),
 
           // Loading Indicator
-          Center(
+          const Center(
             child: CircularProgressIndicator(), // Simple loading indicator
           ),
         ],

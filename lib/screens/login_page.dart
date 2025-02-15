@@ -1,17 +1,20 @@
-import 'package:app/screens/forgot_passwod.dart';
-import 'package:flutter/material.dart';
-import 'signup_screen.dart';
 import 'package:animate_do/animate_do.dart';
-import 'home_page.dart';
+import 'package:app/screens/forgot_passwod.dart';
+import 'package:app/services/api/api_service.dart';
+import 'package:flutter/material.dart';
+
+import 'signup_screen.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/login_background.png'),
                 fit: BoxFit.cover,
@@ -25,9 +28,9 @@ class LoginPage extends StatelessWidget {
             width: 80,
             height: 200,
             child: FadeInUp(
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/light_1.png'),
                   ),
@@ -40,9 +43,9 @@ class LoginPage extends StatelessWidget {
             width: 60,
             height: 120,
             child: FadeInUp(
-              duration: Duration(milliseconds: 1500),
+              duration: const Duration(milliseconds: 1500),
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/light_2.png'),
                   ),
@@ -56,10 +59,10 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 150),
+                const SizedBox(height: 150),
 
                 // Login title outside the box
-                Positioned(
+                const Positioned(
                   top: 180, //  distance from the top
                   left: 20,
                   child: Text(
@@ -71,13 +74,12 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                    height: 10), 
+                const SizedBox(height: 10),
 
                 // White box curled
                 Container(
-                  padding: EdgeInsets.all(20),
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(15),
@@ -86,7 +88,7 @@ class LoginPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Email/Username field
-                      TextField(
+                      const TextField(
                         decoration: InputDecoration(
                             labelText: 'Email/Username',
                             hintText: 'example@gmail.com', // Placeholder text
@@ -95,10 +97,10 @@ class LoginPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             )),
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
 
                       // Password field
-                      TextField(
+                      const TextField(
                         obscureText: true,
                         decoration: InputDecoration(
                             labelText: 'Password',
@@ -108,7 +110,7 @@ class LoginPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             )),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
                       // Remember Me checkbox
                       Row(
@@ -119,7 +121,7 @@ class LoginPage extends StatelessWidget {
                               // checkbox logic
                             },
                           ),
-                          Text(
+                          const Text(
                             'Remember Me',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -127,28 +129,35 @@ class LoginPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
 
                       // Login button
                       ElevatedButton(
-                        onPressed: () {
-                          // login logic here 
+                        onPressed: () async {
+                          // login logic here
+                          var data = await ApiService.sendRequest(
+                            url: 'https://jsonplaceholder.typicode.com/posts',
+                            method: HTTPMethod.GET,
+                          );
+
+                          print(data);
 
                           // Navigate to HomePage after successful login
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    HomePage()), // HomePage after login
-                          );
+                          // Navigator.pushReplacement(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) =>
+                          //           const HomePage()), // HomePage after login
+                          // );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 22, 110, 211),
+                          backgroundColor:
+                              const Color.fromARGB(255, 22, 110, 211),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: Padding(
+                        child: const Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 50),
                           child: Text(
@@ -162,7 +171,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
 
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
                       // Forgot Password
                       TextButton(
@@ -171,22 +180,22 @@ class LoginPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ForgotPasswordPage(),
+                              builder: (context) => const ForgotPasswordPage(),
                             ),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Forgot Password?',
                           style: TextStyle(color: Colors.purple),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
                       // Sign-up link
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Don't have an account?"),
+                          const Text("Don't have an account?"),
                           TextButton(
                             onPressed: () {
                               Navigator.push(
@@ -196,7 +205,7 @@ class LoginPage extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: Text(
+                            child: const Text(
                               'Sign Up',
                               style: TextStyle(color: Colors.purple),
                             ),

@@ -1,22 +1,24 @@
 import 'package:app/social_skills_module/select_and_play_roleplay.dart';
 import 'package:flutter/material.dart';
-import 'individual_roleplay.dart';
+
 import 'group_roleplay.dart';
-import 'select_and_play_roleplay.dart';
+import 'individual_roleplay.dart';
 
 class RolePlayPage extends StatelessWidget {
+  const RolePlayPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/light_background.png"),
             fit: BoxFit.cover,
           ),
         ),
         child: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             height:
                 MediaQuery.of(context).size.height * 1.05, // Moves boxes down
             child: Column(
@@ -27,19 +29,19 @@ class RolePlayPage extends StatelessWidget {
                   child: Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.black),
+                        icon: const Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () {
                           Navigator.pop(context);
                         },
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                     ],
                   ),
                 ),
-                SizedBox(height: 10), // More spacing after the AppBar
+                const SizedBox(height: 10), // More spacing after the AppBar
 
                 // Centered Title
-                Center(
+                const Center(
                   child: Text(
                     'Welcome to Role Plays',
                     style: TextStyle(
@@ -50,8 +52,8 @@ class RolePlayPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 10),
-                Center(
+                const SizedBox(height: 10),
+                const Center(
                   child: Text(
                     'Engage with different scenarios and improve your social and communication skills',
                     style: TextStyle(
@@ -62,21 +64,21 @@ class RolePlayPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 30), // Pushes boxes lower
+                const SizedBox(height: 30), // Pushes boxes lower
 
                 // Role Play Boxes with Navigation
                 Center(
                     child: _buildBox(context, 'Individual Role-plays',
                         IndividualRolePlayPage())),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Center(
                     child: _buildBox(
                         context, 'Group Role-plays', GroupRolePlayPage())),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Center(
                     child: _buildBox(
-                        context, 'Play & Win rewards', PlayAndWinPage())),
-                SizedBox(height: 40),
+                        context, 'Play & Win rewards', const PlayAndWinPage())),
+                const SizedBox(height: 40),
               ],
             ),
           ),
@@ -105,10 +107,10 @@ Widget _buildBox(BuildContext context, String text, Widget page) {
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
+                color: const Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
                 spreadRadius: 4,
                 blurRadius: 8,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -124,7 +126,7 @@ Widget _buildBox(BuildContext context, String text, Widget page) {
           alignment: Alignment.center,
           child: Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.black,

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class RewardsPage extends StatelessWidget {
+  const RewardsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Rewards Content', style: TextStyle(fontSize: 20)),
     );
   }

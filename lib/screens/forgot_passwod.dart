@@ -2,6 +2,8 @@ import 'package:app/screens/login_page.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
+  const ForgotPasswordPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +18,7 @@ class ForgotPasswordPage extends StatelessWidget {
           // Main Content
           Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   // Back Arrow
@@ -24,19 +26,19 @@ class ForgotPasswordPage extends StatelessWidget {
                     top: 30,
                     left: 10,
                     child: IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
                       onPressed: () {
                         // Navigate to the login page
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
                         );
                       },
                     ),
                   ),
 
                   // Heading sentences
-                  Expanded(
+                  const Expanded(
                     child: Column(
                       children: [
                         Text(
@@ -77,7 +79,7 @@ class ForgotPasswordPage extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.6),
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(30),
                             topRight: Radius.circular(30),
                           ),
@@ -88,8 +90,8 @@ class ForgotPasswordPage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(height: 25),
-                              Text(
+                              const SizedBox(height: 25),
+                              const Text(
                                 "Don’t worry, it happens to the best of us!",
                                 style: TextStyle(
                                   fontSize: 18,
@@ -98,7 +100,7 @@ class ForgotPasswordPage extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              Text(
+                              const Text(
                                 "Enter your email to reset your password!",
                                 style: TextStyle(
                                   fontSize: 16,
@@ -106,7 +108,7 @@ class ForgotPasswordPage extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 24),
+                              const SizedBox(height: 24),
                               TextField(
                                 decoration: InputDecoration(
                                   labelText: "Email Address",
@@ -114,26 +116,26 @@ class ForgotPasswordPage extends StatelessWidget {
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  prefixIcon: Icon(Icons.email),
+                                  prefixIcon: const Icon(Icons.email),
                                 ),
                               ),
-                              SizedBox(height: 26), // Space before button
+                              const SizedBox(height: 26), // Space before button
                               ElevatedButton(
                                 onPressed: () {
                                   //send button
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  primary: Color.fromARGB(255, 29, 112, 180),
-                                  onPrimary: Colors.white,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 40,
-                                    vertical: 15,
-                                  ),
+                                  // primary: Color.fromARGB(255, 29, 112, 180),
+                                  // onPrimary: Colors.white,
+                                  // padding: EdgeInsets.symmetric(
+                                  //   horizontal: 40,
+                                  //   vertical: 15,
+                                  // ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                child: Text(
+                                child: const Text(
                                   "Send",
                                   style: TextStyle(fontSize: 16),
                                 ),

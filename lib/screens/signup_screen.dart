@@ -10,12 +10,14 @@ class SignUpScreen extends StatelessWidget {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
+  SignUpScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox.expand(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
                   'assets/images/signup_background.png'), // Background image
@@ -34,7 +36,7 @@ class SignUpScreen extends StatelessWidget {
                 width: 130,
                 height: 130,
                 child: FadeInLeft(
-                  duration: Duration(seconds: 3),
+                  duration: const Duration(seconds: 3),
                   child: Image.asset('assets/images/cloud.png'),
                 ),
               ),
@@ -46,7 +48,7 @@ class SignUpScreen extends StatelessWidget {
                 width: 150,
                 height: 150,
                 child: FadeInLeft(
-                  duration: Duration(seconds: 3),
+                  duration: const Duration(seconds: 3),
                   child: Image.asset('assets/images/cloud.png'),
                 ),
               ),
@@ -56,12 +58,12 @@ class SignUpScreen extends StatelessWidget {
                 top: 30,
                 left: 10,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () {
                     // Navigate to the login page
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      MaterialPageRoute(builder: (context) => const LoginPage()),
                     );
                   },
                 ),
@@ -73,19 +75,19 @@ class SignUpScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     //space above the white box
-                    SizedBox(height: 120),
+                    const SizedBox(height: 120),
 
                     // Sign Up heading outside the white box
-                    Text(
+                    const Text(
                       'Sign Up',
                       style: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
-                    SizedBox(height: 40), // Space between heading and box
+                    const SizedBox(height: 40), // Space between heading and box
                     Container(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       width: 350,
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.5),
@@ -97,7 +99,7 @@ class SignUpScreen extends StatelessWidget {
                           // Name Field
                           TextField(
                             controller: nameController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 labelText: 'Name',
                                 hintText:
                                     'Enter your full name', // Placeholder text
@@ -106,12 +108,12 @@ class SignUpScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
 
                           // Email Field
                           TextField(
                             controller: emailController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 labelText: 'Email',
                                 hintText:
                                     'example@gmail.com', // Placeholder text
@@ -120,13 +122,13 @@ class SignUpScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
 
                           // Password Field
                           TextField(
                             controller: passwordController,
                             obscureText: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 labelText: 'Password',
                                 hintText:
                                     'Enter your password', // Placeholder text
@@ -135,13 +137,13 @@ class SignUpScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
 
                           // Confirm Password Field
                           TextField(
                             controller: confirmPasswordController,
                             obscureText: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 labelText: 'Confirm Password',
                                 hintText:
                                     'Re-enter your password', // Placeholder text
@@ -150,7 +152,7 @@ class SignUpScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
 
                           // Sign Up Button with validation
                           ElevatedButton(
@@ -159,7 +161,7 @@ class SignUpScreen extends StatelessWidget {
                                   confirmPasswordController.text) {
                                 // Display error if passwords don't match
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
+                                    const SnackBar(
                                         content:
                                             Text('Passwords do not match')));
                               } else {
@@ -167,17 +169,17 @@ class SignUpScreen extends StatelessWidget {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage()),
+                                      builder: (context) => const HomePage()),
                                 );
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(255, 51, 155, 55),
+                              backgroundColor: const Color.fromARGB(255, 51, 155, 55),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: Padding(
+                            child: const Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 50),
                               child: Text(
@@ -190,22 +192,22 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
 
                           // Navigate to Login screen
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Already have an account?'),
+                              const Text('Already have an account?'),
                               TextButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => LoginPage()),
+                                        builder: (context) => const LoginPage()),
                                   );
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Login',
                                   style: TextStyle(color: Colors.purple),
                                 ),

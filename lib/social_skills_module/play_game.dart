@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
 class PlayGamePage extends StatelessWidget {
+  const PlayGamePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/light_background.png"),
             fit: BoxFit.cover,
           ),
         ),
         child: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height *
                 1.05, // Adjust height to move boxes down
             child: Column(
@@ -23,18 +25,18 @@ class PlayGamePage extends StatelessWidget {
                   child: Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.black),
+                        icon: const Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () {
                           Navigator.pop(context);
                         },
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                     ],
                   ),
                 ),
-                SizedBox(height: 20), // More spacing after the AppBar
+                const SizedBox(height: 20), // More spacing after the AppBar
 
-                Center(
+                const Center(
                   child: Text(
                     'Drag and Drop Play',
                     style: TextStyle(
@@ -45,8 +47,8 @@ class PlayGamePage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 10),
-                Center(
+                const SizedBox(height: 10),
+                const Center(
                   child: Text(
                     'Match accordingly and earn rewards ',
                     style: TextStyle(
@@ -57,14 +59,14 @@ class PlayGamePage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 /// Increased spacing to push boxes lower
 
                 Center(child: _buildBox('LEVEL 01', () {})),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Center(child: _buildBox('LEVEL 02', () {})),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Center(child: _buildBox('LEVEL 03', () {})),
               ],
             ),
@@ -88,10 +90,10 @@ Widget _buildBox(String text, VoidCallback onTap) {
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
+                color: const Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
                 spreadRadius: 4,
                 blurRadius: 8,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -107,7 +109,7 @@ Widget _buildBox(String text, VoidCallback onTap) {
           alignment: Alignment.center,
           child: Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.black,
