@@ -20,6 +20,10 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpScreen(),
         '/forgot-password': (context) => ForgotPasswordPage(),
         '/home': (context) => HomePage(),
+      
+
+
+
       },
     );
   }
