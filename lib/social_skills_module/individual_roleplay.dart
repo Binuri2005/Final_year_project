@@ -4,16 +4,16 @@ import 'package:app/social_skills_module/detailed_Scenario_page_individual%20.da
 class IndividualRolePlayPage extends StatelessWidget {
   // Define a list of scenarios for each box
   final List<String> scenarios = [
-    '1. Greeting a Friend',
-    '2. Introducing Yourself',
-    '3. Asking for Help',
-    '4. Ordering Food',
-    '5. Inviting Someone to Play',
-    '6. Apologizing',
-    '7. Giving a Compliment',
-    '8. Saying Goodbye',
-    '9. Expressing Feelings',
-    '10. Thanking Someone',
+    'Greeting a Friend',
+    'Introducing Yourself',
+    'Asking for Help',
+    'Ordering Food',
+    'Inviting Someone to Play',
+    'Apologizing',
+    'Giving a Compliment',
+    'Saying Goodbye',
+    'Expressing Feelings',
+    'Thanking Someone',
   ];
 
   @override

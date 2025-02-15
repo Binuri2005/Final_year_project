@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/social_skills_module/individual_roleplay_datastructure.dart';
 
 class ScenarioDetailPage extends StatelessWidget {
   final String scenario;
@@ -8,11 +9,13 @@ class ScenarioDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> steps = [
-      "1️Smile and wave.",
-      "2️ Say, \"Hi [Friend's Name]! How are you?\"",
-      "3️ Listen to their response and reply warmly."
-    ];
+    // Fetching the data for the specific scenario
+    var scenarioContent = scenarioDetails[scenario] ??
+        {
+          'description': 'Description not available',
+          'steps': ['No steps available'],
+          'image': 'assets/images/default_image.png',
+        };
 
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +27,6 @@ class ScenarioDetailPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        // Prevents overflow
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -43,7 +45,7 @@ class ScenarioDetailPage extends StatelessWidget {
               // Image
               Center(
                 child: Image.asset(
-                  'assets/images/greeting_A_friend.png',
+                  scenarioContent['image'], // Dynamically set image
                   height: 150,
                   width: 150,
                   fit: BoxFit.contain,
@@ -54,15 +56,15 @@ class ScenarioDetailPage extends StatelessWidget {
               // Description Box
               Container(
                 width: double.infinity,
-                constraints: BoxConstraints(minHeight: 150),
                 padding: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Text(
-                  "Learn how to greet a friend jsjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjslsssssssssss",
+                  scenarioContent['description'], // Dynamically set description
                   style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.left, // Align text to the left
                 ),
               ),
               SizedBox(height: 20),
@@ -76,24 +78,27 @@ class ScenarioDetailPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
 
-              // Steps Boxes
+              // Steps Boxes with Borders and Left-aligned Text
               Column(
-                children: steps
-                    .map(
-                      (step) => Center(
-                        child: Container(
-                          width: 300,
-                          padding: EdgeInsets.all(15),
-                          margin: EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.blue[100],
-                            borderRadius: BorderRadius.circular(10),
+                children: scenarioContent['steps']
+                    .map<Widget>(
+                      (step) => Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.blue[100],
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.blue, // Border color
+                            width: 1, // Border width
                           ),
-                          child: Text(
-                            step,
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center,
-                          ),
+                        ),
+                        child: Text(
+                          step,
+                          style: TextStyle(fontSize: 16),
+                          textAlign:
+                              TextAlign.left, // Align step text to the left
                         ),
                       ),
                     )
