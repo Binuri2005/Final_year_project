@@ -134,13 +134,21 @@ class LoginPage extends StatelessWidget {
                       // Login button
                       ElevatedButton(
                         onPressed: () async {
-                          // login logic here
-                          var data = await ApiService.sendRequest(
-                            url: 'https://jsonplaceholder.typicode.com/posts',
-                            method: HTTPMethod.GET,
-                          );
+                          try {
+                            // login logic here
+                            var data = await ApiService.sendRequest(
+                              url:
+                                  'https://jsonplaceholder.typicode.com/postsssww',
+                              method: HTTPMethod.GET,
+                            );
 
-                          print(data);
+                            print(data);
+                          } on ApiError catch (e) {
+                            if (e.type == ApiErrorType.FILE_TOO_LARGE) {
+                              //   showSnackBar(context, 'File too large');
+                            }
+                            ;
+                          }
 
                           // Navigate to HomePage after successful login
                           // Navigator.pushReplacement(
