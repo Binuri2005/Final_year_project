@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:app/social_skills_module/individual_roleplay_datastructure.dart';
 
-class ScenarioDetailPage extends StatelessWidget {
+class IndividualScenarioDetailPage extends StatelessWidget {
   final String scenario;
 
-  const ScenarioDetailPage({required this.scenario, Key? key})
+  const IndividualScenarioDetailPage({required this.scenario, Key? key})
       : super(key: key);
 
   @override

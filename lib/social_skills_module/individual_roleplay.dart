@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:app/social_skills_module/detailed_Scenario_page_individual%20.dart';
+import 'package:flutter/material.dart';
 
 class IndividualRolePlayPage extends StatelessWidget {
   // Define a list of scenarios for each box
@@ -79,7 +79,7 @@ Widget _buildBox(String text, BuildContext context) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ScenarioDetailPage(scenario: text),
+          builder: (context) => IndividualScenarioDetailPage(scenario: text),
         ),
       );
     },

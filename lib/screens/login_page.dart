@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'signup_screen.dart';
 import 'package:animate_do/animate_do.dart';
 import 'home_page.dart';
+import 'package:app/services/api/api_service.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -71,8 +72,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                    height: 10), 
+                SizedBox(height: 10),
 
                 // White box curled
                 Container(
@@ -131,9 +131,14 @@ class LoginPage extends StatelessWidget {
 
                       // Login button
                       ElevatedButton(
-                        onPressed: () {
-                          // login logic here 
+                        onPressed: () async {
+                          // login logic here
+                          var data = await ApiService.sendRequest(
+                            url: 'https://jsonplaceholder.typicode.com/posts',
+                            method: HTTPMethod.GET,
+                          );
 
+                          print(data);
                           // Navigate to HomePage after successful login
                           Navigator.pushReplacement(
                             context,

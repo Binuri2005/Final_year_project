@@ -1,19 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:app/social_skills_module/detailed_Scenario_page_individual%20.dart';
+import 'package:flutter/material.dart';
 
 class GroupRolePlayPage extends StatelessWidget {
   // Define a list of scenarios for each box
   final List<String> scenarios = [
-    '1. Greeting a Friend',
-    '2. Introducing Yourself',
-    '3. Asking for Help',
-    '4. Ordering Food',
-    '5. Inviting Someone to Play',
-    '6. Apologizing',
-    '7. Giving a Compliment',
-    '8. Saying Goodbye',
-    '9. Expressing Feelings',
-    '10. Thanking Someone',
+    '1. Planning a Party',
+    '2. Shopping at a Grocery Store',
+    '3. Cleaning Up as a Team',
+    '4. Storytelling Circle',
+    '5. Group Project',
+    '6. Playing at the Park',
+    '7. Going to a Restaurant',
+    '8. Visiting a Doctor',
+    '9. Attending a Birthday Party',
+    '10. Classroom experience',
   ];
 
 
@@ -80,7 +80,7 @@ Widget _buildBox(String text, BuildContext context) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ScenarioDetailPage(scenario: text),
+          builder: (context) => IndividualScenarioDetailPage(scenario: text),
         ),
       );
     },
