@@ -1,7 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:app/global/textfield.widet.dart';
 import 'package:app/screens/home_page.dart';
+import 'package:app/viewmodels/auth/auth_viewmodel..dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'login_page.dart';
 
@@ -32,6 +35,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  registerUser() async {
+    if (_formKey.currentState!.validate()) {
+      if (passwordController.text != confirmPasswordController.text) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Passwords do not match'),
+          ),
+        );
+        return;
+      }
+      //  call the api to register the user
+      bool isSuccess = await context.read<AuthViewModel>().registerUser(
+          name: nameController.text,
+          email: emailController.text,
+          password: passwordController.text,
+          confirmPassword: confirmPasswordController.text);
+
+      if (isSuccess) {
+        // Navigate to the login page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.read<AuthViewModel>().errorMessage!),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,24 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             // Sign Up Button with validation
                             ElevatedButton(
                               onPressed: () {
-                                if (!_formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                if (passwordController.text !=
-                                    confirmPasswordController.text) {
-                                  // Display error if passwords don't match
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content:
-                                              Text('Passwords do not match')));
-                                } else {
-                                  // If passwords match, navigate to the HomePage
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const HomePage()),
-                                  );
-                                }
+                                registerUser();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -187,17 +206,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: const Padding(
+                              child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 50),
-                                child: Text(
-                                  'Sign Up',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                child: context
+                                        .watch<AuthViewModel>()
+                                        .isRegisteringUser
+                                    ? const CupertinoActivityIndicator(
+                                        color: Colors.white,
+                                      )
+                                    : Text(
+                                        'Sign Up',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                               ),
                             ),
                             const SizedBox(height: 10),

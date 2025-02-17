@@ -33,18 +33,20 @@ class ApiService {
       }
 
       http.StreamedResponse response = await request.send();
-
-      // Check the status code of the response is in the range of 200
-      if ((response.statusCode < 200 || response.statusCode >= 300)) {
-        throw ApiError(
-          'Request failed with status: ${response.statusCode}',
-          type: ApiError.getAPIErrorEnumFromStatusCode(response.statusCode),
-        );
-      }
-
       var responseBody = await response.stream.bytesToString();
 
       var decodedBody = json.decode(responseBody);
+
+      // Check the status code of the response is in the range of 200
+      if ((response.statusCode < 200 || response.statusCode >= 300)) {
+        String errorMessage = decodedBody['message'].runtimeType == List
+            ? decodedBody['message'][0]
+            : decodedBody['message'].toString();
+        throw ApiError(
+          errorMessage,
+          type: ApiError.getAPIErrorEnumFromStatusCode(response.statusCode),
+        );
+      }
 
       if (decodedBody is Map<String, dynamic>) {
         return decodedBody;
