@@ -1,27 +1,18 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:app/screens/forgot_passwod.dart';
-import 'package:app/services/api/api_service.dart';
-import 'package:app/viewmodels/auth/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'signup_screen.dart';
+import 'package:animate_do/animate_do.dart';
+import 'home_page.dart';
+import 'package:app/services/api/api_service.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/login_background.png'),
                 fit: BoxFit.cover,
@@ -35,9 +26,9 @@ class _LoginPageState extends State<LoginPage> {
             width: 80,
             height: 200,
             child: FadeInUp(
-              duration: const Duration(seconds: 2),
+              duration: Duration(seconds: 2),
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/light_1.png'),
                   ),
@@ -50,9 +41,9 @@ class _LoginPageState extends State<LoginPage> {
             width: 60,
             height: 120,
             child: FadeInUp(
-              duration: const Duration(milliseconds: 1500),
+              duration: Duration(milliseconds: 1500),
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/light_2.png'),
                   ),
@@ -66,27 +57,27 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 150),
+                SizedBox(height: 150),
 
                 // Login title outside the box
                 Positioned(
                   top: 180, //  distance from the top
                   left: 20,
                   child: Text(
-                    context.read<AuthViewModel>().myLoveForArya.toString(),
+                    'Login',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 32,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
 
                 // White box curled
                 Container(
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(15),
@@ -95,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Email/Username field
-                      const TextField(
+                      TextField(
                         decoration: InputDecoration(
                             labelText: 'Email/Username',
                             hintText: 'example@gmail.com', // Placeholder text
@@ -104,17 +95,10 @@ class _LoginPageState extends State<LoginPage> {
                               fontWeight: FontWeight.bold,
                             )),
                       ),
-                      const SizedBox(height: 15),
-                      Slider(
-                        value: context.read<AuthViewModel>().myLoveForArya,
-                        onChanged: (value) {
-                          context.read<AuthViewModel>().setMyLoveForArya(value);
-                        },
-                        min: 0,
-                        max: 1,
-                      ),
+                      SizedBox(height: 15),
+
                       // Password field
-                      const TextField(
+                      TextField(
                         obscureText: true,
                         decoration: InputDecoration(
                             labelText: 'Password',
@@ -124,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                               fontWeight: FontWeight.bold,
                             )),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
 
                       // Remember Me checkbox
                       Row(
@@ -135,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                               // checkbox logic
                             },
                           ),
-                          const Text(
+                          Text(
                             'Remember Me',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -143,43 +127,33 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(height: 15),
 
                       // Login button
                       ElevatedButton(
                         onPressed: () async {
-                          try {
-                            // login logic here
-                            var data = await ApiService.sendRequest(
-                              url:
-                                  'https://jsonplaceholder.typicode.com/postsssww',
-                              method: HTTPMethod.GET,
-                            );
+                          // login logic here
+                          var data = await ApiService.sendRequest(
+                            url: 'https://jsonplaceholder.typicode.com/posts',
+                            method: HTTPMethod.GET,
+                          );
 
-                            print(data);
-                          } on ApiError catch (e) {
-                            if (e.type == ApiErrorType.FILE_TOO_LARGE) {
-                              //   showSnackBar(context, 'File too large');
-                            }
-                            ;
-                          }
-
+                          print(data);
                           // Navigate to HomePage after successful login
-                          // Navigator.pushReplacement(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           const HomePage()), // HomePage after login
-                          // );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    HomePage()), // HomePage after login
+                          );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 22, 110, 211),
+                          backgroundColor: Color.fromARGB(255, 22, 110, 211),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: const Padding(
+                        child: Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 50),
                           child: Text(
@@ -193,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
 
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
 
                       // Forgot Password
                       TextButton(
@@ -206,18 +180,18 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           'Forgot Password?',
                           style: TextStyle(color: Colors.purple),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
 
                       // Sign-up link
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Don't have an account?"),
+                          Text("Don't have an account?"),
                           TextButton(
                             onPressed: () {
                               Navigator.push(
@@ -227,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               );
                             },
-                            child: const Text(
+                            child: Text(
                               'Sign Up',
                               style: TextStyle(color: Colors.purple),
                             ),
