@@ -1,8 +1,6 @@
-import 'package:app/social_skills_module/select_and_play_roleplay.dart';
 import 'package:flutter/material.dart';
 import 'individual_roleplay.dart';
 import 'group_roleplay.dart';
-import 'select_and_play_roleplay.dart';
 
 class RolePlayPage extends StatelessWidget {
   @override
@@ -62,20 +60,16 @@ class RolePlayPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 30), // Pushes boxes lower
+                SizedBox(height: 60), // Pushes boxes lower
 
                 // Role Play Boxes with Navigation
                 Center(
                     child: _buildBox(context, 'Individual Role-plays',
                         IndividualRolePlayPage())),
-                SizedBox(height: 40),
+                SizedBox(height: 50),
                 Center(
                     child: _buildBox(
                         context, 'Group Role-plays', GroupRolePlayPage())),
-                SizedBox(height: 40),
-                Center(
-                    child: _buildBox(
-                        context, 'Play & Win rewards', PlayAndWinPage())),
                 SizedBox(height: 40),
               ],
             ),

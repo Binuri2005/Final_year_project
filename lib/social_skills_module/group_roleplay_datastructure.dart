@@ -1,280 +1,216 @@
-Map<String, Map<String, dynamic>> scenarioDetails = {
-  // 1. Planning a Party
-  'Planning a Party': {
-    'description': 'Practice discussing themes, choosing decorations, and planning a party event.',
+/* {
+          'description': 'Description not available',
+          'steps': ['No steps available'],
+          'image': '', // Use the image path from the data structure
+          'participants': 'N/A',
+          'roles': [],
+          'dialogues': [],
+        };*/
+
+final Map<String, Map<String, dynamic>> groupScenarioDetails = {
+  '1. Planning a Party': {
+    'description': 'Organize and plan a party for a group of friends.',
     'steps': [
-      "1. The Planner decides on a party theme.",
-      "2. The Planner asks for ideas from Friends and assigns tasks.",
-      "3. The Decorator sets up decorations.",
-      "4. The Planner sends out invitations.",
-      "5. The Planner and Friends prepare for the party.",
-      "6. Guests arrive and enjoy the party."
+      'Plan the party theme',
+      'Set up a party budget',
+      'Create a guest list',
+      'Decorate the venue',
+      'Prepare a playlist and food menu',
     ],
-    'roles': ['Planner', 'Friend', 'Guest', 'Decorator'],
-    'dialogues': {
-      'Planner': [
-        "Let’s pick a theme for the party!",
-        "I’ll send out invitations today.",
-        "Can you help me set up the decorations?",
-        "I’m so excited, it’s almost time!"
-      ],
-      'Friend': [
-        "How about a beach theme?",
-        "I’ll help with the snacks!",
-        "I’ll bring the music playlist."
-      ],
-      'Guest': [
-        "I’m so excited for the party!",
-        "This place looks amazing!"
-      ],
-      'Decorator': [
-        "I’ve got the balloons ready.",
-        "The decorations are up! It’s looking great!"
-      ]
-    },
-    'image': 'assets/images/party_planning.png'
+    'image': 'assets/images/greeting_A_friend.png',
+    'participants': 'Host, Guest 1, Guest 2, Guest 3',
+    'roles': [
+      'Host - responsible for planning and organizing',
+      'Guest - bringing a gift',
+      'Guest - setting up decorations',
+    ],
+    'dialogues': [
+      'Host: "Welcome to the party!"',
+      'Guest 1: "I brought a gift for the host!"',
+    ],
   },
-
-  // 2. Shopping at a Grocery Store
-  'Shopping at a Grocery Store': {
-    'description': 'Practice shopping for food items, comparing prices, and interacting with store staff.',
+  '2. Shopping at a Grocery Store': {
+    'description': 'Go shopping for groceries with a list of items to buy.',
     'steps': [
-      "1. The Shopper makes a list of needed items.",
-      "2. The Shopper and Friend walk through the aisles, finding products.",
-      "3. The Shopper talks to the Store Assistant if something is needed.",
-      "4. The Shopper proceeds to the checkout counter.",
-      "5. The Cashier scans the items and the Shopper pays."
+      'Prepare a shopping list',
+      'Select the items from shelves',
+      'Pay at the checkout',
+      'Pack the groceries',
     ],
-    'roles': ['Shopper', 'Cashier', 'Store Assistant', 'Friend'],
-    'dialogues': {
-      'Shopper': [
-        "Do you have any tomatoes?",
-        "I’ll grab some milk and bread.",
-        "Can you help me find the eggs?"
-      ],
-      'Cashier': [
-        "Your total is 15.50 dollors.",
-        "Would you like paper or plastic bags?"
-      ],
-      'Store Assistant': [
-        "The tomatoes are in aisle 3.",
-        "Let me show you where the eggs are."
-      ],
-      'Friend': [
-        "I’ll get the chips if you grab the drinks.",
-        "This looks like a great deal!"
-      ]
-    },
-    'image': 'assets/images/grocery_store.png'
+    'image': 'assets/images/grocery_image.png',
+    'participants': 'Shopper, Cashier',
+    'roles': [
+      'Shopper - buying the groceries',
+      'Cashier - processing payment and bagging items',
+    ],
+    'dialogues': [
+      'Shopper: "Can you help me find the rice?"',
+      'Cashier: "Sure, it’s on aisle 3."',
+    ],
   },
-
-  // 3. Cleaning Up as a Team
-  'Cleaning Up as a Team': {
-    'description': 'Practice working together to clean up a space, delegating tasks, and supporting each other.',
+  '3. Cleaning Up as a Team': {
+    'description':
+        'A team of people is tasked with cleaning a large area together.',
     'steps': [
-      "1. The Team Leader assigns cleaning tasks to everyone.",
-      "2. Everyone starts cleaning the room according to the tasks.",
-      "3. The Trash Collector gathers trash and disposes of it.",
-      "4. The Sweeper sweeps the floor and mops.",
-      "5. The Team Leader inspects the space and ensures it’s clean."
+      'Divide tasks among team members',
+      'Assign specific cleaning equipment',
+      'Set a timer for how long each task will take',
+      'Complete the cleaning tasks',
     ],
-    'roles': ['Team Leader', 'Cleaner', 'Sweeper', 'Trash Collector'],
-    'dialogues': {
-      'Team Leader': [
-        "Let’s all split the cleaning tasks.",
-        "Who’s ready to sweep the floor?"
-      ],
-      'Cleaner': [
-        "I’ll wipe down the tables.",
-        "I’m done with the windows!"
-      ],
-      'Sweeper': [
-        "I’m starting on the floor now.",
-        "I’ll finish up with the mop."
-      ],
-      'Trash Collector': [
-        "I’ll take out the garbage.",
-        "All the trash is gone."
-      ]
-    },
-    'image': 'assets/images/cleaning_team.png'
+    'image': 'assets/images/cleaning_image.png',
+    'participants': 'Team Leader, Team Member 1, Team Member 2, Team Member 3',
+    'roles': [
+      'Team Leader - overseeing the cleaning process',
+      'Team Member 1 - dusting the shelves',
+      'Team Member 2 - vacuuming the floor',
+      'Team Member 3 - wiping windows',
+    ],
+    'dialogues': [
+      'Team Leader: "Alright, let’s divide the tasks!"',
+      'Team Member 1: "I’ll take care of the shelves."',
+    ],
   },
-
-  // 4. Storytelling Circle
-  'Storytelling Circle': {
-    'description': 'Practice telling stories in a group, adding creative elements, and listening to others.',
+  '4. Storytelling Circle': {
+    'description': 'A group of people takes turns telling a story.',
     'steps': [
-      "1. The Storyteller begins with an opening line.",
-      "2. The Listener adds to the story with their ideas.",
-      "3. The Commentator suggests twists or turns in the plot.",
-      "4. The Observer enjoys the story and reflects on it.",
-      "5. The circle continues as each person contributes."
+      'Sit in a circle',
+      'Select a theme or prompt for the story',
+      'Each person takes a turn adding to the story',
+      'End the story when everyone has participated',
     ],
-    'roles': ['Storyteller', 'Listener', 'Commentator', 'Observer'],
-    'dialogues': {
-      'Storyteller': [
-        "Once upon a time, there was a dragon.",
-        "The dragon flew across the sky, looking for treasure."
-      ],
-      'Listener': [
-        "I think the dragon should meet a wizard."
-      ],
-      'Commentator': [
-        "What if the dragon gets lost in a dark forest?"
-      ],
-      'Observer': [
-        "This is a fun story! Keep going."
-      ]
-    },
-    'image': 'assets/images/storytelling_circle.png'
+    'image': 'assets/images/storytelling_image.png',
+    'participants': 'Storyteller 1, Storyteller 2, Storyteller 3',
+    'roles': [
+      'Storyteller 1 - starts the story',
+      'Storyteller 2 - continues the story',
+      'Storyteller 3 - concludes the story',
+    ],
+    'dialogues': [
+      'Storyteller 1: "Once upon a time, in a faraway land..."',
+      'Storyteller 2: "Then the dragon appeared!"',
+    ],
   },
-
-  // 5. Group Project
-  'Group Project': {
-    'description': 'Practice collaborating with others on a group project, sharing ideas, and presenting results.',
+  '5. Group Project': {
+    'description':
+        'Collaborate as a group to complete a school or work project.',
     'steps': [
-      "1. The Leader assigns tasks to each group member.",
-      "2. The Researcher collects information needed for the project.",
-      "3. The Designer creates visual content for the project.",
-      "4. The group collaborates to put everything together.",
-      "5. The Presenter shares the project with others."
+      'Brainstorm ideas for the project',
+      'Divide tasks according to skillsets',
+      'Work on individual tasks',
+      'Review and compile the project together',
     ],
-    'roles': ['Leader', 'Researcher', 'Designer', 'Presenter'],
-    'dialogues': {
-      'Leader': [
-        "Let’s make sure we all understand our tasks.",
-        "We need to finish by the end of the week."
-      ],
-      'Researcher': [
-        "I found some useful sources for our topic."
-      ],
-      'Designer': [
-        "I’ll start designing the slides."
-      ],
-      'Presenter': [
-        "I’ll present our findings to the class."
-      ]
-    },
-    'image': 'assets/images/group_project.png'
+    'image': 'assets/images/group_project_image.png',
+    'participants': 'Project Manager, Researcher, Designer, Developer',
+    'roles': [
+      'Project Manager - overseeing the project timeline',
+      'Researcher - gathering relevant information',
+      'Designer - creating visuals for the project',
+      'Developer - implementing technical aspects of the project',
+    ],
+    'dialogues': [
+      'Project Manager: "Let’s meet up and divide the tasks."',
+      'Researcher: "I’ll start with the research section."',
+    ],
   },
-
-  // 6. Playing at the Park
-  'Playing at the Park': {
-    'description': 'Practice playing games, taking turns, and sharing space with others.',
+  '6. Playing at the Park': {
+    'description': 'A group of children playing in a park.',
     'steps': [
-      "1. The Player and Friends decide on a game to play.",
-      "2. The Referee explains the rules.",
-      "3. Everyone takes turns and plays.",
-      "4. The Spectator cheers and supports.",
-      "5. The game ends and everyone congratulates each other."
+      'Decide on a game to play',
+      'Set up the game area',
+      'Play the game while following the rules',
+      'Take breaks and stay hydrated',
     ],
-    'roles': ['Player', 'Referee', 'Spectator', 'Friend'],
-    'dialogues': {
-      'Player': [
-        "Let’s play soccer!",
-        "I’m going to try to score a goal!"
-      ],
-      'Referee': [
-        "No touching the ball with hands, remember!"
-      ],
-      'Spectator': [
-        "Go, go, go! You can do it!"
-      ],
-      'Friend': [
-        "Let’s play again, that was so fun!"
-      ]
-    },
-    'image': 'assets/images/park_play.png'
+    'image': 'assets/images/park_image.png',
+    'participants': 'Child 1, Child 2, Child 3',
+    'roles': [
+      'Child 1 - decides the game rules',
+      'Child 2 - follows the game rules',
+      'Child 3 - acts as the referee',
+    ],
+    'dialogues': [
+      'Child 1: "Let’s play tag!"',
+      'Child 2: "You’re it!"',
+    ],
   },
-
-  // 7. Going to a Restaurant (Already Provided)
-
-  // 8. Visiting a Doctor
-  'Visiting a Doctor': {
-    'description': 'Practice discussing symptoms, asking questions, and following medical advice.',
+  '7. Going to a Restaurant': {
+    'description': 'Dining out at a restaurant and ordering food.',
     'steps': [
-      "1. The Patient describes their symptoms.",
-      "2. The Doctor asks questions and gives advice.",
-      "3. The Nurse takes measurements (like height, weight).",
-      "4. The Patient listens to the Doctor’s recommendations.",
-      "5. The Patient leaves with a follow-up plan."
+      'Choose a restaurant to dine in',
+      'Look at the menu and decide on dishes',
+      'Place the order with the waiter',
+      'Enjoy the meal and pay the bill',
     ],
-    'roles': ['Patient', 'Doctor', 'Nurse', 'Friend'],
-    'dialogues': {
-      'Patient': [
-        "I’ve been feeling tired lately.",
-        "Do I need to take any medicine?"
-      ],
-      'Doctor': [
-        "Let’s check your blood pressure.",
-        "You should rest more and stay hydrated."
-      ],
-      'Nurse': [
-        "Please step on the scale for your weight."
-      ],
-      'Friend': [
-        "I hope everything is okay!"
-      ]
-    },
-    'image': 'assets/images/doctor_visit.png'
+    'image': 'assets/images/restaurant_image.png',
+    'participants': 'Diner, Waiter, Chef',
+    'roles': [
+      'Diner - orders and enjoys the meal',
+      'Waiter - takes the order and serves food',
+      'Chef - prepares the dishes',
+    ],
+    'dialogues': [
+      'Diner: "I’ll have the pasta."',
+      'Waiter: "Coming right up!"',
+    ],
   },
-
-  // 9. Attending a Birthday Party
-  'Attending a Birthday Party': {
-    'description': 'Practice wishing someone happy birthday, giving gifts, and interacting with guests.',
+  '8. Visiting a Doctor': {
+    'description': 'A visit to the doctor for a check-up or treatment.',
     'steps': [
-      "1. The Host prepares for the party.",
-      "2. The Birthday Person receives guests.",
-      "3. Guests give gifts and wish the Birthday Person well.",
-      "4. The group sings happy birthday and enjoys cake.",
-      "5. The Birthday Person thanks everyone for coming."
+      'Schedule an appointment',
+      'Arrive at the clinic and check-in',
+      'Describe symptoms to the doctor',
+      'Follow the prescribed treatment',
     ],
-    'roles': ['Birthday Person', 'Guest', 'Host', 'Friend'],
-    'dialogues': {
-      'Birthday Person': [
-        "Thank you for the gift!",
-        "I’m so happy you all could come!"
-      ],
-      'Guest': [
-        "Happy birthday! I hope you have a wonderful year!"
-      ],
-      'Host': [
-        "I’m so glad you could make it!"
-      ],
-      'Friend': [
-        "This cake looks amazing, let’s eat!"
-      ]
-    },
-    'image': 'assets/images/birthday_party.png'
+    'image': 'assets/images/doctor_image.png',
+    'participants': 'Patient, Doctor, Nurse',
+    'roles': [
+      'Patient - describes symptoms and follows instructions',
+      'Doctor - diagnoses and provides treatment',
+      'Nurse - assists with medical procedures',
+    ],
+    'dialogues': [
+      'Patient: "I’ve been feeling a bit feverish."',
+      'Doctor: "Let’s check your temperature."',
+    ],
   },
-
-  // 10. Classroom Experience
-  'Classroom Experience': {
-    'description': 'Practice participating in class discussions, asking questions, and following classroom rules.',
+  '9. Attending a Birthday Party': {
+    'description': 'A group of friends attending a birthday celebration.',
     'steps': [
-      "1. The Teacher starts the lesson.",
-      "2. The Student listens and takes notes.",
-      "3. The Classmate helps with questions.",
-      "4. The Student asks for clarification if needed.",
-      "5. The Teacher concludes the class."
+      'RSVP to the invitation',
+      'Bring a gift for the birthday person',
+      'Participate in the party activities',
+      'Enjoy the food and cake',
     ],
-    'roles': ['Student', 'Teacher', 'Classmate', 'Class Monitor'],
-    'dialogues': {
-      'Student': [
-        "Can you explain that again?",
-        "I have a question about the homework."
-      ],
-      'Teacher': [
-        "Let me explain that in more detail.",
-        "Please remember to hand in your assignments."
-      ],
-      'Classmate': [
-        "I can help you with the notes."
-      ],
-      'Class Monitor': [
-        "Please line up for the next class."
-      ]
-    },
-    'image': 'assets/images/classroom.png'
-  }
+    'image': 'assets/images/birthday_image.png',
+    'participants': 'Guest 1, Guest 2, Birthday Person, Party Host',
+    'roles': [
+      'Guest 1 - brings a gift and participates in games',
+      'Guest 2 - sings happy birthday',
+      'Birthday Person - enjoys the party',
+      'Party Host - organizes the event',
+    ],
+    'dialogues': [
+      'Guest 1: "Happy birthday, I brought you a gift!"',
+      'Party Host: "Let’s start the cake cutting!"',
+    ],
+  },
+  '10. Classroom Experience': {
+    'description': 'Students working together in a classroom setting.',
+    'steps': [
+      'Listen to the teacher’s instructions',
+      'Complete individual or group assignments',
+      'Ask questions if needed',
+      'Review the lesson and prepare for the next class',
+    ],
+    'image': 'assets/images/classroom_image.png',
+    'participants': 'Student 1, Student 2, Teacher',
+    'roles': [
+      'Student 1 - participates in the class discussion',
+      'Student 2 - works on assignments',
+      'Teacher - leads the lesson',
+    ],
+    'dialogues': [
+      'Teacher: "Please open your books to page 50."',
+      'Student 1: "I don’t understand this concept."',
+    ],
+  },
 };

@@ -1,5 +1,5 @@
-import 'package:app/social_skills_module/detailed_Scenario_page_individual%20.dart';
 import 'package:flutter/material.dart';
+import 'package:app/social_skills_module/detailed_scenario_page_group.dart'; // Correct import
 
 class GroupRolePlayPage extends StatelessWidget {
   // Define a list of scenarios for each box
@@ -15,7 +15,6 @@ class GroupRolePlayPage extends StatelessWidget {
     '9. Attending a Birthday Party',
     '10. Classroom experience',
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +79,7 @@ Widget _buildBox(String text, BuildContext context) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => IndividualScenarioDetailPage(scenario: text),
+          builder: (context) => GroupScenarioDetailPage(scenario: text),
         ),
       );
     },
