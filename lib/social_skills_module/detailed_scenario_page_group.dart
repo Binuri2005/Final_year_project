@@ -15,9 +15,8 @@ class GroupScenarioDetailPage extends StatelessWidget {
           'description': 'Description not available',
           'steps': ['No steps available'],
           'image': '', // Use the image path from the data structure
-          'participants': 'N/A',
           'roles': [],
-          'dialogues': [],
+          'dialogues': {},
         };
 
     return Scaffold(
@@ -143,32 +142,6 @@ class GroupScenarioDetailPage extends StatelessWidget {
               ),
               SizedBox(height: 20),
 
-              // "Participants Involved" Heading
-              Center(
-                child: Text(
-                  "Participants Involved",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(height: 10),
-
-              // Participants
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Text(
-                  scenarioContent[
-                      'participants'], // Dynamically set participants
-                  style: TextStyle(fontSize: 16),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              SizedBox(height: 20),
-
               // "Role Dialogues" Heading
               Center(
                 child: Text(
@@ -180,22 +153,50 @@ class GroupScenarioDetailPage extends StatelessWidget {
 
               // Role dialogues for each role
               Column(
-                children: scenarioContent['dialogues']
+                children: (scenarioContent['dialogues']
+                        as Map<String, List<String>>)
+                    .entries
                     .map<Widget>(
-                      (dialogue) => Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(bottom: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.green[100],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          dialogue,
-                          style: TextStyle(fontSize: 16),
-                          textAlign:
-                              TextAlign.left, // Align dialogue text to the left
-                        ),
+                      (entry) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Role Name Heading
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 5),
+                            child: Text(
+                              entry.key, // Role name
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue[800],
+                              ),
+                            ),
+                          ),
+                          // Dialogue Box
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(15),
+                            margin: EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.green[100],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: entry.value
+                                  .map<Widget>(
+                                    (dialogue) => Padding(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: Text(
+                                        "• $dialogue", // Add a bullet point
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
+                        ],
                       ),
                     )
                     .toList(),
