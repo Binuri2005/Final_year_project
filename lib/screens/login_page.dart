@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:app/screens/forgot_passwod.dart';
 import 'package:app/services/api/api_service.dart';
-import 'package:app/viewmodels/auth/auth_viewmodel..dart';
+import 'package:app/viewmodels/auth/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -202,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ForgotPasswordPage(),
+                              builder: (context) => ForgotPasswordPage(),
                             ),
                           );
                         },
