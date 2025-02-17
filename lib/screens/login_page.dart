@@ -1,9 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:app/screens/forgot_passwod.dart';
 import 'package:app/services/api/api_service.dart';
-import 'package:app/viewmodels/auth/auth_viewmodel..dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'signup_screen.dart';
 
@@ -73,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                   top: 180, //  distance from the top
                   left: 20,
                   child: Text(
-                    context.read<AuthViewModel>().myLoveForArya.toString(),
+                    "Login",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -105,14 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                             )),
                       ),
                       const SizedBox(height: 15),
-                      Slider(
-                        value: context.read<AuthViewModel>().myLoveForArya,
-                        onChanged: (value) {
-                          context.read<AuthViewModel>().setMyLoveForArya(value);
-                        },
-                        min: 0,
-                        max: 1,
-                      ),
+
                       // Password field
                       const TextField(
                         obscureText: true,
