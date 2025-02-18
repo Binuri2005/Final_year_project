@@ -1,0 +1,31 @@
+[33mb2dc968[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m added level 01 assets and made the data sturture and the ui for the drag and drop of the level 01
+[33m1163aab[m deleted the backedn shi
+[33mb04ca4c[m added chnaged with the backend integration
+[33m8bd2bed[m implement AuthViewModel for authentication state management; refactor LoginPage to use provider for state updates
+[33mb9524e8[m done with the context for the group role plays, need to chnage colors
+[33m4f838a6[m removed the play and win in role plays, done with the group plays but yet to added the images and more diagologues for each roles
+[33mdca1ecc[m added group role play page and made the data structure for group scenarios
+[33mb790f8b[m done with the detailed screen for individual role plays. added a discription,steps
+[33m53b997f[m edited the ui for the detailed scenrio page and added a seperate file for the data stucture to map them
+[33m30afa78[m added the scenarios to the indivudal role plays and added a dynamic screen for the specific scenario context in the detailed scenario page
+[33m7036a65[m created 3 pages and classes for indivudla,group, play and win categories under role plays
+[33m525b8f6[m added and structured the boxes for role play and play game. added 3 files for the 3 levels
+[33m876e8bc[m did the play game page with 3 levels
+[33m4245223[m done with main page of the social skills
+[33mda67be3[m made social skills main page
+[33m6370292[m did chnages to level 1 game
+[33m8d2dbad[m adding the level 01 game page with some basic drag and drop game
+[33mfa02eff[m added the 2 main parts for the social skills module and their sub parts
+[33m83c55f9[m added the social skills page
+[33m518b1a9[m made social skills page and added the navigation from home page to the social skills module
+[33m379ba6d[m added bottom navigator bar and made seperate files for each screen inclduing profile, notification,rewards
+[33mcb7d451[m added the 3 boxes to the screen for the 3 modules
+[33m3d6e47a[m added a homapge and a dashboard page
+[33m179b42e[m login sign up done
+[33mf00c956[m added dashboard page
+[33ma3c8a20[m Done with intro,login,sign up,forgot_pw UI
+[33md3e0fb7[m added animations to sign up page
+[33m27af75c[m added animation to login page and chnaged the layout
+[33mc2e4e5d[m added email input for forgot pw and back button
+[33mf2a84e4[m added the mushroom image and white box to the page
+[33m8cd9a77[m created intro,login,signup,forgot password screens
