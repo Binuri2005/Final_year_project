@@ -5,9 +5,13 @@ class AuthViewModel extends ChangeNotifier {
   bool _isRegisteringUser = false;
   bool get isRegisteringUser => _isRegisteringUser;
 
+  bool _isLoggingInUser = false;
+  bool get isLoggingInUser => _isLoggingInUser;
+
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
+  // Register user
   Future<bool> registerUser(
       {required String name,
       required String email,
@@ -26,7 +30,7 @@ class AuthViewModel extends ChangeNotifier {
           'username': name,
           'email': email,
           'password': password,
-          'confirmPassword': confirmPassword
+          'confirmPassword': confirmPassword,
         },
       );
 
@@ -34,6 +38,55 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
 
       return true;
+    } on ApiError catch (e) {
+     _errorMessage = e.message;
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
+     } finally {
+      _isRegisteringUser = false;
+      notifyListeners();
+    }
+  }
+
+
+// login user loginUser
+
+// Login user
+  Future<bool> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      _isLoggingInUser = true;
+      notifyListeners();
+
+      // Simulate login delay
+      await Future.delayed(const Duration(seconds: 2));
+
+      var response = await ApiService.sendRequest(
+        method: HTTPMethod.POST,
+        url: 'http://localhost:3000/auth/login',
+        body: {
+          'email': email,
+          'password': password,
+        },
+      );
+
+      _isLoggingInUser = false;
+      notifyListeners();
+
+      // Check if login was successful based on the response
+      if (response['token'] != null) {
+        return true; // Login successful
+      } else {
+        _errorMessage = response['message'] ?? 'Login failed';
+        notifyListeners();
+        return false;
+      }
     } on ApiError catch (e) {
       _errorMessage = e.message;
       notifyListeners();
@@ -43,7 +96,7 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
       return false;
     } finally {
-      _isRegisteringUser = false;
+      _isLoggingInUser = false;
       notifyListeners();
     }
   }

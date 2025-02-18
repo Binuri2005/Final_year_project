@@ -1,8 +1,11 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:app/global/textfield.widet.dart';
 import 'package:app/screens/forgot_passwod.dart';
+import 'package:app/screens/home_page.dart';
 import 'package:app/services/api/api_service.dart';
+import 'package:app/viewmodels/auth/auth_viewmodel..dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import 'signup_screen.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,6 +16,61 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  login() async {
+    if (_formKey.currentState!.validate()) {
+      String email = emailController.text;
+      String password = passwordController.text;
+
+      //  call the api to register the user
+      bool isSuccess = await context.read<AuthViewModel>().loginUser(
+          email: emailController.text, password: passwordController.text);
+
+      if (isSuccess) {
+        // Navigate to the home page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.read<AuthViewModel>().errorMessage!),
+          ),
+        );
+      }
+    }
+  }
+
+/*
+      // Call the login method from AuthViewModel
+      final authViewModel = AuthViewModel();
+      bool loginSuccess = await authViewModel.loginUser(email, password);
+
+      if (loginSuccess) {
+        // Navigate to the next screen
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        // Show error
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(authViewModel.errorMessage ?? 'Login failed')),
+        );
+      }
+    }
+  }
+*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +84,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-
           //lights animation
           Positioned(
             left: 30,
@@ -58,30 +115,21 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-
           // Login content
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 150),
-
-                // Login title outside the box
-                Positioned(
-                  top: 180, //  distance from the top
-                  left: 20,
-                  child: Text(
-                    "Login",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                const Text(
+                  "Login",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 10),
-
-                // White box curled
                 Container(
                   padding: const EdgeInsets.all(20),
                   margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -92,32 +140,20 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Email/Username field
-                      const TextField(
-                        decoration: InputDecoration(
-                            labelText: 'Email/Username',
-                            hintText: 'example@gmail.com', // Placeholder text
-                            border: OutlineInputBorder(),
-                            labelStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            )),
+                      CareBloomField(
+                        label: 'Email',
+                        placeholder: "Eg. johndoe@gmail.com",
+                        controller: emailController,
+                        type: CareBloomFieldTypes.email,
                       ),
                       const SizedBox(height: 15),
-
-                      // Password field
-                      const TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            labelText: 'Password',
-                            hintText: 'Enter your password', // Placeholder text
-                            border: OutlineInputBorder(),
-                            labelStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            )),
+                      CareBloomField(
+                        label: 'Password',
+                        placeholder: 'Enter your password',
+                        controller: passwordController,
+                        type: CareBloomFieldTypes.password,
                       ),
                       const SizedBox(height: 10),
-
-                      // Remember Me checkbox
                       Row(
                         children: [
                           Checkbox(
@@ -135,34 +171,10 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                       const SizedBox(height: 15),
-
-                      // Login button
                       ElevatedButton(
-                        onPressed: () async {
-                          try {
-                            // login logic here
-                            var data = await ApiService.sendRequest(
-                              url:
-                                  'https://jsonplaceholder.typicode.com/postsssww',
-                              method: HTTPMethod.GET,
-                            );
-
-                            print(data);
-                          } on ApiError catch (e) {
-                            if (e.type == ApiErrorType.FILE_TOO_LARGE) {
-                              //   showSnackBar(context, 'File too large');
-                            }
-                            ;
-                          }
-
-                          // Navigate to HomePage after successful login
-                          // Navigator.pushReplacement(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           const HomePage()), // HomePage after login
-                          // );
-                        },
+                              onPressed: () {
+                                login();
+                              },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
                               const Color.fromARGB(255, 22, 110, 211),
@@ -176,25 +188,20 @@ class _LoginPageState extends State<LoginPage> {
                           child: Text(
                             'Login',
                             style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 10),
-
-                      // Forgot Password
                       TextButton(
                         onPressed: () {
-                          // Go to Forgot Password screen
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ForgotPasswordPage(),
-                            ),
+                                builder: (context) =>
+                                    const ForgotPasswordPage()),
                           );
                         },
                         child: const Text(
@@ -203,8 +210,6 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-
-                      // Sign-up link
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -214,8 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SignUpScreen(),
-                                ),
+                                    builder: (context) => SignUpScreen()),
                               );
                             },
                             child: const Text(
