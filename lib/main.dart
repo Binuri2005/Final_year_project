@@ -1,7 +1,7 @@
-import 'package:app/screens/forgot_passwod.dart';
+import 'package:app/screens/auth/forgot_passwod.dart';
+import 'package:app/screens/auth/login_page.dart';
+import 'package:app/screens/auth/signup_screen.dart';
 import 'package:app/screens/home_page.dart';
-import 'package:app/screens/login_page.dart';
-import 'package:app/screens/signup_screen.dart';
 import 'package:app/viewmodels/auth/auth_viewmodel..dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

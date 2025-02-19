@@ -1,4 +1,5 @@
 import 'package:app/services/api/api_service.dart';
+import 'package:app/services/storage/storage.service.dart';
 import 'package:flutter/cupertino.dart';
 
 class AuthViewModel extends ChangeNotifier {
@@ -39,19 +40,18 @@ class AuthViewModel extends ChangeNotifier {
 
       return true;
     } on ApiError catch (e) {
-     _errorMessage = e.message;
+      _errorMessage = e.message;
       notifyListeners();
       return false;
     } catch (e) {
       _errorMessage = e.toString();
       notifyListeners();
       return false;
-     } finally {
+    } finally {
       _isRegisteringUser = false;
       notifyListeners();
     }
   }
-
 
 // login user loginUser
 
@@ -65,7 +65,6 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
 
       // Simulate login delay
-      await Future.delayed(const Duration(seconds: 2));
 
       var response = await ApiService.sendRequest(
         method: HTTPMethod.POST,
@@ -81,6 +80,7 @@ class AuthViewModel extends ChangeNotifier {
 
       // Check if login was successful based on the response
       if (response['token'] != null) {
+        await SecureStorageService().write("access_token", response['token']);
         return true; // Login successful
       } else {
         _errorMessage = response['message'] ?? 'Login failed';

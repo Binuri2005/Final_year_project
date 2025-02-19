@@ -1,11 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:app/global/textfield.widet.dart';
-import 'package:app/screens/forgot_passwod.dart';
 import 'package:app/screens/home_page.dart';
 import 'package:app/viewmodels/auth/auth_viewmodel..dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'forgot_passwod.dart';
 import 'signup_screen.dart';
 
 class LoginPage extends StatefulWidget {

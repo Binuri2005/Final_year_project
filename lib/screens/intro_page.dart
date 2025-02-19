@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // Import your login page here
+
+import 'auth/login_page.dart'; // Import your login page here
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});

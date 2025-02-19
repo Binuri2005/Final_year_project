@@ -1,4 +1,4 @@
-import 'package:app/screens/login_page.dart';
+import 'package:app/screens/auth/login_page.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -31,7 +31,8 @@ class ForgotPasswordPage extends StatelessWidget {
                         // Navigate to the login page
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
                         );
                       },
                     ),
