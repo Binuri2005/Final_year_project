@@ -1,4 +1,3 @@
-import 'package:app/social_skills_module/select_and_play_roleplay.dart';
 import 'package:flutter/material.dart';
 
 import 'group_roleplay.dart';
@@ -75,10 +74,7 @@ class RolePlayPage extends StatelessWidget {
                     child: _buildBox(
                         context, 'Group Role-plays', GroupRolePlayPage())),
                 const SizedBox(height: 40),
-                Center(
-                    child: _buildBox(
-                        context, 'Play & Win rewards', const PlayAndWinPage())),
-                const SizedBox(height: 40),
+                
               ],
             ),
           ),

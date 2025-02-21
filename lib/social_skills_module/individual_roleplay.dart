@@ -81,7 +81,7 @@ Widget _buildBox(String text, BuildContext context) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ScenarioDetailPage(scenario: text),
+          builder: (context) => IndividualScenarioDetailPage(scenario: text),
         ),
       );
     },

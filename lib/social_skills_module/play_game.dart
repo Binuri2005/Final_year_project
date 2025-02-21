@@ -1,3 +1,5 @@
+import 'package:app/social_skills_module/level_01.dart';
+import 'package:app/social_skills_module/level_02.dart';
 import 'package:flutter/material.dart';
 
 class PlayGamePage extends StatelessWidget {
@@ -63,10 +65,24 @@ class PlayGamePage extends StatelessWidget {
 
                 /// Increased spacing to push boxes lower
 
-                Center(child: _buildBox('LEVEL 01', () {})),
-                const SizedBox(height: 40),
-                Center(child: _buildBox('LEVEL 02', () {})),
-                const SizedBox(height: 40),
+                Center(
+                    child: _buildBox('LEVEL 01', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Level1Game()),
+                  );
+                })),
+                SizedBox(height: 40),
+
+                Center(
+                    child: _buildBox('LEVEL 02', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Level2Game()),
+                  );
+                })),
+                SizedBox(height: 40),
+             
                 Center(child: _buildBox('LEVEL 03', () {})),
               ],
             ),
