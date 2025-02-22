@@ -18,6 +18,8 @@ List<Map<String, String>> expressionDataList = [
   {"image": "assets/level_01/lonely.png", "term": "Lonely"},
   {"image": "assets/level_01/worried.png", "term": "Worried"},
   {"image": "assets/level_01/sleepy.png", "term": "Sleepy"},
+  {"image": "assets/level_01/confident.png", "term": "Confident"},
+  {"image": "assets/level_01/guilty.png", "term": "Guilty"},
 ];
 
 //there r 30 objects jm;,;,
@@ -33,7 +35,6 @@ List<Map<String, String>> expressionDataList = [
   {"image": "assets/level_01/relieved.png", "term": "Relieved"},
   {"image": "assets/level_01/amused.png", "term": "Amused"},
   {"image": "assets/level_01/curious.png", "term": "Curious"}*/
-
 
 List<Map<String, String>> scenarioToTerm = [
   {"scenario": "You receive a surprise gift.", "term": "Happy"},
