@@ -1,5 +1,6 @@
 import 'package:app/social_skills_module/level_01.dart';
 import 'package:app/social_skills_module/level_02.dart';
+import 'package:app/social_skills_module/level_03.dart';
 import 'package:flutter/material.dart';
 
 class PlayGamePage extends StatelessWidget {
@@ -82,8 +83,14 @@ class PlayGamePage extends StatelessWidget {
                   );
                 })),
                 SizedBox(height: 40),
-            
-                Center(child: _buildBox('LEVEL 03', () {})),
+
+                Center(
+                    child: _buildBox('LEVEL 03', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Level3Game()),
+                  );
+                })),
               ],
             ),
           ),
