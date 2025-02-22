@@ -20,6 +20,21 @@ List<Map<String, String>> expressionDataList = [
   {"image": "assets/level_01/sleepy.png", "term": "Sleepy"},
 ];
 
+//there r 30 objects jm;,;,
+/*
+  {"image": "assets/level_01/thankful.png", "term": "Thankful"},
+  {"image": "assets/level_01/disappointed.png", "term": "Disappointed"},
+  {"image": "assets/level_01/guilty.png", "term": "Guilty"},
+  {"image": "assets/level_01/confident.png", "term": "Confident"},
+  {"image": "assets/level_01/hopeful.png", "term": "Hopeful"},
+  
+  {"image": "assets/level_01/jealous.png", "term": "Jealous"},
+  {"image": "assets/level_01/embarrassed.png", "term": "Embarrassed"},
+  {"image": "assets/level_01/relieved.png", "term": "Relieved"},
+  {"image": "assets/level_01/amused.png", "term": "Amused"},
+  {"image": "assets/level_01/curious.png", "term": "Curious"}*/
+
+
 List<Map<String, String>> scenarioToTerm = [
   {"scenario": "You receive a surprise gift.", "term": "Happy"},
   {"scenario": "You hear your favorite song.", "term": "Excited"},
@@ -126,9 +141,12 @@ List<Map<String, String>> scenarioToImage = [
   },
   {
     "scenario": "You have to stay inside when you wanted to go out.",
-    "image": ""
+    "image": "assets/level_01/sad.png"
   },
-  {"scenario": "You wait for someone, but they don't come.", "image": ""},
+  {
+    "scenario": "You wait for someone, but they don't come.",
+    "image": "assets/level_01/frustrated.png"
+  },
   {
     "scenario": "Someone takes your things without asking.",
     "image": "assets/level_01/angry.png"
@@ -185,7 +203,10 @@ List<Map<String, String>> scenarioToImage = [
     "scenario": "You don't understand what someone is saying.",
     "image": "assets/level_01/confused.png"
   },
-  {"scenario": "You see someone doing something very kind.", "image": ""},
+  {
+    "scenario": "You see someone doing something very kind.",
+    "image": "assets/level_01/happy.png"
+  },
   {
     "scenario": "You have nothing to do and no one to play with.",
     "image": "assets/level_01/bored.png"

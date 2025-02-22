@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'datastructure_playgame.dart'; // Import the data structure
@@ -267,8 +266,8 @@ class _Level1GameState extends State<Level1Game> {
                       color: Colors.transparent,
                       child: Image.asset(
                         item["image"]!,
-                        width: 150,
-                        height: 150,
+                        width: 130,
+                        height: 130,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -276,8 +275,8 @@ class _Level1GameState extends State<Level1Game> {
                       opacity: 0.5,
                       child: Image.asset(
                         item["image"]!,
-                        width: 150,
-                        height: 150,
+                        width: 100,
+                        height: 100,
                         fit: BoxFit.cover,
                       ),
                     ),
