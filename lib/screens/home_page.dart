@@ -1,3 +1,4 @@
+import 'package:app/dailylife_skills_module/test.dart';
 import 'package:app/screens/dashboard_screen.dart';
 import 'package:app/social_skills_module/main_page.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +14,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView( // make sure the content is scrollable
+      body: SingleChildScrollView(
+        // make sure the content is scrollable
         child: Container(
           color: Color(0xFFCADEEB),
           padding: EdgeInsets.only(left: 30, right: 30, top: 5),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-              // Welcome messsage 
+              // Welcome messsage
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,12 +35,12 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(width: 10), 
+                  SizedBox(width: 10),
                   Image.asset(
                     'assets/images/cartoon_cat.png',
-                    height: 60, 
-                    width: 60, 
-                    fit: BoxFit.contain, 
+                    height: 60,
+                    width: 60,
+                    fit: BoxFit.contain,
                   ),
                 ],
               ),
@@ -54,9 +54,9 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 20), 
+              SizedBox(height: 20),
 
-              // Category heading 
+              // Category heading
               Center(
                 child: Text(
                   'Category',
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              SizedBox(height: 8), 
+              SizedBox(height: 8),
 
               /////////// box one for SPEECH SKILLS MODULES ///////////////////
               Center(
@@ -77,11 +77,11 @@ class _HomePageState extends State<HomePage> {
                   height: 150,
                   width: 300,
                   decoration: BoxDecoration(
-                    color: Color(0xFFFCC0C5), 
+                    color: Color(0xFFFCC0C5),
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(
-                      color: Colors.black, 
-                      width: 1, 
+                      color: Colors.black,
+                      width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -118,18 +118,16 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                   child: Container(
-                    margin: EdgeInsets.symmetric(
-                        vertical: 10),
+                    margin: EdgeInsets.symmetric(vertical: 10),
                     padding: EdgeInsets.all(20),
                     height: 150,
                     width: 300,
                     decoration: BoxDecoration(
                       color: Color(0xFFF8EE6C),
-                      borderRadius:
-                          BorderRadius.circular(15), 
+                      borderRadius: BorderRadius.circular(15),
                       border: Border.all(
-                        color: Colors.black, 
-                        width: 1, 
+                        color: Colors.black,
+                        width: 1,
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -156,35 +154,45 @@ class _HomePageState extends State<HomePage> {
 
               ////////////// box for daily life skills module /////////
               Center(
-                child: Container(
-                  margin:
-                      EdgeInsets.symmetric(vertical: 10), 
-                  padding: EdgeInsets.all(20),
-                  height: 150,
-                  width: 300,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF6C6FA),
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(
-                      color: Colors.black, 
-                      width: 1, 
-                    ), 
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            DailySkillsApp(), // Navigate to DailySkillsApp
                       ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Daily Life Skills',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.all(20),
+                    height: 150,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF6C6FA),
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(
                         color: Colors.black,
+                        width: 1,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Daily Life Skills',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -194,6 +202,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex, // Highlights the selected tab
         onTap: (index) {
@@ -226,4 +235,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
