@@ -1,6 +1,7 @@
 import 'package:app/dailylife_skills_module/test.dart';
 import 'package:app/screens/dashboard_screen.dart';
 import 'package:app/social_skills_module/main_page.dart';
+import 'package:app/speech_skills_module/main_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -71,34 +72,45 @@ class _HomePageState extends State<HomePage> {
 
               /////////// box one for SPEECH SKILLS MODULES ///////////////////
               Center(
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  padding: EdgeInsets.all(20),
-                  height: 150,
-                  width: 300,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFCC0C5),
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SpeechSkills(), // Navigate to DailySkillsApp
                       ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Speech Skills',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.all(20),
+                    height: 150,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFCC0C5),
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(
                         color: Colors.black,
+                        width: 1,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Speech Skills',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -202,7 +214,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex, // Highlights the selected tab
         onTap: (index) {
