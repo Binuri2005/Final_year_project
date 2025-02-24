@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/intro_page.dart';
+import 'viewmodels/social_skills/play_game/social_skill_play_game.viewmodel.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -16,6 +17,9 @@ void main() {
     ),
     ChangeNotifierProvider(
       create: (context) => UserViewModel(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => SocialSkillPlayGameViewModel(),
     ),
   ], child: const MyApp()));
 }

@@ -1,4 +1,5 @@
 import 'package:app/services/api/api_service.dart';
+import 'package:app/services/api/constants.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserViewModel extends ChangeNotifier {
@@ -9,7 +10,7 @@ class UserViewModel extends ChangeNotifier {
     try {
       var user = await ApiService.sendRequest(
         method: HTTPMethod.GET,
-        url: 'http://localhost:3000/user',
+        url: ApiConstants.getUser,
       );
 
       _user = User.fromJson(user);
