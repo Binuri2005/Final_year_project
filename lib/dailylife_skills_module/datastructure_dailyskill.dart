@@ -1,67 +1,80 @@
-// lib/dailylife_skills_module/datastructure_dailyskill.dart
+// lib/data/datastructure_dailyskill.dart
 
 import 'package:flutter/material.dart';
 
-class Category {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap; // Use VoidCallback instead of Function
+class Task {
+  final String title;
+  final String description;
+  final List<TaskStep> steps; // Renamed to TaskStep
 
-  Category({
-    required this.icon,
-    required this.label,
-    required this.onTap,
+  Task({
+    required this.title,
+    required this.description,
+    required this.steps,
   });
 }
 
-// List of categories for the Daily Life Skills module
-final List<Category> categories = [
-  Category(
-    icon: Icons.wb_sunny,
-    label: 'Morning Routine',
-    onTap: () {
-      // Navigate to Morning Routine screen
-      print('Morning Routine tapped');
-    },
+class TaskStep {
+  // Renamed to TaskStep
+  final String instruction;
+  final String imagePath;
+  bool isCompleted;
+
+  TaskStep({
+    required this.instruction,
+    required this.imagePath,
+    this.isCompleted = false,
+  });
+}
+
+// Example tasks
+final List<Task> tasks = [
+  Task(
+    title: 'Morning Routine',
+    description: 'Let’s have a productive morning!',
+    steps: [
+      TaskStep(
+        // Updated to TaskStep
+        instruction: 'Pick up your toothbrush',
+        imagePath: 'assets/images/step1.jpg',
+      ),
+      TaskStep(
+        // Updated to TaskStep
+        instruction: 'Apply toothpaste',
+        imagePath: 'assets/images/step2.jpg',
+      ),
+      TaskStep(
+        // Updated to TaskStep
+        instruction: 'Brush for 2 minutes',
+        imagePath: 'assets/images/step3.jpg',
+      ),
+      TaskStep(
+        // Updated to TaskStep
+        instruction: 'Rinse your mouth',
+        imagePath: 'assets/images/step4.jpg',
+      ),
+    ],
   ),
-  Category(
-    icon: Icons.nightlight_round,
-    label: 'Night Routine',
-    onTap: () {
-      // Navigate to Night Routine screen
-      print('Night Routine tapped');
-    },
+  Task(
+    title: 'Night Routine',
+    description: 'Time to wind down and relax!',
+    steps: [
+      TaskStep(
+        // Updated to TaskStep
+        instruction: 'Put on your pajamas',
+        imagePath: 'assets/images/step1.jpg',
+      ),
+      TaskStep(
+        // Updated to TaskStep
+        instruction: 'Brush your teeth',
+        imagePath: 'assets/images/step2.jpg',
+      ),
+      TaskStep(
+        // Updated to TaskStep
+        instruction: 'Read a bedtime story',
+        imagePath: 'assets/images/step3.jpg',
+      ),
+    ],
   ),
-  Category(
-    icon: Icons.restaurant,
-    label: 'Meal Prep',
-    onTap: () {
-      // Navigate to Meal Prep screen
-      print('Meal Prep tapped');
-    },
-  ),
-  Category(
-    icon: Icons.soap,
-    label: 'Personal Hygiene',
-    onTap: () {
-      // Navigate to Personal Hygiene screen
-      print('Personal Hygiene tapped');
-    },
-  ),
-  Category(
-    icon: Icons.cleaning_services,
-    label: 'Chores',
-    onTap: () {
-      // Navigate to Chores screen
-      print('Chores tapped');
-    },
-  ),
-  Category(
-    icon: Icons.school,
-    label: 'School Prep',
-    onTap: () {
-      // Navigate to School Prep screen
-      print('School Prep tapped');
-    },
-  ),
+  // Add more tasks as needed
 ];
