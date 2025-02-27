@@ -15,7 +15,8 @@ class AuthViewModel extends ChangeNotifier {
 
   // Register user
   Future<bool> registerUser(
-      {required String name,
+      {required String firstName,
+      required String lastname,
       required String email,
       required String password,
       required String confirmPassword}) async {
@@ -27,7 +28,8 @@ class AuthViewModel extends ChangeNotifier {
         method: HTTPMethod.POST,
         url: ApiConstants.registerEndpoint,
         body: {
-          'username': name,
+          'firstName': firstName,
+          'lastName': lastname,
           'email': email,
           'password': password,
           'confirmPassword': confirmPassword,

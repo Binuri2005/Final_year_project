@@ -43,38 +43,44 @@ class _CareBloomFieldState extends State<CareBloomField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter some text';
-        }
-        if (widget.type == CareBloomFieldTypes.email && !value.isValidEmail()) {
-          return 'Please enter a valid email';
-        }
-        return null;
-      },
-      controller: widget.controller,
-      obscureText: widget.type == CareBloomFieldTypes.password
-          ? !isPasswordVisible
-          : false,
-      decoration: InputDecoration(
-          suffixIcon: widget.type == CareBloomFieldTypes.password
-              ? IconButton(
-                  icon: Icon(
-                    isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                    size: 17,
-                  ),
-                  onPressed: toggleVisibility,
-                )
-              : null,
-          labelText: widget.label,
-          hintText: widget.placeholder,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          labelStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-          )),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: TextFormField(
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          if (widget.type == CareBloomFieldTypes.email &&
+              !value.isValidEmail()) {
+            return 'Please enter a valid email';
+          }
+          return null;
+        },
+        controller: widget.controller,
+        obscureText: widget.type == CareBloomFieldTypes.password
+            ? !isPasswordVisible
+            : false,
+        decoration: InputDecoration(
+            suffixIcon: widget.type == CareBloomFieldTypes.password
+                ? IconButton(
+                    icon: Icon(
+                      isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      size: 17,
+                    ),
+                    onPressed: toggleVisibility,
+                  )
+                : null,
+            labelText: widget.label,
+            hintText: widget.placeholder,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+            )),
+      ),
     );
   }
 }

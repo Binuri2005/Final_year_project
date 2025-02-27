@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:app/global/textfield.widet.dart';
-import 'package:app/screens/home_page.dart';
+import 'package:app/screens/intro_page.dart';
 import 'package:app/viewmodels/auth/auth_viewmodel..dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
 
   final TextEditingController emailController = TextEditingController();
 
@@ -27,7 +28,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    nameController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
@@ -48,7 +50,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
       //  call the api to register the user
       bool isSuccess = await context.read<AuthViewModel>().registerUser(
-          name: nameController.text,
+          firstName: firstNameController.text,
+          lastname: lastNameController.text,
           email: emailController.text,
           password: passwordController.text,
           confirmPassword: confirmPasswordController.text);
@@ -57,7 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         // Navigate to the login page
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => IntroPage()),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -158,10 +161,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             // Name Field
-                            CareBloomField(
-                              label: 'Full Name',
-                              placeholder: 'Eg. John Doe',
-                              controller: nameController,
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: CareBloomField(
+                                    label: 'First Name',
+                                    placeholder: 'Eg. John',
+                                    controller: firstNameController,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Flexible(
+                                  child: CareBloomField(
+                                    label: 'Last Name',
+                                    placeholder: 'Eg. Doe',
+                                    controller: lastNameController,
+                                  ),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 10),
 
