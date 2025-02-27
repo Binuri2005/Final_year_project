@@ -1,4 +1,5 @@
 import 'package:app/services/api/api_service.dart';
+import 'package:app/services/api/constants.dart';
 import 'package:app/services/storage/storage.service.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -22,11 +23,9 @@ class AuthViewModel extends ChangeNotifier {
       _isRegisteringUser = true;
       notifyListeners();
 
-      await Future.delayed(const Duration(seconds: 2));
-
       var response = await ApiService.sendRequest(
         method: HTTPMethod.POST,
-        url: 'http://localhost:3000/auth/register',
+        url: ApiConstants.registerEndpoint,
         body: {
           'username': name,
           'email': email,
@@ -68,7 +67,7 @@ class AuthViewModel extends ChangeNotifier {
 
       var response = await ApiService.sendRequest(
         method: HTTPMethod.POST,
-        url: 'http://localhost:3000/auth/login',
+        url: ApiConstants.loginEndpoint,
         body: {
           'email': email,
           'password': password,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'auth/login_page.dart'; // Import your login page here
+import '../viewmodels/user/user.viewmodel.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});
@@ -14,13 +15,25 @@ class _IntroPageState extends State<IntroPage> {
   void initState() {
     super.initState();
 
+    getUser();
+
     // Navigate to LoginPage after the wait
-    Future.delayed(const Duration(seconds: 1), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-      );
-    });
+    // Future.delayed(const Duration(seconds: 1), () {
+    //   Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => const LoginPage()),
+    //   );
+    // });
+  }
+
+  void getUser() async {
+    bool isSuccess = await context.read<UserViewModel>().getUser();
+
+    if (isSuccess) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      Navigator.pushReplacementNamed(context, '/login');
+    }
   }
 
   @override

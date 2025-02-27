@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/services/api/constants.dart';
 import 'package:app/services/storage/storage.service.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,7 +15,7 @@ class ApiService {
   }) async {
     try {
       print("[ApiService] Sending ${method.name} request to: $url");
-      Uri uri = Uri.parse(url);
+      Uri uri = Uri.parse("${ApiConstants.BASE_URL}$url");
 
       String jsonBody = json.encode(body);
       print("[ApiService] Request body: $jsonBody");
@@ -34,6 +35,7 @@ class ApiService {
       if (token != null) {
         request.headers['Authorization'] = "Bearer $token";
         print("[ApiService] Using token for authorization");
+        print("[ApiService] Token: $token");
       }
 
       if (body != null) {
