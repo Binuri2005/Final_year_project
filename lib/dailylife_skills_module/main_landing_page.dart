@@ -8,12 +8,12 @@ class DailyLifeSkillsScreen extends StatelessWidget {
     {
       'icon': Icons.wb_sunny,
       'label': 'Morning Routine',
-      'task': tasks.length > 0 ? tasks[0] : null, // ✅ Check before accessing
+      'task': tasks.length > 0 ? tasks[0] : null,
     },
     {
       'icon': Icons.nightlight_round,
       'label': 'Night Routine',
-      'task': tasks.length > 1 ? tasks[1] : null, // ✅ Check before accessing
+      'task': tasks.length > 1 ? tasks[1] : null,
     },
     {
       'icon': Icons.restaurant,
@@ -34,6 +34,11 @@ class DailyLifeSkillsScreen extends StatelessWidget {
       'icon': Icons.school,
       'label': 'School Prep',
       'task': tasks.length > 5 ? tasks[5] : null,
+    },
+    {
+      'icon': Icons.add_circle_outline,
+      'label': 'Create Your Own Routine',
+      'task': null,
     },
   ];
 
@@ -74,7 +79,7 @@ class DailyLifeSkillsScreen extends StatelessWidget {
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Task not available!')));
+                      SnackBar(content: Text('Page coming soon!')));
                 }
               },
             );
