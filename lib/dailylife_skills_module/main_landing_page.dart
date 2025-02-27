@@ -8,32 +8,32 @@ class DailyLifeSkillsScreen extends StatelessWidget {
     {
       'icon': Icons.wb_sunny,
       'label': 'Morning Routine',
-      'task': tasks[0], // Updated to use Task class
+      'task': tasks.length > 0 ? tasks[0] : null, // ✅ Check before accessing
     },
     {
       'icon': Icons.nightlight_round,
       'label': 'Night Routine',
-      'task': tasks[1], // Updated to use Task class
+      'task': tasks.length > 1 ? tasks[1] : null, // ✅ Check before accessing
     },
     {
       'icon': Icons.restaurant,
       'label': 'Meal Prep',
-      'task': tasks[2], // Updated to use Task class
+      'task': tasks.length > 2 ? tasks[2] : null,
     },
     {
       'icon': Icons.soap,
       'label': 'Personal Hygiene',
-      'task': tasks[3], // Updated to use Task class
+      'task': tasks.length > 3 ? tasks[3] : null,
     },
     {
       'icon': Icons.cleaning_services,
       'label': 'Chores',
-      'task': tasks[4], // Updated to use Task class
+      'task': tasks.length > 4 ? tasks[4] : null,
     },
     {
       'icon': Icons.school,
       'label': 'School Prep',
-      'task': tasks[5], // Updated to use Task class
+      'task': tasks.length > 5 ? tasks[5] : null,
     },
   ];
 
@@ -64,13 +64,18 @@ class DailyLifeSkillsScreen extends StatelessWidget {
               icon: categories[index]['icon'],
               label: categories[index]['label'],
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        TaskPage(task: categories[index]['task']),
-                  ),
-                );
+                if (categories[index]['task'] != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          TaskPage(task: categories[index]['task']),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Task not available!')));
+                }
               },
             );
           },
