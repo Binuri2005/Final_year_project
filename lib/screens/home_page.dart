@@ -1,4 +1,4 @@
-import 'package:app/dailylife_skills_module/test.dart';
+import 'package:app/dailylife_skills_module/main_landing_page.dart';
 import 'package:app/screens/dashboard_screen.dart';
 import 'package:app/social_skills_module/main_page.dart';
 import 'package:app/speech_skills_module/main_page.dart';
@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            DailySkillsApp(), // Navigate to DailySkillsApp
+                            DailyLifeSkillsScreen(), // Navigate to DailySkill main page screen
                       ),
                     );
                   },
