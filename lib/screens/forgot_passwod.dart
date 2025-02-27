@@ -123,8 +123,9 @@ class ForgotPasswordPage extends StatelessWidget {
                                   //send button
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  primary: Color.fromARGB(255, 29, 112, 180),
-                                  onPrimary: Colors.white,
+                                  foregroundColor: Colors.white,
+                                  backgroundColor:
+                                      Color.fromARGB(255, 29, 112, 180),
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 40,
                                     vertical: 15,
