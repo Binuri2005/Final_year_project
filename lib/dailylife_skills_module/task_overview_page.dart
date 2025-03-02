@@ -46,7 +46,7 @@ class _TaskPageState extends State<TaskPage> {
     });
 
     // Check if all steps are completed
-    if (completedSteps == totalSteps) {
+  if (completedSteps == totalSteps) {
       Navigator.push(
         context,
         MaterialPageRoute(

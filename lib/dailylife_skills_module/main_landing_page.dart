@@ -7,7 +7,7 @@ class DailyLifeSkillsScreen extends StatelessWidget {
   final List<Map<String, dynamic>> categories = [
     {
       'icon': Icons.wb_sunny,
-      'label': 'Morning Routine',
+      'label': 'Morning Routinee',
       'task': tasks.length > 0 ? tasks[0] : null,
     },
     {

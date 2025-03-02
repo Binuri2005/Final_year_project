@@ -1,4 +1,5 @@
-import 'package:app/screens/forgot_passwod.dart';
+//import 'package:app/screens/forgot_passwod.dart';
+import 'package:app/screens/password_reset_page.dart';
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
 import 'package:animate_do/animate_do.dart';
@@ -176,7 +177,8 @@ class LoginPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ForgotPasswordPage(),
+                              builder: (context) => ResetPasswordScreen(),
+                              //builder: (context) => ForgotPasswordPage(),
                             ),
                           );
                         },
