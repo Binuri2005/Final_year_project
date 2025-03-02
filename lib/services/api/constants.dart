@@ -6,6 +6,7 @@ class ApiConstants {
 
   static const String getUser = '/user';
 
-  // quiz endpoints
   static const String getSocialSkillQuizzes = '/quiz/all';
+
+  static const String getAllSpeechSkills = '/speech-skills';
 }

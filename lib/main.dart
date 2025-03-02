@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'screens/intro_page.dart';
 import 'viewmodels/social_skills/play_game/social_skill_play_game.viewmodel.dart';
+import 'viewmodels/speech_skills/speech_skill_viewmodel.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -20,6 +21,9 @@ void main() {
     ),
     ChangeNotifierProvider(
       create: (context) => SocialSkillPlayGameViewModel(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => SpeechSkillViewModel(),
     ),
   ], child: const MyApp()));
 }
