@@ -1,3 +1,4 @@
+import 'package:app/dailylife_skills_module/main_landing_page.dart';
 import 'package:app/screens/home/speech_skills/speech_skill_level_screen.dart';
 import 'package:app/screens/profile/profile.view.dart';
 import 'package:app/social_skills_module/main_page.dart';
@@ -216,34 +217,44 @@ class Home extends StatelessWidget {
 
               ////////////// box for daily life skills module /////////
               Center(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  padding: const EdgeInsets.all(20),
-                  height: 150,
-                  width: 300,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF6C6FA),
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DailyLifeSkillsScreen(),
                       ),
-                    ],
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Daily Life Skills',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding: const EdgeInsets.all(20),
+                    height: 150,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF6C6FA),
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(
                         color: Colors.black,
+                        width: 1,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Daily Life Skills',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
