@@ -20,12 +20,75 @@ class _HomePageState extends State<HomePage> {
     Home(),
     ProfileView(),
     ProfileView(),
-    ProfileView(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFAFAFA),
+      appBar: AppBar(
+        backgroundColor: const Color(0x00FAFAFA),
+        elevation: 0, // Remove shadow
+        leading: IconButton(
+          icon: const Icon(Icons.menu,
+              color: Colors.black), // Three horizontal lines
+          onPressed: () {
+            // Open the drawer
+            Scaffold.of(context).openDrawer();
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey[200], // Light grey circle
+              ),
+              child: const Icon(Icons.notifications,
+                  color: Colors.black, size: 20),
+            ),
+            onPressed: () {
+              // Handle notifications button tap
+            },
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                // Handle home tap
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                // Handle settings tap
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+          ],
+        ),
+      ),
       body: _pageOptions[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex, // Highlights the selected tab
@@ -43,16 +106,16 @@ class _HomePageState extends State<HomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.star),
             label: 'Rewards',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),
@@ -68,55 +131,40 @@ class Home extends StatelessWidget {
     return SingleChildScrollView(
       // make sure the content is scrollable
       child: Container(
-        color: const Color(0xFFCADEEB),
         padding: const EdgeInsets.only(left: 30, right: 30, top: 5),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Welcome messsage
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Hello ${context.watch<UserViewModel>().user!.firstName}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Image.asset(
-                    'assets/images/cartoon_cat.png',
-                    height: 60,
-                    width: 60,
-                    fit: BoxFit.contain,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 2), // Space between the headings
-
-              const Text(
-                'Welcome to CareBloom! Choose a category to start learning and have fun improving your skills.',
-                style: TextStyle(
+              // Welcome message
+              Text(
+                'Hello ${context.watch<UserViewModel>().user!.firstName}!',
+                style: const TextStyle(
                   fontSize: 13,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.bold, // First name in bold
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // New heading: "Let's Start Improving a Skill"
+              const Text(
+                "Let's Start Improving a Skill",
+                style: TextStyle(
+                  fontSize: 24, // Big font size
+                  fontWeight: FontWeight.bold, // Bold font
                   color: Colors.black,
                 ),
               ),
               const SizedBox(height: 20),
 
-              // Category heading
-              const Center(
-                child: Text(
-                  'Category',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+              // Category heading (aligned to the left)
+              const Text(
+                'Category',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 8),
@@ -136,10 +184,10 @@ class Home extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     padding: const EdgeInsets.all(20),
-                    height: 150,
-                    width: 300,
+                    height: 150, // Reduced height
+                    width: 310, // Reduced width
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFCC0C5),
+                      color: const Color(0xFFFCC0C5), // Box color
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(
                         color: Colors.black,
@@ -154,15 +202,69 @@ class Home extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Center(
-                      child: Text(
-                        'Speech Skills',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                    child: Stack(
+                      children: [
+                        // Text content
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Heading
+                            const Text(
+                              'Speech Skills',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            // Description
+                            const Text(
+                              'Speak clearly',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Spacer(),
+                            // "Let's Go" button
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
+                              child: const Text(
+                                "Let's Go",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                        // Image on the right side
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: SizedBox(
+                            width: 120, // Adjust the width of the image
+                            height: 120, // Adjust the height of the image
+                            child: Image.asset(
+                              'assets/images/speech.png', // Path to your image
+                              fit: BoxFit
+                                  .contain, // Ensure the image fits inside the container
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -183,10 +285,11 @@ class Home extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     padding: const EdgeInsets.all(20),
-                    height: 150,
-                    width: 300,
+                    height: 150, // Reduced height
+                    width: 310, // Reduced width
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF8EE6C),
+                      color:
+                          const Color.fromARGB(255, 111, 155, 215), // Box color
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(
                         color: Colors.black,
@@ -201,15 +304,69 @@ class Home extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Center(
-                      child: Text(
-                        'Social Skills',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                    child: Stack(
+                      children: [
+                        // Text content
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Heading
+                            const Text(
+                              'Social Skills',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            // Description
+                            const Text(
+                              'Role plays and games',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Spacer(),
+                            // "Let's Go" button
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
+                              child: const Text(
+                                "Let's Go",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                        // Image on the right side
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: SizedBox(
+                            width: 80, // Adjust the width of the image
+                            height: 80, // Adjust the height of the image
+                            child: Image.asset(
+                              'assets/images/social.png',
+                              fit: BoxFit
+                                  .contain, // Ensure the image fits inside the container
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -229,10 +386,10 @@ class Home extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     padding: const EdgeInsets.all(20),
-                    height: 150,
-                    width: 300,
+                    height: 150, // Reduced height
+                    width: 310, // Reduced width
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF6C6FA),
+                      color: const Color(0xFFF6C6FA), // Box color
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(
                         color: Colors.black,
@@ -247,15 +404,69 @@ class Home extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Center(
-                      child: Text(
-                        'Daily Life Skills',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                    child: Stack(
+                      children: [
+                        // Text content
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Heading
+                            const Text(
+                              'Daily Life Skills',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            // Description
+                            const Text(
+                              'Routines',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Spacer(),
+                            // "Let's Go" button
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
+                              child: const Text(
+                                "Let's Go",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                        // Image on the right side
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: SizedBox(
+                            width: 80, // Adjust the width of the image
+                            height: 80, // Adjust the height of the image
+                            child: Image.asset(
+                              'assets/images/speech.png',
+                              fit: BoxFit
+                                  .contain, // Ensure the image fits inside the container
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

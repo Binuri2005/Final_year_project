@@ -46,7 +46,7 @@ class _TaskPageState extends State<TaskPage> {
     });
 
     // Check if all steps are completed
-  if (completedSteps == totalSteps) {
+    if (completedSteps == totalSteps) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -162,9 +162,7 @@ class _TaskPageState extends State<TaskPage> {
                 icon: Icon(Icons.play_arrow),
                 label: Text('Start'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: isStarted
-                      ? Colors.grey
-                      : Colors.blue, // Grey out after pressing
+                  backgroundColor: isStarted ? Colors.grey : Colors.blue,
                 ),
               ),
             ),
