@@ -19,6 +19,13 @@ class SocialQuizLevel {
           .map((round) => SocialQuizRound(
                 id: round['id'],
                 round: round['round'],
+                attemptedRoundResult: round['LevelRoundResult'] != null &&
+                        (round['LevelRoundResult'] is List &&
+                            round['LevelRoundResult'].isNotEmpty)
+                    ? AttemptedRoundResult(
+                        score: double.parse(
+                            round['LevelRoundResult'][0]['score'].toString()))
+                    : null,
                 createdAt: DateTime.parse(round['createdAt']),
                 mixedQuestions: (round['mixedQuestions'] as List)
                     .map((question) => QuizQuestion(
@@ -39,8 +46,17 @@ class SocialQuizLevel {
   }
 }
 
+class AttemptedRoundResult {
+  final double score;
+
+  AttemptedRoundResult({required this.score});
+}
+
 class SocialQuizRound {
   final String id;
+
+  final AttemptedRoundResult? attemptedRoundResult;
+
   final int round;
   final DateTime createdAt;
   final List<QuizQuestion> mixedQuestions;
@@ -49,6 +65,7 @@ class SocialQuizRound {
   SocialQuizRound(
       {required this.id,
       required this.round,
+      required this.attemptedRoundResult,
       required this.createdAt,
       required this.mixedQuestions,
       required this.mixedAnswers});
