@@ -9,4 +9,10 @@ class ApiConstants {
   static const String getSocialSkillQuizzes = '/quiz/all';
 
   static const String getAllSpeechSkills = '/speech-skills';
+
+  static const String verifyOtp = '/auth/verify-otp';
+
+  static String createChallenge = '/daily-life/create';
+
+  static String getDailySkills = '/daily-life';
 }

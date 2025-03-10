@@ -1,9 +1,16 @@
+import 'package:app/dailylife_skills_module/create_skill_tast.view.dart';
 import 'package:app/dailylife_skills_module/datastructure_dailyskill.dart';
-import 'package:app/dailylife_skills_module/task_overview_page.dart';
-import 'package:flutter/material.dart';
 import 'package:app/global/category_button.dart';
+import 'package:app/viewmodels/daily_skills/daily_skills.viewmodel.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class DailyLifeSkillsScreen extends StatelessWidget {
+class DailyLifeSkillsScreen extends StatefulWidget {
+  @override
+  State<DailyLifeSkillsScreen> createState() => _DailyLifeSkillsScreenState();
+}
+
+class _DailyLifeSkillsScreenState extends State<DailyLifeSkillsScreen> {
   final List<Map<String, dynamic>> categories = [
     {
       'icon': Icons.wb_sunny,
@@ -43,6 +50,12 @@ class DailyLifeSkillsScreen extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    context.read<DailySkillViewModel>().getDailySkills();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -54,37 +67,68 @@ class DailyLifeSkillsScreen extends StatelessWidget {
         ),
         title: Text('Daily Life Skills'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 16.0,
-            mainAxisSpacing: 16.0,
-            childAspectRatio: 1.0,
-          ),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            return CategoryButton(
-              icon: categories[index]['icon'],
-              label: categories[index]['label'],
-              onTap: () {
-                if (categories[index]['task'] != null) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          TaskPage(task: categories[index]['task']),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Page coming soon!')));
-                }
-              },
-            );
-          },
-        ),
+      body: Consumer<DailySkillViewModel>(
+        builder: (context, state, _) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: GridView(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16.0,
+                        mainAxisSpacing: 16.0,
+                        childAspectRatio: 1.0,
+                      ),
+                      children: [
+                        ...categories.map((category) {
+                          return CategoryButton(
+                            icon: category['icon'],
+                            label: category['label'],
+                            onTap: () {
+                              if (category['task'] != null) {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => TaskOverviewPage(
+                                //         task: category['task']),
+                                //   ),
+                                // );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChallengeCreator(),
+                                  ),
+                                );
+                              }
+                            },
+                          );
+                        }).toList(),
+                        ...[
+                          ...state.dailySkills.map((dailySkill) {
+                            return CategoryButton(
+                              icon: Icons.add_alert,
+                              label: dailySkill.title,
+                              onTap: () {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => TaskOverviewPage(
+                                //         task: category['task']),
+                                //   ),
+                                // );
+                              },
+                            );
+                          }).toList()
+                        ]
+                      ]),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

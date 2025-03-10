@@ -411,74 +411,6 @@ class _Level1GameState extends State<Level1Game> {
     });
   }
 
-  void _viewRoundHistory(int roundNumber) {
-    // if (roundNumber > round) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(content: Text("Complete Round ${roundNumber - 1} first!")),
-    //   );
-    //   return;
-    // }
-    //
-    // final roundData = roundHistory[roundNumber - 1];
-    // final roundScore = roundData["score"];
-    // final roundExpressions =
-    //     expressionDataList.take(5).toList(); // Assuming 5 expressions per round
-    //
-    // showDialog(
-    //   context: context,
-    //   builder: (context) {
-    //     return AlertDialog(
-    //       title: Text("Round $roundNumber History"),
-    //       content: Column(
-    //         mainAxisSize: MainAxisSize.min,
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           Text("Score: $roundScore/5",
-    //               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-    //           SizedBox(height: 10),
-    //           ...roundExpressions.map((expression) {
-    //             final term = expression["term"]!;
-    //             final image = expression["image"]!;
-    //             // final userImage = droppedExpressions[term];
-    //             // final isCorrect = userImage == image;
-    //
-    //             return Container(
-    //               margin: EdgeInsets.only(bottom: 8),
-    //               padding: EdgeInsets.all(8),
-    //               decoration: BoxDecoration(
-    //                 // border: Border.all(
-    //                 //     color: isCorrect ? Colors.green : Colors.red),
-    //                 borderRadius: BorderRadius.circular(8),
-    //               ),
-    //               child: Row(
-    //                 children: [
-    //                   Text(term, style: TextStyle(fontSize: 14)),
-    //                   SizedBox(width: 10),
-    //                   // if (userImage != null)
-    //                   //   Image.asset(userImage,
-    //                   //       width: 50, height: 50, fit: BoxFit.cover),
-    //                   SizedBox(width: 10),
-    //                   // Icon(isCorrect ? Icons.check : Icons.close,
-    //                   //     color: isCorrect ? Colors.green : Colors.red),
-    //                 ],
-    //               ),
-    //             );
-    //           }).toList(),
-    //         ],
-    //       ),
-    //       actions: [
-    //         TextButton(
-    //           onPressed: () {
-    //             Navigator.pop(context);
-    //           },
-    //           child: Text("Close"),
-    //         ),
-    //       ],
-    //     );
-    //   },
-    // );
-  }
-
   void _showLockedRoundMessage(int roundNumber) {
     final snackBar = SnackBar(
       content:
@@ -516,39 +448,43 @@ class _Level1GameState extends State<Level1Game> {
                   spacing: 16,
                   runSpacing: 16,
                   children: widget.rounds
-                      .where((item) => item.attemptedRoundResult == null)
-                      .first
-                      .mixedQuestions
-                      .map((item) {
-                    return Draggable<QuizQuestion>(
-                      data: item,
-                      // disable dragging if the item is already dropped
-                      feedback: Material(
-                        color: Colors.transparent,
-                        child: Image.network(
-                          item.questionImageURL,
-                          width: 150,
-                          height: 150,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      childWhenDragging: Opacity(
-                        opacity: 0.5,
-                        child: Image.network(
-                          item.questionImageURL,
-                          width: 150,
-                          height: 150,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Image.network(
-                        item.questionImageURL,
-                        width: 150,
-                        height: 150,
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  }).toList(),
+                          .where((item) => item.attemptedRoundResult == null)
+                          .isEmpty
+                      ? []
+                      : widget.rounds
+                          .where((item) => item.attemptedRoundResult == null)
+                          .first
+                          .mixedQuestions
+                          .map((item) {
+                          return Draggable<QuizQuestion>(
+                            data: item,
+                            // disable dragging if the item is already dropped
+                            feedback: Material(
+                              color: Colors.transparent,
+                              child: Image.network(
+                                item.questionImageURL,
+                                width: 150,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            childWhenDragging: Opacity(
+                              opacity: 0.5,
+                              child: Image.network(
+                                item.questionImageURL,
+                                width: 150,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            child: Image.network(
+                              item.questionImageURL,
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        }).toList(),
                 ),
 
                 SizedBox(height: 24),
@@ -559,108 +495,112 @@ class _Level1GameState extends State<Level1Game> {
                   spacing: 16,
                   runSpacing: 16,
                   children: widget.rounds
-                      .where((item) => item.attemptedRoundResult == null)
-                      .first
-                      .mixedAnswers
-                      .map((expression) {
-                    return DragTarget<QuizQuestion>(
-                      builder: (context, candidateData, rejectedData) {
-                        return Container(
-                          width: 180,
-                          height: 170,
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blue),
-                            // border: Border.all(
-                            //   color: showResults
-                            //       ? (droppedExpressions[term] ==
-                            //               expression["image"]
-                            //           ? Colors.green
-                            //           : (droppedExpressions[term] != null
-                            //               ? Colors.red
-                            //               : Colors.blue))
-                            //       : Colors.blue,
-                            // ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(expression.answer,
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.black)),
-
-                              if (expression.draggedQuestionID != null)
-                                GestureDetector(
-                                  onTap: () {
-                                    // snapshot.removeQuestionFromAnAnswer(
-                                    //     questionID: expression.draggedQuestionID);
-                                  },
-                                  child: Draggable<QuizQuestion>(
-                                    data: expression.draggedQuestionID,
-                                    feedback: Material(
-                                      color: Colors.transparent,
-                                      child: Image.network(
-                                        expression.draggedQuestionID!
-                                            .questionImageURL,
-                                        width: 120,
-                                        height: 120,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    childWhenDragging: Container(),
-                                    child: Image.network(
-                                      expression
-                                          .draggedQuestionID!.questionImageURL,
-                                      width: 120,
-                                      height: 120,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                          .where((item) => item.attemptedRoundResult == null)
+                          .isEmpty
+                      ? []
+                      : widget.rounds
+                          .where((item) => item.attemptedRoundResult == null)
+                          .first
+                          .mixedAnswers
+                          .map((expression) {
+                          return DragTarget<QuizQuestion>(
+                            builder: (context, candidateData, rejectedData) {
+                              return Container(
+                                width: 180,
+                                height: 170,
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.blue),
+                                  // border: Border.all(
+                                  //   color: showResults
+                                  //       ? (droppedExpressions[term] ==
+                                  //               expression["image"]
+                                  //           ? Colors.green
+                                  //           : (droppedExpressions[term] != null
+                                  //               ? Colors.red
+                                  //               : Colors.blue))
+                                  //       : Colors.blue,
+                                  // ),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                              // if (droppedExpressions[term] != null)
-                              //   GestureDetector(
-                              //     onTap: () {
-                              //       setState(() {
-                              //         droppedExpressions[term] = null;
-                              //       });
-                              //     },
-                              //     child: Draggable<String>(
-                              //       data: droppedExpressions[term]!,
-                              //       feedback: Material(
-                              //         color: Colors.transparent,
-                              //         child: Image.asset(
-                              //           droppedExpressions[term]!,
-                              //           width: 120,
-                              //           height: 120,
-                              //           fit: BoxFit.cover,
-                              //         ),
-                              //       ),
-                              //       childWhenDragging: Container(),
-                              //       child: Image.asset(
-                              //         droppedExpressions[term]!,
-                              //         width: 120,
-                              //         height: 120,
-                              //         fit: BoxFit.cover,
-                              //       ),
-                              //     ),
-                              //   ),
-                            ],
-                          ),
-                        );
-                      },
-                      onAcceptWithDetails: (d) {
-                        snapshot.injectQuestionToAnAnswer(
-                            question: d.data, answer: expression);
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(expression.answer,
+                                        style: TextStyle(
+                                            fontSize: 18, color: Colors.black)),
 
-                        // setState(() {
-                        //   droppedExpressions
-                        //       .removeWhere((key, value) => value == imagePath);
-                        //   droppedExpressions[term] = imagePath;
-                        // });
-                      },
-                    );
-                  }).toList(),
+                                    if (expression.draggedQuestionID != null)
+                                      GestureDetector(
+                                        onTap: () {
+                                          // snapshot.removeQuestionFromAnAnswer(
+                                          //     questionID: expression.draggedQuestionID);
+                                        },
+                                        child: Draggable<QuizQuestion>(
+                                          data: expression.draggedQuestionID,
+                                          feedback: Material(
+                                            color: Colors.transparent,
+                                            child: Image.network(
+                                              expression.draggedQuestionID!
+                                                  .questionImageURL,
+                                              width: 120,
+                                              height: 120,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          childWhenDragging: Container(),
+                                          child: Image.network(
+                                            expression.draggedQuestionID!
+                                                .questionImageURL,
+                                            width: 120,
+                                            height: 120,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    // if (droppedExpressions[term] != null)
+                                    //   GestureDetector(
+                                    //     onTap: () {
+                                    //       setState(() {
+                                    //         droppedExpressions[term] = null;
+                                    //       });
+                                    //     },
+                                    //     child: Draggable<String>(
+                                    //       data: droppedExpressions[term]!,
+                                    //       feedback: Material(
+                                    //         color: Colors.transparent,
+                                    //         child: Image.asset(
+                                    //           droppedExpressions[term]!,
+                                    //           width: 120,
+                                    //           height: 120,
+                                    //           fit: BoxFit.cover,
+                                    //         ),
+                                    //       ),
+                                    //       childWhenDragging: Container(),
+                                    //       child: Image.asset(
+                                    //         droppedExpressions[term]!,
+                                    //         width: 120,
+                                    //         height: 120,
+                                    //         fit: BoxFit.cover,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                  ],
+                                ),
+                              );
+                            },
+                            onAcceptWithDetails: (d) {
+                              snapshot.injectQuestionToAnAnswer(
+                                  question: d.data, answer: expression);
+
+                              // setState(() {
+                              //   droppedExpressions
+                              //       .removeWhere((key, value) => value == imagePath);
+                              //   droppedExpressions[term] = imagePath;
+                              // });
+                            },
+                          );
+                        }).toList(),
                 ),
 
                 SizedBox(height: 24),

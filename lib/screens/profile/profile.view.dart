@@ -1,5 +1,6 @@
 import 'package:app/extenstions/user.ext.dart';
 import 'package:app/global/textfield.widet.dart';
+import 'package:app/services/storage/storage.service.dart';
 import 'package:app/viewmodels/user/user.viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -86,22 +87,29 @@ class ProfileView extends StatelessWidget {
               ],
             ),
             SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Iconsax.logout_1_bold,
-                  color: Colors.redAccent,
-                ),
-                SizedBox(width: 10),
-                Text(
-                  "Log Out",
-                  style: TextStyle(
-                      color: Colors.redAccent,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700),
-                ),
-              ],
+            InkWell(
+              onTap: () {
+                SecureStorageService().delete('access_token');
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Iconsax.logout_1_bold,
+                    color: Colors.redAccent,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    "Log Out",
+                    style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
             )
           ],
         ),

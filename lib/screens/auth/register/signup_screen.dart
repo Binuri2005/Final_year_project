@@ -1,12 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:app/global/textfield.widet.dart';
-import 'package:app/screens/intro_page.dart';
+import 'package:app/screens/auth/register/otp_verification.view.dart';
 import 'package:app/viewmodels/auth/auth_viewmodel..dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'login_page.dart';
+import '../login_page.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({super.key});
@@ -60,7 +60,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         // Navigate to the login page
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => IntroPage()),
+          MaterialPageRoute(
+              builder: (context) =>
+                  OtpVerificationView(email: emailController.text)),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -255,7 +257,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const LoginPage()),
+                                              OtpVerificationView(
+                                                email: emailController.text,
+                                              )),
                                     );
                                   },
                                   child: const Text(

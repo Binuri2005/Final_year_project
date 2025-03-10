@@ -14,6 +14,48 @@ class AuthViewModel extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   // Register user
+
+  Future verifyOTP({
+    required String email,
+    required String otp,
+    required VoidCallback onSuccess,
+    required VoidCallback onFailure,
+  }) async {
+    try {
+      _isRegisteringUser = true;
+      notifyListeners();
+
+      var response = await ApiService.sendRequest(
+        method: HTTPMethod.POST,
+        url: ApiConstants.verifyOtp,
+        body: {
+          'email': email,
+          'code': otp,
+        },
+      );
+
+      _isRegisteringUser = false;
+      notifyListeners();
+
+      onSuccess();
+
+      return true;
+    } on ApiError catch (e) {
+      _errorMessage = e.message;
+      notifyListeners();
+      onFailure();
+      return false;
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      onFailure();
+      return false;
+    } finally {
+      _isRegisteringUser = false;
+      notifyListeners();
+    }
+  }
+
   Future<bool> registerUser(
       {required String firstName,
       required String lastname,
