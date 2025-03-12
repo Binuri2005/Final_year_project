@@ -1,6 +1,6 @@
 import 'package:app/social_skills_module/role_play.dart';
 import 'package:flutter/material.dart';
-import 'play_game.dart'; 
+import 'play_game.dart';
 
 class SocialskillsPage extends StatelessWidget {
   const SocialskillsPage({super.key});
