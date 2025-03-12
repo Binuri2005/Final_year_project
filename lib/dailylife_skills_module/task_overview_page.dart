@@ -1,4 +1,277 @@
-import 'package:app/dailylife_skills_module/datastructure_dailyskill.dart';
+/*import 'package:app/dailylife_skills_module/datastructure_dailyskill.dart';
+import 'package:flutter/material.dart';
+
+class TaskOverviewPage extends StatelessWidget {
+  final Task task;
+
+  const TaskOverviewPage({Key? key, required this.task}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(task.title),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Category Icon and Description
+              _buildCategoryHeader(context),
+
+              SizedBox(height: 24),
+
+              // Progress Card
+              _buildProgressCard(),
+
+              SizedBox(height: 24),
+
+              // Steps Preview
+              Text(
+                'Steps Overview:',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+
+              SizedBox(height: 16),
+
+              // List of Steps
+              _buildStepsList(),
+
+              SizedBox(height: 24),
+
+              // Start Button
+              Center(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TaskOverviewPage(task: task),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.play_arrow),
+                  label: Text('Start Routine'),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    textStyle: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 24),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryHeader(BuildContext context) {
+    // Get the appropriate icon based on the task title
+    IconData categoryIcon = _getCategoryIcon();
+
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    categoryIcon,
+                    size: 36,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    task.title,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+            Text(
+              task.description,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black87,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProgressCard() {
+    int completedSteps = task.steps.where((step) => step.isCompleted).length;
+    int totalSteps = task.steps.length;
+    double progress = totalSteps > 0 ? completedSteps / totalSteps : 0.0;
+
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Progress',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '$completedSteps of $totalSteps steps completed',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
+            LinearProgressIndicator(
+              value: progress,
+              backgroundColor: Colors.grey[300],
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+              minHeight: 8,
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStepsList() {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.separated(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: task.steps.length,
+          separatorBuilder: (context, index) => Divider(),
+          itemBuilder: (context, index) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 24,
+                  height: 24,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    '${index + 1}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        task.steps[index]
+                            .title, // Use instruction instead of title
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        task.steps[index]
+                            .description, // Use imagePath instead of description
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Checkbox(
+                  value: task.steps[index].isCompleted,
+                  onChanged: null, // Read-only in overview mode
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  IconData _getCategoryIcon() {
+    // Return appropriate icon based on task title
+    String title = task.title.toLowerCase();
+
+    if (title.contains('morning')) {
+      return Icons.wb_sunny;
+    } else if (title.contains('night')) {
+      return Icons.nightlight_round;
+    } else if (title.contains('meal')) {
+      return Icons.restaurant;
+    } else if (title.contains('hygiene')) {
+      return Icons.soap;
+    } else if (title.contains('chores')) {
+      return Icons.cleaning_services;
+    } else if (title.contains('school')) {
+      return Icons.school;
+    } else {
+      return Icons.list_alt; // Default icon
+    }
+  }
+}
+
+/*import 'package:app/dailylife_skills_module/datastructure_dailyskill.dart';
 import 'package:app/dailylife_skills_module/task_completion_page.dart';
 import 'package:app/global/step_item.dart';
 import 'package:flutter/material.dart';
@@ -212,3 +485,5 @@ class _TaskPageState extends State<TaskPage> {
     );
   }
 }
+
+*/*/

@@ -1,4 +1,5 @@
 import 'package:app/dailylife_skills_module/main_landing_page.dart';
+import 'package:app/screens/dashboard_screen.dart';
 import 'package:app/screens/home/speech_skills/speech_skill_level_screen.dart';
 import 'package:app/screens/profile/profile.view.dart';
 import 'package:app/screens/rewards/rewards_page.dart';
@@ -402,15 +403,16 @@ class Home extends StatelessWidget {
                 title: 'Daily Life Skills',
                 description: 'Master essential everyday routines',
                 color: const Color(0xFFF6C6FA),
-                imagePath: 'assets/images/speech.png',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DailyLifeSkillsScreen(),
-                    ),
-                  );
-                },
+                imagePath: 'assets/images/speech.png', onTap: () {  },
+                // Comment out the onTap function
+                // onTap: () {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => DailyLifeSkillsScreen(),
+                //     ),
+                //   );
+                // },
               ),
 
               // Progress overview section

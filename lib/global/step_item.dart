@@ -30,11 +30,16 @@ class StepItem extends StatelessWidget {
                   ? Colors.blue[50]
                   : Colors.grey[200])), // Completed or current steps are blue
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: AssetImage(step.imagePath),
-        ),
+        leading: step.imagePath != null
+            ? CircleAvatar(
+                backgroundImage: AssetImage(step.imagePath!),
+              )
+            : CircleAvatar(
+                child: Icon(Icons.check_circle_outline),
+                backgroundColor: Colors.blue[100],
+              ),
         title: Text(
-          'Step $stepNumber: ${step.instruction}',
+          'Step $stepNumber: ${step.title}',
           style: TextStyle(
             color: isSkipped
                 ? Colors.grey // Grey for skipped steps
@@ -44,11 +49,13 @@ class StepItem extends StatelessWidget {
             fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
           ),
         ),
+        subtitle: Text(step.description),
         trailing: isCompleted
             ? Icon(Icons.check,
                 color: Colors.green) // Show checkmark for completed steps
             : Checkbox(
-                value: isCompleted,
+                value: step
+                    .isCompleted, // Use the isCompleted property from the step object
                 onChanged: (value) {
                   onCompleted(value ?? false);
                 },

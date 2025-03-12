@@ -1,4 +1,4 @@
-import 'package:app/viewmodels/daily_skills/daily_skills.viewmodel.dart';
+/*import 'package:app/viewmodels/daily_skills/daily_skills.viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -887,3 +887,4 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
     );
   }
 }
+*/
