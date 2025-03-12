@@ -1,78 +1,155 @@
-/*import 'package:app/dailylife_skills_module/datastructure_dailyskill.dart';
+import 'package:app/viewmodels/daily_skills/daily_skills.viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class TaskOverviewPage extends StatelessWidget {
-  final Task task;
+class TaskOverviewPage extends StatefulWidget {
+  final DailySkill task;
 
-  const TaskOverviewPage({Key? key, required this.task}) : super(key: key);
+  const TaskOverviewPage({super.key, required this.task});
+
+  @override
+  State<TaskOverviewPage> createState() => _TaskOverviewPageState();
+}
+
+class _TaskOverviewPageState extends State<TaskOverviewPage> {
+  List<String> completedStepsID = [];
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final progressPercentage =
+        (completedStepsID.length / widget.task.steps.length) * 100;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(task.title),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        title: Text(
+          widget.task.title,
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.info_outline),
+            onPressed: () {
+              _showTaskInfoDialog(context);
+            },
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Category Icon and Description
-              _buildCategoryHeader(context),
-
-              SizedBox(height: 24),
-
-              // Progress Card
-              _buildProgressCard(),
-
-              SizedBox(height: 24),
-
-              // Steps Preview
-              Text(
-                'Steps Overview:',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              theme.primaryColor.withOpacity(0.05),
+              Colors.white,
+            ],
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Category Header with Animation
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: _buildCategoryHeader(context),
                 ),
-              ),
 
-              SizedBox(height: 16),
+                SizedBox(height: 24),
 
-              // List of Steps
-              _buildStepsList(),
+                // Progress Card with Animation
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: _buildProgressCard(progressPercentage),
+                ),
 
-              SizedBox(height: 24),
+                SizedBox(height: 24),
 
-              // Start Button
-              Center(
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TaskOverviewPage(task: task),
+                // Steps Section Header
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.format_list_numbered,
+                        color: theme.primaryColor,
+                        size: 20,
                       ),
-                    );
-                  },
-                  icon: Icon(Icons.play_arrow),
-                  label: Text('Start Routine'),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                    textStyle: TextStyle(fontSize: 16),
+                      SizedBox(width: 8),
+                      Text(
+                        'Steps Overview',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: theme.primaryColor,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
 
-              SizedBox(height: 24),
-            ],
+                SizedBox(height: 8),
+
+                // List of Steps with Animation
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: _buildStepsList(theme),
+                ),
+
+                SizedBox(height: 32),
+
+                // Start Button with Animation
+                SizedBox(
+                  child: widget.task.steps.length == completedStepsID.length
+                      ? AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                          child: Center(
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                context
+                                    .read<DailySkillViewModel>()
+                                    .submitRoutine(
+                                  widget.task.id,
+                                  completedStepsID,
+                                  () {
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              },
+                              label: Text("Mark as complete"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: theme.primaryColor,
+                                foregroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 32, vertical: 16),
+                                textStyle: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                ),
+
+                SizedBox(height: 24),
+              ],
+            ),
           ),
         ),
       ),
@@ -80,39 +157,127 @@ class TaskOverviewPage extends StatelessWidget {
   }
 
   Widget _buildCategoryHeader(BuildContext context) {
-    // Get the appropriate icon based on the task title
+    final theme = Theme.of(context);
     IconData categoryIcon = _getCategoryIcon();
+    Color iconColor = _getCategoryColor(theme);
 
     return Card(
       elevation: 4,
+      shadowColor: theme.primaryColor.withOpacity(0.3),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              theme.cardColor,
+              theme.cardColor.withOpacity(0.8),
+            ],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: iconColor.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: iconColor.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  categoryIcon,
+                  size: 40,
+                  color: iconColor,
+                ),
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.task.title,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      '${widget.task.steps.length} steps • ${_getEstimatedTime()} min',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProgressCard(double progressPercentage) {
+    final isComplete = progressPercentage == 100;
+
+    return Card(
+      elevation: 3,
+      shadowColor: Colors.green.withOpacity(0.3),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    categoryIcon,
-                    size: 36,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                Row(
+                  children: [
+                    Icon(
+                      isComplete ? Icons.check_circle : Icons.pie_chart,
+                      color: isComplete ? Colors.green : Colors.blue,
+                      size: 20,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Progress',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 16),
-                Expanded(
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: isComplete
+                        ? Colors.green.withOpacity(0.1)
+                        : Colors.blue.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Text(
-                    task.title,
+                    '${progressPercentage.toInt()}%',
                     style: TextStyle(
-                      fontSize: 24,
+                      color: isComplete ? Colors.green : Colors.blue,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -120,58 +285,48 @@ class TaskOverviewPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 16),
-            Text(
-              task.description,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black87,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: LinearProgressIndicator(
+                value: completedStepsID.length / widget.task.steps.length,
+                backgroundColor: Colors.grey[200],
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  isComplete ? Colors.green : Colors.blue,
+                ),
+                minHeight: 10,
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildProgressCard() {
-    int completedSteps = task.steps.where((step) => step.isCompleted).length;
-    int totalSteps = task.steps.length;
-    double progress = totalSteps > 0 ? completedSteps / totalSteps : 0.0;
-
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
+            SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Progress',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  '$completedSteps of $totalSteps steps completed',
+                  '${completedStepsID.length}/${widget.task.steps.length} steps completed',
                   style: TextStyle(
                     color: Colors.grey[600],
+                    fontSize: 13,
                   ),
                 ),
+                if (isComplete)
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.emoji_events,
+                        size: 16,
+                        color: Colors.amber,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        'All done!',
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
               ],
-            ),
-            SizedBox(height: 12),
-            LinearProgressIndicator(
-              value: progress,
-              backgroundColor: Colors.grey[300],
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-              minHeight: 8,
-              borderRadius: BorderRadius.circular(4),
             ),
           ],
         ),
@@ -179,69 +334,98 @@ class TaskOverviewPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStepsList() {
+  Widget _buildStepsList(ThemeData theme) {
     return Card(
       elevation: 2,
+      shadowColor: theme.primaryColor.withOpacity(0.2),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.separated(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: task.steps.length,
-          separatorBuilder: (context, index) => Divider(),
+          itemCount: widget.task.steps.length,
+          separatorBuilder: (context, index) => Divider(height: 24),
           itemBuilder: (context, index) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 24,
-                  height: 24,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    '${index + 1}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+            final step = widget.task.steps[index];
+            final isCompleted = completedStepsID.contains(step.id);
+
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  if (isCompleted) {
+                    completedStepsID.remove(step.id);
+                  } else {
+                    completedStepsID.add(step.id);
+                  }
+                });
+              },
+              borderRadius: BorderRadius.circular(8),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 28,
+                      height: 28,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: isCompleted
+                            ? Colors.green
+                            : theme.primaryColor.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: isCompleted
+                          ? Icon(Icons.check, size: 16, color: Colors.white)
+                          : Text(
+                              '${index + 1}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: theme.primaryColor,
+                              ),
+                            ),
                     ),
-                  ),
-                ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        task.steps[index]
-                            .title, // Use instruction instead of title
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            step.text,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              decoration: isCompleted
+                                  ? TextDecoration.lineThrough
+                                  : null,
+                              color: isCompleted ? Colors.grey : Colors.black87,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 4),
-                      Text(
-                        task.steps[index]
-                            .description, // Use imagePath instead of description
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 14,
-                        ),
+                    ),
+                    Checkbox(
+                      value: isCompleted,
+                      activeColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                    ],
-                  ),
+                      onChanged: (value) {
+                        setState(() {
+                          if (value!) {
+                            completedStepsID.add(step.id);
+                          } else {
+                            completedStepsID.remove(step.id);
+                          }
+                        });
+                      },
+                    ),
+                  ],
                 ),
-                Checkbox(
-                  value: task.steps[index].isCompleted,
-                  onChanged: null, // Read-only in overview mode
-                ),
-              ],
+              ),
             );
           },
         ),
@@ -249,9 +433,64 @@ class TaskOverviewPage extends StatelessWidget {
     );
   }
 
+  void _showTaskInfoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('About This Task'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.task.title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(height: 12),
+              SizedBox(height: 16),
+              Row(
+                children: [
+                  Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
+                  SizedBox(width: 8),
+                  Text(
+                    'Estimated time: ${_getEstimatedTime()} min',
+                    style: TextStyle(color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.list_alt, size: 16, color: Colors.grey[600]),
+                  SizedBox(width: 8),
+                  Text(
+                    '${widget.task.steps.length} steps',
+                    style: TextStyle(color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Close'),
+            ),
+          ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        );
+      },
+    );
+  }
+
   IconData _getCategoryIcon() {
-    // Return appropriate icon based on task title
-    String title = task.title.toLowerCase();
+    String title = widget.task.title.toLowerCase();
 
     if (title.contains('morning')) {
       return Icons.wb_sunny;
@@ -266,224 +505,32 @@ class TaskOverviewPage extends StatelessWidget {
     } else if (title.contains('school')) {
       return Icons.school;
     } else {
-      return Icons.list_alt; // Default icon
+      return Icons.list_alt;
     }
+  }
+
+  Color _getCategoryColor(ThemeData theme) {
+    String title = widget.task.title.toLowerCase();
+
+    if (title.contains('morning')) {
+      return Colors.orange;
+    } else if (title.contains('night')) {
+      return Colors.indigo;
+    } else if (title.contains('meal')) {
+      return Colors.green;
+    } else if (title.contains('hygiene')) {
+      return Colors.blue;
+    } else if (title.contains('chores')) {
+      return Colors.purple;
+    } else if (title.contains('school')) {
+      return Colors.teal;
+    } else {
+      return theme.primaryColor;
+    }
+  }
+
+  int _getEstimatedTime() {
+    // Estimate based on number of steps (2 minutes per step)
+    return widget.task.steps.length * 2;
   }
 }
-
-/*import 'package:app/dailylife_skills_module/datastructure_dailyskill.dart';
-import 'package:app/dailylife_skills_module/task_completion_page.dart';
-import 'package:app/global/step_item.dart';
-import 'package:flutter/material.dart';
-
-class TaskPage extends StatefulWidget {
-  final Task task;
-
-  const TaskPage({required this.task});
-
-  @override
-  _TaskPageState createState() => _TaskPageState();
-}
-
-class _TaskPageState extends State<TaskPage> {
-  int currentStepIndex = -1; // -1 means no step is active initially
-  bool isStarted = false; // Track if the task has started
-  Set<int> skippedSteps = {}; // Track skipped steps
-
-  int get completedSteps =>
-      widget.task.steps.where((step) => step.isCompleted).length;
-  int get totalSteps => widget.task.steps.length;
-
-  void _startTask() {
-    setState(() {
-      isStarted = true;
-      currentStepIndex = 0; // Activate the first step
-    });
-  }
-
-  void _onStepCompleted(int index, bool isCompleted) {
-    if (skippedSteps.contains(index)) {
-      // If the step was skipped, show the skip/continue dialog
-      _showSkipDialog(index);
-      return;
-    }
-
-    setState(() {
-      widget.task.steps[index].isCompleted = isCompleted;
-      if (isCompleted && index == currentStepIndex) {
-        // Move to the next step if the current step is completed
-        if (currentStepIndex < widget.task.steps.length - 1) {
-          currentStepIndex++;
-        }
-      }
-    });
-
-    // Check if all steps are completed
-    if (completedSteps == totalSteps) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TaskCompletionPage(
-            task: widget.task,
-            completedSteps: completedSteps,
-            totalSteps: totalSteps,
-          ),
-        ),
-      );
-    }
-  }
-
-  void _onSkipPressed() {
-    if (currentStepIndex < widget.task.steps.length - 1) {
-      setState(() {
-        skippedSteps.add(currentStepIndex); // Mark the current step as skipped
-        currentStepIndex++; // Move to the next step
-      });
-    }
-  }
-
-  void _showSkipDialog(int index) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Incomplete Step'),
-          content: Text(
-              'Step ${index + 1} isn’t completed. Should we skip or continue?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                setState(() {
-                  skippedSteps.add(index); // Skip the step
-                  currentStepIndex++; // Move to the next step
-                });
-              },
-              child: Text('Skip'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                setState(() {
-                  currentStepIndex = index; // Go back to the skipped step
-                });
-              },
-              child: Text('Continue'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _onDonePressed() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => TaskCompletionPage(
-          task: widget.task,
-          completedSteps: completedSteps,
-          totalSteps: totalSteps,
-        ),
-      ),
-    );
-  }
-
-  void _onStartOverPressed() {
-    setState(() {
-      currentStepIndex = -1; // Reset to no active step
-      isStarted = false; // Reset start state
-      skippedSteps.clear(); // Clear skipped steps
-      for (var step in widget.task.steps) {
-        step.isCompleted = false; // Reset all steps
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.task.title),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            LinearProgressIndicator(
-              value: completedSteps / totalSteps,
-              backgroundColor: Colors.grey[300],
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-            ),
-            SizedBox(height: 20),
-            Text(
-              widget.task.description,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: ElevatedButton.icon(
-                onPressed:
-                    isStarted ? null : _startTask, // Disable after pressing
-                icon: Icon(Icons.play_arrow),
-                label: Text('Start'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isStarted ? Colors.grey : Colors.blue,
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Steps:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Expanded(
-              child: ListView.builder(
-                itemCount: widget.task.steps.length,
-                itemBuilder: (context, index) {
-                  return StepItem(
-                    step: widget.task.steps[index],
-                    stepNumber: index + 1,
-                    isCurrent: index == currentStepIndex,
-                    isCompleted: widget.task.steps[index].isCompleted,
-                    isSkipped: skippedSteps.contains(index),
-                    onCompleted: (isCompleted) {
-                      _onStepCompleted(index, isCompleted);
-                    },
-                  );
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: _onSkipPressed,
-                  child: Text('Skip'),
-                ),
-                ElevatedButton(
-                  onPressed: _onStartOverPressed,
-                  child: Text('Start Over'),
-                ),
-                ElevatedButton(
-                  onPressed: _onDonePressed,
-                  child: Text('Done'),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-*/*/
