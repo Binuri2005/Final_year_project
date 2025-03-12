@@ -25,6 +25,7 @@ class UserViewModel extends ChangeNotifier {
       _user = User.fromJson(user);
       return true;
     } catch (e) {
+      print(e);
       return false;
     }
   }
@@ -62,12 +63,25 @@ class UserViewModel extends ChangeNotifier {
   }
 }
 
+class Streaks {
+  final int dailyLifeStreak;
+  final int speechStreak;
+  final int socialStreak;
+
+  Streaks(
+      {required this.dailyLifeStreak,
+      required this.speechStreak,
+      required this.socialStreak});
+}
+
 class User {
   final String id;
   final String firstName;
   final String lastName;
 
   final String email;
+
+  final Streaks streaks;
 
   final bool isVerified;
 
@@ -77,6 +91,7 @@ class User {
     required this.firstName,
     required this.lastName,
     required this.email,
+    required this.streaks,
     required this.id,
     this.isVerified = false,
     required this.createdAt,
@@ -87,6 +102,14 @@ class User {
       id: json['id'],
       firstName: json['firstName'],
       lastName: json['lastName'],
+      streaks: Streaks(
+        dailyLifeStreak:
+            int.parse(json['UserStreaks'][0]['dailySkillStreak'].toString()),
+        speechStreak:
+            int.parse(json['UserStreaks'][0]['speechSkillStreak'].toString()),
+        socialStreak:
+            int.parse(json['UserStreaks'][0]['socialSkillStreak'].toString()),
+      ),
       email: json['email'],
       isVerified: json['isVerified'],
       createdAt: DateTime.parse(json['createdAt']),

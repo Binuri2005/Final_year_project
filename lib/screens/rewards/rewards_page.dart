@@ -1,5 +1,5 @@
+import 'package:app/extenstions/user.ext.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 class RewardsPage extends StatefulWidget {
   const RewardsPage({Key? key}) : super(key: key);
@@ -624,65 +624,206 @@ class _RewardsPageState extends State<RewardsPage>
 
   Widget _buildStreakSection() {
     return Card(
-      elevation: 8,
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(Icons.local_fire_department, color: Colors.orange),
-                SizedBox(width: 8),
-                Text(
-                  'Your Streak',
+                const Text(
+                  'Your Streaks',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '$streakDays',
-                  style: const TextStyle(
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.orange,
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade50,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.local_fire_department,
+                          color: Colors.orange.shade700, size: 18),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Keep it up!',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue.shade700,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 8),
-                const Text(
-                  'Days',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
               ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Keep it up! $streakDays day streak!',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[700],
-              ),
+            const SizedBox(height: 24),
+            _buildStreakType(
+              icon: Icons.bolt,
+              title: 'Speech Streak',
+              days: context.user!.streaks.speechStreak,
+              color: Colors.amber.shade600,
+              description: 'Practice speaking daily',
             ),
-            const SizedBox(height: 16),
-            _buildWeeklyStreak(),
-            const SizedBox(height: 16),
-            const Text(
-              'Complete daily activities to maintain your streak',
-              style: TextStyle(
-                fontSize: 14,
-                fontStyle: FontStyle.italic,
-              ),
-              textAlign: TextAlign.center,
+            const SizedBox(height: 20),
+            _buildStreakType(
+              icon: Icons.people_alt_rounded,
+              title: 'Social Streak',
+              days: context.user!.streaks.socialStreak,
+              color: Colors.teal.shade500,
+              description: 'Engage in conversations',
+            ),
+            const SizedBox(height: 20),
+            _buildStreakType(
+              icon: Icons.auto_awesome,
+              title: 'Daily Life Streak',
+              days: context.user!.streaks.dailyLifeStreak,
+              color: Colors.indigo.shade500,
+              description: 'Complete everyday tasks',
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildStreakType({
+    required IconData icon,
+    required String title,
+    required int days,
+    required Color color,
+    required String description,
+  }) {
+    final double percentage = days / 100; // Adjust denominator as needed
+    final bool isHighStreak = days > 60;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.1), width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(icon, color: color, size: 22),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      description,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (isHighStreak)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.red.shade50,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.local_fire_department,
+                          color: Colors.red.shade400, size: 12),
+                      const SizedBox(width: 2),
+                      Text(
+                        'Hot',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red.shade400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Text(
+                '$days days',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                '${(percentage * 100).toInt()}%',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: color.withOpacity(0.8),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: Stack(
+              children: [
+                Container(
+                  height: 8,
+                  width: double.infinity,
+                  color: Colors.grey.shade200,
+                ),
+                FractionallySizedBox(
+                  widthFactor: percentage.clamp(0.0, 1.0),
+                  child: Container(
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(4),
+                      boxShadow: [
+                        BoxShadow(
+                          color: color.withOpacity(0.5),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -2608,7 +2749,6 @@ class _RewardsPageState extends State<RewardsPage>
     );
   }
 }
-
 
 /*import 'package:flutter/material.dart';
 import 'dart:math' as math;

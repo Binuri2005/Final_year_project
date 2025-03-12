@@ -20,8 +20,6 @@ class SpeechSkillViewModel extends ChangeNotifier {
     try {
       _isSpeechSkillLoading = true;
 
-      await Future.delayed(Duration(seconds: 2));
-
       var res = await ApiService.sendRequest(
           method: HTTPMethod.GET, url: ApiConstants.getAllSpeechSkills);
 
@@ -38,6 +36,20 @@ class SpeechSkillViewModel extends ChangeNotifier {
       _isSpeechSkillError = true;
       _speechSkillErrorMessage = e.toString();
       notifyListeners();
+    }
+  }
+
+  markStepAsComplete(String stepId, VoidCallback onSuccess) async {
+    try {
+      await ApiService.sendRequest(
+        method: HTTPMethod.POST,
+        url: ApiConstants.markStepAsComplete,
+        body: {
+          'speechSkillId': stepId,
+        },
+      );
+    } catch (e) {
+      print(e);
     }
   }
 }

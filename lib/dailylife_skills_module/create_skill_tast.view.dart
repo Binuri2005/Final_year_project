@@ -1,4 +1,4 @@
-/*import 'package:app/viewmodels/daily_skills/daily_skills.viewmodel.dart';
+import 'package:app/viewmodels/daily_skills/daily_skills.viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +15,9 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
   final TextEditingController _titleController = TextEditingController();
   final List<String> _tasks = [];
   final TextEditingController _newTaskController = TextEditingController();
-  DateTime _startDate = DateTime.now();
-  DateTime _endDate = DateTime.now().add(const Duration(days: 7));
+  TimeOfDay _startDate = TimeOfDay.fromDateTime(DateTime.now());
+  TimeOfDay _endDate =
+      TimeOfDay.fromDateTime(DateTime.now().add(const Duration(days: 7)));
   late AnimationController _animationController;
   late Animation<double> _animation;
   bool _isExpanded = false;
@@ -54,31 +55,12 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
   }
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: isStartDate ? _startDate : _endDate,
-      firstDate: isStartDate ? DateTime.now() : _startDate,
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Theme.of(context).colorScheme.primary,
-              onPrimary: Colors.white,
-              onSurface: Colors.black,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
     if (picked != null) {
       setState(() {
         if (isStartDate) {
           _startDate = picked;
-          if (_endDate.isBefore(_startDate)) {
-            _endDate = _startDate.add(const Duration(days: 1));
-          }
         } else {
           _endDate = picked;
         }
@@ -142,10 +124,12 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
       'tasks': _tasks,
     };
 
+    print(challenge);
+
     context.read<DailySkillViewModel>().createChallenge(
           title: _titleController.text,
-          startTime: TimeOfDay.fromDateTime(_startDate),
-          endTime: TimeOfDay.fromDateTime(_endDate),
+          startTime: (_startDate),
+          endTime: (_endDate),
           steps: _tasks,
           onSuccess: showSuccessDialog,
           onFailure: () => _showErrorSnackBar(
@@ -179,7 +163,7 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
               SizedBox(height: 16),
               _buildChallengeInfoRow(Icons.title, _titleController.text),
               _buildChallengeInfoRow(Icons.calendar_today,
-                  '${DateFormat('MMM dd').format(_startDate)} - ${DateFormat('MMM dd, yyyy').format(_endDate)}'),
+                  'Starts at ${_startDate.format(context)}'),
               _buildChallengeInfoRow(Icons.list, '${_tasks.length} tasks')
             ],
           ),
@@ -192,8 +176,9 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
                 setState(() {
                   _titleController.clear();
                   _tasks.clear();
-                  _startDate = DateTime.now();
-                  _endDate = DateTime.now().add(const Duration(days: 7));
+                  _startDate = TimeOfDay.fromDateTime(DateTime.now());
+                  _endDate = TimeOfDay.fromDateTime(
+                      DateTime.now().add(const Duration(days: 7)));
                 });
               },
             ),
@@ -466,8 +451,7 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
-                                          DateFormat('MMM dd, yyyy')
-                                              .format(_startDate),
+                                          "${DateFormat('MMM dd, yyyy').format(DateTime.now())} at ${_startDate.format(context)}",
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
@@ -516,8 +500,7 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
-                                          DateFormat('MMM dd, yyyy')
-                                              .format(_endDate),
+                                          "${DateFormat('MMM dd, yyyy').format(DateTime.now().add(const Duration(days: 7)))} at ${_endDate.format(context)}",
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
@@ -533,7 +516,7 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
                           const SizedBox(height: 8),
                           Center(
                             child: Text(
-                              'Duration: ${_endDate.difference(_startDate).inDays} days',
+                              "Duration",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[700],
@@ -887,4 +870,3 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
     );
   }
 }
-*/
