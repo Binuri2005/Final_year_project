@@ -18,93 +18,203 @@ class IndividualScenarioDetailPage extends StatelessWidget {
         };
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/light_background.png"),
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Scenario Title
-              Center(
-                child: Text(
-                  scenario,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 5),
-
-              // Image
-              Center(
-                child: Image.asset(
-                  scenarioContent['image'], // Dynamically set image
-                  height: 150,
-                  width: 150,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              const SizedBox(height: 10),
-
-              // Description Box
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Text(
-                  scenarioContent['description'], // Dynamically set description
-                  style: const TextStyle(fontSize: 16),
-                  textAlign: TextAlign.left, // Align text to the left
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // "Steps to Follow" Heading
-              const Center(
-                child: Text(
-                  "Steps to Follow",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 10),
-
-              // Steps Boxes with Borders and Left-aligned Text
-              Column(
-                children: scenarioContent['steps']
-                    .map<Widget>(
-                      (step) => Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.only(bottom: 10),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // App Bar with Back Button
+                  Row(
+                    children: [
+                      Container(
                         decoration: BoxDecoration(
-                          color: Colors.blue[100],
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.blue, // Border color
-                            width: 1, // Border width
-                          ),
+                          color: Colors.white.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
-                        child: Text(
-                          step,
-                          style: const TextStyle(fontSize: 16),
-                          textAlign:
-                              TextAlign.left, // Align step text to the left
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                              size: 20),
+                          color: Colors.black87,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
                       ),
-                    )
-                    .toList(),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.star_rounded,
+                                color: Colors.amber.shade600, size: 20),
+                            const SizedBox(width: 4),
+                            Text(
+                              '520 XP',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue.shade800,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Scenario Title
+                  Center(
+                    child: Text(
+                      scenario,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Image
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Image.asset(
+                        scenarioContent['image'], // Dynamically set image
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Description Box
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.purple.shade600.withOpacity(0.9),
+                          Colors.deepPurple.shade700.withOpacity(0.9),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.purple.shade800.withOpacity(0.3),
+                          blurRadius: 12,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      scenarioContent[
+                          'description'], // Dynamically set description
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // "Steps to Follow" Heading
+                  Center(
+                    child: Text(
+                      "Steps to Follow",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade800,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  // Steps Boxes with Borders and Left-aligned Text
+                  Column(
+                    children: scenarioContent['steps']
+                        .map<Widget>(
+                          (step) => Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(20),
+                            margin: const EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      Colors.purple.shade600.withOpacity(0.2),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                              border: Border.all(
+                                color: Colors.purple.shade600, // Border color
+                                width: 1, // Border width
+                              ),
+                            ),
+                            child: Text(
+                              step,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black87,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
