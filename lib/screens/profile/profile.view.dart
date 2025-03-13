@@ -50,6 +50,16 @@ class ProfileView extends StatelessWidget {
                 Icons.lock_outline,
                 onTap: () {},
               ),
+              const Divider(),
+              _buildTile(
+                'Add Account',
+                'Add a new account',
+                Icons.add_circle_outline,
+                onTap: () {
+                  // Navigate to the Add Account screen or show a dialog
+                  _showAddAccountDialog(context);
+                },
+              ),
             ]),
             const SizedBox(height: 24),
             _buildSectionHeader('Activity'),
@@ -84,6 +94,35 @@ class ProfileView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  // Function to show the Add Account dialog
+  void _showAddAccountDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add Account'),
+          content: const Text('Enter the details of the new account.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Add'),
+              onPressed: () {
+                // Logic to add the new account
+                // You can navigate to a new screen or perform the addition here
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
