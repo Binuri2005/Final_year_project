@@ -1,5 +1,9 @@
 import 'package:app/extenstions/user.ext.dart';
+import 'package:app/models/user/analytics.dart';
+import 'package:app/viewmodels/user/user.viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class RewardsPage extends StatefulWidget {
   const RewardsPage({Key? key}) : super(key: key);
@@ -32,6 +36,8 @@ class _RewardsPageState extends State<RewardsPage>
   @override
   void initState() {
     super.initState();
+
+    context.read<UserViewModel>().getUserAnalytics();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
@@ -111,15 +117,15 @@ class _RewardsPageState extends State<RewardsPage>
             child: Column(
               children: [
                 // User Level Card
-                _buildUserLevelCard(),
+                // _buildUserLevelCard(),
                 const SizedBox(height: 20),
 
                 // Navigation buttons for sub-sections
-                _buildRewardsNavigation(),
-                const SizedBox(height: 20),
+                // _buildRewardsNavigation(),
+                // const SizedBox(height: 20),
 
                 // Progress Dashboard
-                _buildProgressDashboard(),
+                // _buildProgressDashboard(),
                 const SizedBox(height: 20),
 
                 // Streak Section
@@ -127,11 +133,32 @@ class _RewardsPageState extends State<RewardsPage>
                 const SizedBox(height: 20),
 
                 // Rewards Preview Section
-                _buildRewardsPreviewSection(),
+
+                Consumer<UserViewModel>(
+                  builder: (context, userViewModel, child) {
+                    if (userViewModel.isAnalyticsLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (userViewModel.isUserError) {
+                      return Center(
+                        child: Text(userViewModel.userErrorMessage),
+                      );
+                    }
+                    return Column(
+                      children: [
+                        _buildRewardsPreviewSection(
+                          userViewModel.userAnalytics!,
+                        ),
+                        _buildChallengesPreviewSection(
+                          userViewModel.userAnalytics!.dailyLifeResults,
+                        ),
+                      ],
+                    );
+                  },
+                ),
                 const SizedBox(height: 20),
 
                 // Challenges Preview
-                _buildChallengesPreviewSection(),
               ],
             ),
           ),
@@ -879,120 +906,51 @@ class _RewardsPageState extends State<RewardsPage>
     );
   }
 
-  Widget _buildRewardsPreviewSection() {
-    final List<Map<String, dynamic>> rewards = [
-      {
-        'name': 'Bronze Badge',
-        'icon': Icons.emoji_events,
-        'color': Colors.brown,
-        'unlocked': true,
-      },
-      {
-        'name': 'Silver Badge',
-        'icon': Icons.emoji_events,
-        'color': Colors.grey.shade400,
-        'unlocked': true,
-      },
-      {
-        'name': 'Gold Badge',
-        'icon': Icons.emoji_events,
-        'color': Colors.amber,
-        'unlocked': false,
-      },
-      {
-        'name': 'Platinum Badge',
-        'icon': Icons.emoji_events,
-        'color': Colors.blue.shade300,
-        'unlocked': false,
-      },
-    ];
-
+  Widget _buildSkillResultCard(SocialSkillResult result) {
     return Card(
-      elevation: 8,
+      elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      margin: const EdgeInsets.only(bottom: 16),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
-                  children: [
-                    Icon(Icons.card_giftcard, color: Colors.purple),
-                    SizedBox(width: 8),
-                    Text(
-                      'Recent Rewards',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.purple.shade700,
+                  child: Text(
+                    result.levelRound.round.toString(),
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                  ],
+                  ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Navigate to Badges collection
-                    _navigateToBadgesCollection();
-                  },
-                  child: const Text('See All'),
-                ),
+                const SizedBox(width: 16),
               ],
             ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: rewards.take(4).map((reward) {
-                final bool isUnlocked = reward['unlocked'] as bool;
-
-                return Column(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color:
-                            isUnlocked ? reward['color'] : Colors.grey.shade300,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Icon(
-                              reward['icon'] as IconData,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                          ),
-                          if (!isUnlocked)
-                            const Positioned(
-                              top: 5,
-                              right: 5,
-                              child: Icon(
-                                Icons.lock,
-                                color: Colors.white,
-                                size: 14,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      reward['name'] as String,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: isUnlocked ? Colors.black : Colors.grey,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                );
-              }).toList(),
-            ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildRewardsPreviewSection(UserAnalytics userAnalytics) {
+    //   return socail skills
+
+    return Column(
+      children: [
+        Column(
+          children: userAnalytics.socialSkillResults
+              .map((result) => _buildSkillResultCard(result))
+              .toList(),
+        )
+      ],
     );
   }
 
@@ -1272,24 +1230,8 @@ class _RewardsPageState extends State<RewardsPage>
     );
   }
 
-  Widget _buildChallengesPreviewSection() {
-    final challenges = [
-      {
-        'title': 'Speech Practice',
-        'description': 'Complete 10 minutes of speaking exercises',
-        'reward': '50 pts',
-        'completed': true,
-        'icon': Icons.record_voice_over,
-      },
-      {
-        'title': 'Social Interaction',
-        'description': 'Practice conversation skills with a peer',
-        'reward': '100 pts',
-        'completed': false,
-        'icon': Icons.people,
-      },
-    ];
-
+  Widget _buildChallengesPreviewSection(
+      List<DailyLifeResult> dailyLifeResults) {
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -1322,39 +1264,30 @@ class _RewardsPageState extends State<RewardsPage>
               ],
             ),
             const SizedBox(height: 12),
-            ...challenges
+            ...dailyLifeResults
                 .map((challenge) => InkWell(
-                      onTap: () => _showChallengeDetails(challenge),
+                      // onTap: () => _showChallengeDetails(challenge),
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           leading: CircleAvatar(
-                            backgroundColor: challenge['completed'] as bool
-                                ? Colors.green
-                                : Colors.grey.shade300,
+                            backgroundColor:
+                                true ? Colors.green : Colors.grey.shade300,
                             child: Icon(
-                              challenge['icon'] as IconData,
+                              Icons.add_alarm_sharp,
                               color: Colors.white,
                             ),
                           ),
                           title: Text(
-                            challenge['title'] as String,
+                            challenge.challenge.title,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              decoration: challenge['completed'] as bool
-                                  ? TextDecoration.lineThrough
-                                  : null,
+                              decoration: null,
                             ),
                           ),
-                          subtitle: Text(challenge['description'] as String),
-                          trailing: Text(
-                            challenge['reward'] as String,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.purple,
-                            ),
-                          ),
+                          subtitle: Text(DateFormat('dd MMM yyyy hh:mm a')
+                              .format(challenge.completedAt)),
                         ),
                       ),
                     ))

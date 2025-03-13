@@ -99,11 +99,13 @@ class DailySkillViewModel extends ChangeNotifier {
         url: ApiConstants.createChallenge,
         body: {
           'title': title,
-          'startTime': '${startTime.hour}:${startTime.minute}:00',
-          'endTime': '${endTime.hour}:${endTime.minute}:00',
+          'startTime': formatTimeOfDay(startTime),
+          'endTime': formatTimeOfDay(endTime),
           'text': steps,
         },
       );
+
+      getDailySkills();
 
       _isCreatingChallenge = false;
       notifyListeners();
@@ -147,4 +149,10 @@ class DailySkillStep {
   final String text;
 
   DailySkillStep({required this.id, required this.text});
+}
+
+String formatTimeOfDay(TimeOfDay time) {
+  final String hour = time.hour.toString().padLeft(2, '0');
+  final String minute = time.minute.toString().padLeft(2, '0');
+  return '$hour:$minute:00';
 }

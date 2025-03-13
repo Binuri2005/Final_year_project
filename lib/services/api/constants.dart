@@ -1,10 +1,12 @@
 class ApiConstants {
-  static const String BASE_URL = 'http://localhost:8080';
+  static const String BASE_URL = 'http://localhost:3000';
 
   static const String loginEndpoint = '/auth/login';
   static const String registerEndpoint = '/auth/register';
 
   static const String getUser = '/user';
+
+  static const String getUserAnalytics = '/user/analytics';
 
   static const String getSocialSkillQuizzes = '/quiz/all';
 
@@ -19,4 +21,6 @@ class ApiConstants {
   static String markStepAsComplete = '/speech-skills/submit';
 
   static String submitDailySkill = '/daily-life/submit';
+
+  static String submitSocialSkillRound = '/quiz/answer';
 }

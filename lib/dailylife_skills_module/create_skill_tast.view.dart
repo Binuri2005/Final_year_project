@@ -1,6 +1,5 @@
 import 'package:app/viewmodels/daily_skills/daily_skills.viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ChallengeCreator extends StatefulWidget {
@@ -172,6 +171,8 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
               child: Text('DONE'),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
+
                 // Reset the form
                 setState(() {
                   _titleController.clear();
@@ -451,7 +452,7 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
-                                          "${DateFormat('MMM dd, yyyy').format(DateTime.now())} at ${_startDate.format(context)}",
+                                          _startDate.format(context),
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
@@ -500,7 +501,7 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
-                                          "${DateFormat('MMM dd, yyyy').format(DateTime.now().add(const Duration(days: 7)))} at ${_endDate.format(context)}",
+                                          _endDate.format(context),
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,

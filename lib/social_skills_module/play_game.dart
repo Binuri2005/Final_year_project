@@ -21,6 +21,22 @@ class _PlayGamePageState extends State<PlayGamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.arrow_back, color: Color(0xFF095390)),
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -29,174 +45,293 @@ class _PlayGamePageState extends State<PlayGamePage> {
           ),
         ),
         child: Consumer<SocialSkillPlayGameViewModel>(
-            builder: (context, snapshot, _) {
-          if (snapshot.isQuizLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.isQuizError) {
-            return Text(
-              "Failed to load quizzes",
-              style: TextStyle(color: Colors.red),
-            );
-          }
-          return SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height *
-                  1.05, // Adjust height to move boxes down
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon:
-                              const Icon(Icons.arrow_back, color: Colors.black),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        const SizedBox(width: 8),
-                      ],
+          builder: (context, snapshot, _) {
+            if (snapshot.isQuizLoading) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xFF095390),
+                  strokeWidth: 3,
+                ),
+              );
+            }
+            if (snapshot.isQuizError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 60,
                     ),
-                  ),
-                  const SizedBox(height: 20), // More spacing after the AppBar
-
-                  const Center(
-                    child: Text(
-                      'Drag and Drop Play',
+                    const SizedBox(height: 16),
+                    Text(
+                      "Failed to load quizzes",
                       style: TextStyle(
-                        fontSize: 22,
+                        color: Colors.red[700],
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Center(
-                    child: Text(
-                      'Match accordingly and earn rewards ',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => context
+                          .read<SocialSkillPlayGameViewModel>()
+                          .getQuizData(),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF095390),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
-                      textAlign: TextAlign.center,
+                      child: const Text(
+                        "Retry",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
+                  ],
+                ),
+              );
+            }
+            return SafeArea(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 24),
+                      _buildHeader(),
+                      const SizedBox(height: 40),
+                      _buildLevelsList(snapshot.quizData, context),
+                    ],
                   ),
-                  const SizedBox(height: 30),
-
-                  Column(
-                      children: snapshot.quizData
-                          .map(
-                            (e) => Center(
-                                child: _buildBox(
-                              '${e.name}'.toUpperCase(),
-                              () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Level1Game(
-                                            rounds: e.rounds,
-                                            levelID: e.id,
-                                          )),
-                                );
-                              },
-                              e.rounds,
-                            )),
-                          )
-                          .toList()),
-
-                  // SizedBox(height: 40),
-                  //
-                  // Center(
-                  //     child: _buildBox('LEVEL 02', () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => Level2Game()),
-                  //   );
-                  // })),
-                  // SizedBox(height: 40),
-                  //
-                  // Center(child: _buildBox('LEVEL 03', () {})),
-                ],
+                ),
               ),
-            ),
-          );
-        }),
+            );
+          },
+        ),
       ),
     );
   }
-}
 
-Widget _buildBox(
-    String text, VoidCallback onTap, List<SocialQuizRound> rounds) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Stack(
-      alignment: Alignment.center,
+  Widget _buildHeader() {
+    return Column(
       children: [
         Container(
-          height: 110,
-          width: 250,
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+            color: Colors.white.withOpacity(0.8),
+            borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: const Color.fromARGB(255, 9, 83, 144).withOpacity(0.7),
-                spreadRadius: 4,
-                blurRadius: 8,
+                color: const Color(0xFF095390).withOpacity(0.2),
+                blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
-        ),
-        Container(
-          height: 100,
-          width: 240,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: Colors.white, width: 1),
-          ),
-          alignment: Alignment.center,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 18,
+              const Text(
+                'Drag and Drop Play',
+                style: TextStyle(
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Color(0xFF095390),
                 ),
               ),
-              SizedBox(
-                child: rounds
-                        .where(
-                            (element) => element.attemptedRoundResult != null)
-                        .isEmpty
-                    ? null
-                    : Column(
-                        children: rounds
-                            .where((element) =>
-                                element.attemptedRoundResult != null)
-                            .map((e) => Text(
-                                'Round ${e.round} - Score: ${(e.attemptedRoundResult!.score / e.mixedQuestions.length * 100).floor()}%',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.purple,
-                                )))
-                            .toList()),
+              const SizedBox(height: 8),
+              Container(
+                width: 100,
+                height: 3,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Match accordingly and earn rewards',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF555555),
+                ),
               ),
             ],
           ),
         ),
       ],
-    ),
-  );
+    );
+  }
+
+  Widget _buildLevelsList(
+      List<SocialQuizLevel> quizData, BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: quizData.length,
+      itemBuilder: (context, index) {
+        final quiz = quizData[index];
+        return _buildLevelCard(
+          quiz,
+          context,
+          Color(0xFF095390).withOpacity(0.6 + (index * 0.1)),
+          index,
+        );
+      },
+    );
+  }
+
+  Widget _buildLevelCard(
+    SocialQuizLevel quiz,
+    BuildContext context,
+    Color color,
+    int index,
+  ) {
+    final completedRounds = quiz.rounds
+        .where((element) => element.attemptedRoundResult != null)
+        .toList();
+    final totalRounds = quiz.rounds.length;
+    final progress =
+        totalRounds > 0 ? completedRounds.length / totalRounds : 0.0;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Level1Game(
+                rounds: quiz.rounds,
+                levelID: quiz.id,
+              ),
+            ),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [color, color.withOpacity(0.8)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: color.withOpacity(0.4),
+                blurRadius: 8,
+                spreadRadius: 2,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: completedRounds.length == totalRounds
+                            ? Colors.green.withOpacity(0.2)
+                            : color.withOpacity(0.8),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 5,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: completedRounds.length == totalRounds
+                            ? const Icon(
+                                Icons.check,
+                                color: Colors.green,
+                                size: 30,
+                              )
+                            : Text(
+                                '${index + 1}',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: color,
+                                ),
+                              ),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            quiz.name.toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Complete ${completedRounds.length} out of $totalRounds rounds',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 10,
+                decoration: const BoxDecoration(
+                  color: Colors.white24,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+                alignment: Alignment.centerLeft,
+                child: FractionallySizedBox(
+                  widthFactor: progress,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

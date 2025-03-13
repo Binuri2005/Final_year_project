@@ -1,3 +1,4 @@
+import 'package:app/models/user/analytics.dart';
 import 'package:app/services/api/api_service.dart';
 import 'package:app/services/api/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,11 +10,40 @@ class UserViewModel extends ChangeNotifier {
   bool _isEditingUser = false;
   bool get isEditingUser => _isEditingUser;
 
+  UserAnalytics? _userAnalytics;
+  UserAnalytics? get userAnalytics => _userAnalytics;
+
   bool _isUserError = false;
   bool get isUserError => _isUserError;
 
   String _userErrorMessage = "";
   String get userErrorMessage => _userErrorMessage;
+
+  bool _isAnalyticsLoading = false;
+  bool get isAnalyticsLoading => _isAnalyticsLoading;
+
+  bool _isAnalyticsError = false;
+  bool get isAnalyticsError => _isAnalyticsError;
+
+  void getUserAnalytics() async {
+    try {
+      _isAnalyticsLoading = true;
+      notifyListeners();
+
+      var analytics = await ApiService.sendRequest(
+        method: HTTPMethod.GET,
+        url: ApiConstants.getUserAnalytics,
+      );
+
+      _userAnalytics = UserAnalytics.fromJson(analytics);
+      _isAnalyticsLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isAnalyticsLoading = false;
+      _isAnalyticsError = true;
+      notifyListeners();
+    }
+  }
 
   Future<bool> getUser() async {
     try {

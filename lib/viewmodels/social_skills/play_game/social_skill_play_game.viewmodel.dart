@@ -20,6 +20,48 @@ class SocialSkillPlayGameViewModel extends ChangeNotifier {
   List<SocialQuizLevel> _quizData = [];
   List<SocialQuizLevel> get quizData => _quizData;
 
+  bool _isSubmitActiveRoundLoading = false;
+  bool get isSubmitActiveRoundLoading => _isSubmitActiveRoundLoading;
+
+  void submitActiveRound(void Function(dynamic data) onSuccess,
+      void Function(dynamic error) onError) async {
+    try {
+      _isSubmitActiveRoundLoading = true;
+
+      notifyListeners();
+
+      var activeLevel =
+          _quizData.firstWhere((element) => element.id == _activeLevelId);
+
+      var data = ({
+        'roundId': _activeRoundId,
+        'answers': activeLevel.rounds
+            .firstWhere((element) => element.id == _activeRoundId)
+            .mixedQuestions
+            .map((e) => ({
+                  'questionId': e.id,
+                  'answerId': e.draggedAnswerID?.id,
+                }))
+            .toList()
+      });
+
+      print(data);
+
+      await ApiService.sendRequest(
+          method: HTTPMethod.POST,
+          url: ApiConstants.submitSocialSkillRound,
+          body: data);
+
+      _isSubmitActiveRoundLoading = false;
+      notifyListeners();
+      onSuccess(data);
+    } catch (e) {
+      _isSubmitActiveRoundLoading = false;
+      notifyListeners();
+      onError(e);
+    }
+  }
+
   void setActiveRoundId({String? levelID, String? roundID}) {
     _activeRoundId = roundID;
     _activeLevelId = levelID;
