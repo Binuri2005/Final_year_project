@@ -34,20 +34,112 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
   }
 
   void _initializeGame() {
-    if (widget.rounds
-        .where((element) => element.attemptedRoundResult == null)
-        .isEmpty) {
-      setState(() => showResults = true);
-      return;
-    }
+    // Start with the first incomplete round
+    final nextRound = widget.rounds.firstWhere(
+      (element) => element.attemptedRoundResult == null,
+      orElse: () => widget.rounds.first,
+    );
 
     context.read<SocialSkillPlayGameViewModel>().setActiveRoundId(
           levelID: widget.levelID,
-          roundID: widget.rounds
-              .where((element) => element.attemptedRoundResult == null)
-              .first
-              .id,
+          roundID: nextRound.id,
         );
+  }
+
+  Widget _buildProgressIndicator() {
+    final viewModel = context.read<SocialSkillPlayGameViewModel>();
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: widget.rounds.map((round) {
+          final isActive = round.id == viewModel.activeRoundId;
+          final isCompleted = round.attemptedRoundResult != null;
+          final roundNumber = widget.rounds.indexOf(round) + 1;
+
+          // Check if previous rounds are completed
+          final isUnlocked = widget.rounds
+              .take(widget.rounds.indexOf(round))
+              .every((r) => r.attemptedRoundResult != null);
+
+          return GestureDetector(
+            onTap: () {
+              if (isCompleted || isUnlocked) {
+                viewModel.setActiveRoundId(
+                  levelID: widget.levelID,
+                  roundID: round.id,
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      isCompleted
+                          ? "Reattempting round $roundNumber"
+                          : "Starting round $roundNumber",
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Complete previous rounds first."),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 6,
+              ),
+              height: 42,
+              margin: const EdgeInsets.symmetric(horizontal: 6),
+              decoration: BoxDecoration(
+                color: isCompleted
+                    ? Colors.green.shade600
+                    : isActive
+                        ? Theme.of(context).primaryColor
+                        : isUnlocked
+                            ? Colors.grey.shade200
+                            : Colors.grey.shade400, // Lock upcoming rounds
+                borderRadius: BorderRadius.circular(21),
+                boxShadow: isActive || isCompleted
+                    ? [
+                        BoxShadow(
+                          color: (isCompleted
+                                  ? Colors.green.shade600
+                                  : Theme.of(context).primaryColor)
+                              .withOpacity(0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 3),
+                        )
+                      ]
+                    : null,
+              ),
+              child: Center(
+                child: Text(
+                  "$roundNumber",
+                  style: TextStyle(
+                    color: (isActive || isCompleted || isUnlocked)
+                        ? Colors.white
+                        : Colors.black87.withOpacity(0.4),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 
   void _submitRound() {
@@ -248,108 +340,6 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildProgressIndicator() {
-    final viewModel = context.read<SocialSkillPlayGameViewModel>();
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: widget.rounds.map((round) {
-          final isActive = round.id == viewModel.activeRoundId;
-          final isCompleted = round.attemptedRoundResult != null;
-          final roundNumber = widget.rounds.indexOf(round) + 1;
-
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 14,
-              vertical: 6,
-            ),
-            height: 42,
-            margin: const EdgeInsets.symmetric(horizontal: 6),
-            decoration: BoxDecoration(
-              color: isCompleted
-                  ? Colors.green.shade600
-                  : isActive
-                      ? Theme.of(context).primaryColor
-                      : Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(21),
-              boxShadow: isActive || isCompleted
-                  ? [
-                      BoxShadow(
-                        color: (isCompleted
-                                ? Colors.green.shade600
-                                : Theme.of(context).primaryColor)
-                            .withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 3),
-                      )
-                    ]
-                  : null,
-            ),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "$roundNumber",
-                    style: TextStyle(
-                      color: (isActive || isCompleted)
-                          ? Colors.white
-                          : Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  if (isCompleted)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: InkWell(
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                "You have now going back to this round.",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              backgroundColor: Colors.green,
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                          // switch to the round
-                          viewModel.setActiveRoundId(
-                            levelID: widget.levelID,
-                            roundID: round.id,
-                          );
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.replay,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          );
-        }).toList(),
-      ),
     );
   }
 
