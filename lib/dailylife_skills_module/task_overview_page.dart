@@ -123,18 +123,18 @@ class _TaskOverviewPageState extends State<TaskOverviewPage> {
                               onPressed: () {
                                 // check time range is valid with todays date
 
-                                if (widget.task.startTime
-                                        .isAfter(DateTime.now()) ||
-                                    widget.task.endTime
-                                        .isBefore(DateTime.now())) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                        'This task is not available at this time'),
-                                    backgroundColor: Colors.red,
-                                  ));
-                                  return;
-                                }
+                                // if (widget.task.startTime
+                                //         .isAfter(DateTime.now()) ||
+                                //     widget.task.endTime
+                                //         .isBefore(DateTime.now())) {
+                                //   ScaffoldMessenger.of(context)
+                                //       .showSnackBar(SnackBar(
+                                //     content: Text(
+                                //         'This task is not available at this time'),
+                                //     backgroundColor: Colors.red,
+                                //   ));
+                                //   return;
+                                // }
                                 context
                                     .read<DailySkillViewModel>()
                                     .submitRoutine(
