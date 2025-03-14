@@ -14,15 +14,17 @@ class IndividualScenarioDetailPage extends StatelessWidget {
         {
           'description': 'Description not available',
           'steps': ['No steps available'],
-          'image': 'assets/images/default_image.png',
         };
 
     return Scaffold(
       body: Container(
+        // Ensure the background covers the entire screen
+        height: double.infinity,
+        width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/light_background.png"),
-            fit: BoxFit.cover,
+            fit: BoxFit.cover, // Ensure the image covers the entire screen
           ),
         ),
         child: SafeArea(
@@ -104,31 +106,6 @@ class IndividualScenarioDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Image
-                  Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Image.asset(
-                        scenarioContent['image'], // Dynamically set image
-                        height: 150,
-                        width: 150,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
                   // Description Box
                   Container(
                     width: double.infinity,
@@ -152,9 +129,8 @@ class IndividualScenarioDetailPage extends StatelessWidget {
                       ],
                     ),
                     child: Text(
-                      scenarioContent[
-                          'description'], // Dynamically set description
-                      style: TextStyle(
+                      scenarioContent['description'],
+                      style: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                       ),
@@ -196,8 +172,8 @@ class IndividualScenarioDetailPage extends StatelessWidget {
                                 ),
                               ],
                               border: Border.all(
-                                color: Colors.purple.shade600, // Border color
-                                width: 1, // Border width
+                                color: Colors.purple.shade600,
+                                width: 1,
                               ),
                             ),
                             child: Text(
