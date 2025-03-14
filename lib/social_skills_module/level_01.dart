@@ -34,20 +34,184 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
   }
 
   void _initializeGame() {
-    if (widget.rounds
-        .where((element) => element.attemptedRoundResult == null)
-        .isEmpty) {
-      setState(() => showResults = true);
-      return;
-    }
+    // Start with the first incomplete round
+    final nextRound = widget.rounds.firstWhere(
+      (element) => element.attemptedRoundResult == null,
+      orElse: () => widget.rounds.first,
+    );
 
     context.read<SocialSkillPlayGameViewModel>().setActiveRoundId(
           levelID: widget.levelID,
-          roundID: widget.rounds
-              .where((element) => element.attemptedRoundResult == null)
-              .first
-              .id,
+          roundID: nextRound.id,
         );
+  }
+
+  Widget _buildProgressIndicator() {
+    final viewModel = context.read<SocialSkillPlayGameViewModel>();
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).primaryColor.withOpacity(0.1),
+            Theme.of(context).primaryColor.withOpacity(0.05),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: widget.rounds.map((round) {
+          final isActive = round.id == viewModel.activeRoundId;
+          final isCompleted = round.attemptedRoundResult != null;
+          final roundNumber = widget.rounds.indexOf(round) + 1;
+
+          // Check if previous rounds are completed
+          final isUnlocked = widget.rounds
+              .take(widget.rounds.indexOf(round))
+              .every((r) => r.attemptedRoundResult != null);
+
+          return GestureDetector(
+            onTap: () {
+              if (isCompleted || isUnlocked) {
+                viewModel.setActiveRoundId(
+                  levelID: widget.levelID,
+                  roundID: round.id,
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      isCompleted
+                          ? "Reattempting round $roundNumber"
+                          : "Starting round $roundNumber",
+                    ),
+                    backgroundColor: Colors.green,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.1,
+                      left: 20,
+                      right: 20,
+                    ),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      children: [
+                        const Icon(Icons.lock, color: Colors.white),
+                        const SizedBox(width: 12),
+                        Text("Complete previous rounds first."),
+                      ],
+                    ),
+                    backgroundColor: Colors.redAccent.shade200,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.1,
+                      left: 20,
+                      right: 20,
+                    ),
+                  ),
+                );
+              }
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 6,
+              ),
+              height: 48,
+              width: 48,
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                gradient: isCompleted
+                    ? LinearGradient(
+                        colors: [Colors.green.shade500, Colors.green.shade700],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
+                    : isActive
+                        ? LinearGradient(
+                            colors: [
+                              Theme.of(context).primaryColor,
+                              Theme.of(context).primaryColor.withOpacity(0.8),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          )
+                        : null,
+                color: !isActive && !isCompleted
+                    ? isUnlocked
+                        ? Colors.white
+                        : Colors.grey.shade200
+                    : null,
+                shape: BoxShape.circle,
+                boxShadow: isActive || isCompleted
+                    ? [
+                        BoxShadow(
+                          color: (isCompleted
+                                  ? Colors.green.shade600
+                                  : Theme.of(context).primaryColor)
+                              .withOpacity(0.3),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        )
+                      ]
+                    : [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        )
+                      ],
+                border: !isActive && !isCompleted && isUnlocked
+                    ? Border.all(
+                        color: Theme.of(context).primaryColor.withOpacity(0.5),
+                        width: 2,
+                      )
+                    : null,
+              ),
+              child: Center(
+                child: isCompleted
+                    ? const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 20,
+                      )
+                    : Text(
+                        "$roundNumber",
+                        style: TextStyle(
+                          color: (isActive)
+                              ? Colors.white
+                              : isUnlocked
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.black45,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 
   void _submitRound() {
@@ -59,20 +223,68 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text("Round Submitted"),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                  size: 28,
+                ),
+                SizedBox(width: 10),
+                Text("Round Submitted"),
+              ],
+            ),
             content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Text("Your answers have been submitted."),
-                const SizedBox(height: 16),
-                Text(
-                  "You scored ${data['correctQuestionCount']}/${data['totalQuestionCount']} correct answers.",
+                const SizedBox(height: 24),
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${data['correctQuestionCount']}",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green.shade700,
+                        ),
+                      ),
+                      Text(
+                        "/${data['totalQuestionCount']}",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text("Got it!"),
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                ),
+                child: const Text(
+                  "Got it!",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ],
           ),
@@ -82,13 +294,29 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
       (error) {
         _shakeController.forward().then((_) => _shakeController.reset());
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              "Failed to submit round. Please try again.",
-              style: TextStyle(color: Colors.white),
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.error_outline, color: Colors.white),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    "Failed to submit round. Please try again.",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.red.shade600,
             behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height * 0.1,
+              left: 20,
+              right: 20,
+            ),
           ),
         );
       },
@@ -115,41 +343,92 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
                     item.id)
                 .first;
 
-        final currentRoundIndex = widget.rounds.indexWhere(
+        var currentRoundIndex = widget.rounds.indexWhere(
                 (element) => element.id == viewModel.activeRoundId) +
             1;
+
+        // reset the active round if all rounds are completed
+        if (showResults) {
+          viewModel.setActiveRoundId(
+              levelID: widget.levelID, roundID: widget.rounds.first.id);
+          currentRoundIndex = widget.rounds
+              .where((element) => element.attemptedRoundResult != null)
+              .length;
+        }
 
         return Scaffold(
           appBar: AppBar(
             title: Text(
               "Round $currentRoundIndex",
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                letterSpacing: 0.5,
+              ),
             ),
             backgroundColor: Theme.of(context).primaryColor,
-            elevation: 0,
+            elevation: 4,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(16),
+              ),
+            ),
             actions: [
               IconButton(
-                icon: const Icon(Icons.help_outline),
+                icon: const Icon(Icons.help_outline, size: 28),
+                tooltip: 'Instructions',
                 onPressed: () => _showInstructionsDialog(),
               ),
+              const SizedBox(width: 8),
             ],
           ),
-          body: activeRound == null
-              ? _buildCompletedView()
-              : _buildGameContent(activeRound, viewModel),
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Theme.of(context).scaffoldBackgroundColor,
+                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+                ],
+              ),
+            ),
+            child: SafeArea(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: activeRound == null
+                    ? _buildCompletedView()
+                    : _buildGameContent(activeRound, viewModel),
+              ),
+            ),
+          ),
           floatingActionButton: activeRound == null
               ? FloatingActionButton(
                   onPressed: () => Navigator.pop(context),
                   backgroundColor: Colors.green,
-                  child: const Icon(Icons.check, color: Colors.white),
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Icon(Icons.check, color: Colors.white, size: 28),
                 )
               : FloatingActionButton.extended(
                   onPressed: _submitRound,
                   backgroundColor: Theme.of(context).primaryColor,
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   icon: const Icon(Icons.check, color: Colors.white),
-                  label: Text(
-                      'Submit ${currentRoundIndex == widget.rounds.length ? 'Level' : 'Round'} $currentRoundIndex',
-                      style: TextStyle(color: Colors.white)),
+                  label: const Text(
+                    "Submit",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
@@ -241,108 +520,6 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildProgressIndicator() {
-    final viewModel = context.read<SocialSkillPlayGameViewModel>();
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: widget.rounds.map((round) {
-          final isActive = round.id == viewModel.activeRoundId;
-          final isCompleted = round.attemptedRoundResult != null;
-          final roundNumber = widget.rounds.indexOf(round) + 1;
-
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 14,
-              vertical: 6,
-            ),
-            height: 42,
-            margin: const EdgeInsets.symmetric(horizontal: 6),
-            decoration: BoxDecoration(
-              color: isCompleted
-                  ? Colors.green.shade600
-                  : isActive
-                      ? Theme.of(context).primaryColor
-                      : Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(21),
-              boxShadow: isActive || isCompleted
-                  ? [
-                      BoxShadow(
-                        color: (isCompleted
-                                ? Colors.green.shade600
-                                : Theme.of(context).primaryColor)
-                            .withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 3),
-                      )
-                    ]
-                  : null,
-            ),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "$roundNumber",
-                    style: TextStyle(
-                      color: (isActive || isCompleted)
-                          ? Colors.white
-                          : Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  if (isCompleted)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: InkWell(
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                "You have now going back to this round.",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              backgroundColor: Colors.green,
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                          // switch to the round
-                          viewModel.setActiveRoundId(
-                            levelID: widget.levelID,
-                            roundID: round.id,
-                          );
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.replay,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          );
-        }).toList(),
-      ),
     );
   }
 

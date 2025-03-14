@@ -125,6 +125,7 @@ class _SpeechSkillCardsState extends State<SpeechSkillCards> {
                                 backgroundColor: Colors.green,
                               ),
                             );
+                            Navigator.of(context).pop();
 
                             context.read<UserViewModel>().getUser();
                           },

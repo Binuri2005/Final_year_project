@@ -1,8 +1,10 @@
 import 'package:app/extenstions/user.ext.dart';
 import 'package:app/viewmodels/speech_skills/speech_skill_cards_screen.dart';
 import 'package:app/viewmodels/speech_skills/speech_skill_viewmodel.dart';
+import 'package:app/viewmodels/user/user.viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class SpeechSkillLevelScreen extends StatefulWidget {
@@ -166,6 +168,68 @@ class _SpeechSkillLevelScreenState extends State<SpeechSkillLevelScreen> {
                           ),
                         ),
                         onPressed: () {
+                          context.read<UserViewModel>().getUserAnalytics();
+
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Streak History'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'Your current streak is ${context.user!.streaks.speechStreak} days.',
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Consumer<UserViewModel>(
+                                      builder: (context, value, child) {
+                                        if (value.isAnalyticsLoading) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+
+                                        if (value.isAnalyticsError) {
+                                          return const Text(
+                                              'Failed to load streak history.');
+                                        }
+
+                                        return Column(
+                                          children: value.userAnalytics!
+                                              .speechSkillResults.reversed
+                                              .map((e) => ListTile(
+                                                    title: Text(
+                                                      DateFormat.yMMM()
+                                                          .add_jm()
+                                                          .format(e.createdAt),
+                                                      style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    subtitle: Text(
+                                                        "Completed ${e.speechSkillLevel.name} level"),
+                                                  ))
+                                              .toList(),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Close'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+
                           // Display streak details or history
                         },
                         child: const Text(

@@ -48,6 +48,7 @@ class SpeechSkillViewModel extends ChangeNotifier {
           'speechSkillId': stepId,
         },
       );
+      onSuccess();
     } catch (e) {
       print(e);
     }

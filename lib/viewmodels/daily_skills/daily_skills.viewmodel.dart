@@ -9,14 +9,21 @@ class DailySkillViewModel extends ChangeNotifier {
   List<DailySkill> _dailySkills = [];
   List<DailySkill> get dailySkills => _dailySkills;
 
+  List<DailySkill> _commonChallenges = [];
+  List<DailySkill> get commonChallenges => _commonChallenges;
+
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
   bool _isFetchingDailySkills = false;
   bool get isFetchingDailySkills => _isFetchingDailySkills;
 
-  submitRoutine(String challengeId, List<String> completedSteps,
-      VoidCallback onSuccess) async {
+  submitRoutine(
+    String challengeId,
+    List<String> completedSteps,
+    VoidCallback onSuccess,
+    bool isTemplate,
+  ) async {
     try {
       await ApiService.sendRequest(
         method: HTTPMethod.POST,
@@ -24,6 +31,7 @@ class DailySkillViewModel extends ChangeNotifier {
         body: {
           'challengeId': challengeId,
           'completedSteps': completedSteps,
+          'isTemplate': isTemplate,
         },
       );
 
@@ -45,8 +53,28 @@ class DailySkillViewModel extends ChangeNotifier {
       );
 
       List<DailySkill> dailySkills = [];
+      List<DailySkill> commonTemp = [];
 
-      for (var dailySkill in response['data']) {
+      for (var dailySkill in response['commonChallenges']) {
+        List<DailySkillStep> steps = [];
+
+        for (var step in dailySkill['DailyChallengeItem']) {
+          steps.add(DailySkillStep(
+            id: step['id'],
+            text: step['text'],
+          ));
+        }
+
+        commonTemp.add(DailySkill(
+          id: dailySkill['id'],
+          title: dailySkill['title'],
+          startTime: DateTime.parse(dailySkill['startAtTime']),
+          endTime: DateTime.parse(dailySkill['endAtTime']),
+          steps: steps,
+        ));
+      }
+
+      for (var dailySkill in response['userChallenges']) {
         List<DailySkillStep> steps = [];
 
         for (var step in dailySkill['DailyChallengeItem']) {
@@ -66,6 +94,7 @@ class DailySkillViewModel extends ChangeNotifier {
       }
 
       _dailySkills = dailySkills;
+      _commonChallenges = commonTemp;
       _isFetchingDailySkills = false;
       notifyListeners();
     } on ApiError catch (e) {

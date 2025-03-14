@@ -1,55 +1,20 @@
+import 'dart:math';
+
 import 'package:app/dailylife_skills_module/create_skill_tast.view.dart';
-import 'package:app/dailylife_skills_module/datastructure_dailyskill.dart';
 import 'package:app/dailylife_skills_module/task_overview_page.dart';
 import 'package:app/viewmodels/daily_skills/daily_skills.viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
 class DailyLifeSkillsScreen extends StatefulWidget {
+  const DailyLifeSkillsScreen({super.key});
+
   @override
   State<DailyLifeSkillsScreen> createState() => _DailyLifeSkillsScreenState();
 }
 
 class _DailyLifeSkillsScreenState extends State<DailyLifeSkillsScreen> {
-  final List<Map<String, dynamic>> categories = [
-    {
-      'icon': Icons.wb_sunny,
-      'label': 'Morning Routine',
-      'color': Colors.amber,
-      'task': tasks.length > 0 ? tasks[0] : null,
-    },
-    {
-      'icon': Icons.nightlight_round,
-      'label': 'Night Routine',
-      'color': Colors.indigo,
-      'task': tasks.length > 1 ? tasks[1] : null,
-    },
-    {
-      'icon': Icons.restaurant,
-      'label': 'Meal Prep',
-      'color': Colors.green,
-      'task': tasks.length > 2 ? tasks[2] : null,
-    },
-    {
-      'icon': Icons.soap,
-      'label': 'Personal Hygiene',
-      'color': Colors.blue,
-      'task': tasks.length > 3 ? tasks[3] : null,
-    },
-    {
-      'icon': Icons.cleaning_services,
-      'label': 'Chores',
-      'color': Colors.purple,
-      'task': tasks.length > 4 ? tasks[4] : null,
-    },
-    {
-      'icon': Icons.school,
-      'label': 'School Prep',
-      'color': Colors.red,
-      'task': tasks.length > 5 ? tasks[5] : null,
-    },
-  ];
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -154,17 +119,28 @@ class _DailyLifeSkillsScreenState extends State<DailyLifeSkillsScreen> {
                               childAspectRatio: 1.0,
                             ),
                             children: [
-                              ...categories.map((category) {
-                                return _buildCategoryCard(category);
-                              }).toList(),
-                              if (state.dailySkills.isNotEmpty) ...[
-                                ...state.dailySkills.map((dailySkill) {
-                                  return _buildCategoryCard({
+                              ...state.commonChallenges.map((dailySkill) {
+                                return _buildCategoryCard(
+                                  {
                                     'icon': Icons.star,
                                     'label': dailySkill.title,
                                     'color': Colors.orange,
                                     'task': dailySkill,
-                                  });
+                                  },
+                                  true,
+                                );
+                              }).toList(),
+                              if (state.dailySkills.isNotEmpty) ...[
+                                ...state.dailySkills.map((dailySkill) {
+                                  return _buildCategoryCard(
+                                    {
+                                      'icon': Icons.star,
+                                      'label': dailySkill.title,
+                                      'color': Colors.orange,
+                                      'task': dailySkill,
+                                    },
+                                    false,
+                                  );
                                 }).toList()
                               ]
                             ],
@@ -185,13 +161,26 @@ class _DailyLifeSkillsScreenState extends State<DailyLifeSkillsScreen> {
             ),
           );
         },
-        child: Icon(Icons.add),
         tooltip: 'Create new routine',
+        child: Icon(Icons.add),
       ),
     );
   }
 
-  Widget _buildCategoryCard(Map<String, dynamic> category) {
+  IconData getRandomIcons() {
+    List<IconData> icons = [
+      Iconsax.aave_aave_outline,
+      Icons.star_border,
+      Icons.local_fire_department,
+      Icons.star_outline,
+      Icons.ac_unit,
+      Icons.adb_rounded,
+    ];
+
+    return icons[Random().nextInt(icons.length)];
+  }
+
+  Widget _buildCategoryCard(Map<String, dynamic> category, bool isTemplate) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -202,7 +191,10 @@ class _DailyLifeSkillsScreenState extends State<DailyLifeSkillsScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TaskOverviewPage(task: category['task']),
+                builder: (context) => TaskOverviewPage(
+                  task: category['task'],
+                  isTemplate: isTemplate,
+                ),
               ),
             );
           } else {
@@ -220,11 +212,15 @@ class _DailyLifeSkillsScreenState extends State<DailyLifeSkillsScreen> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                category['color'] ?? Theme.of(context).colorScheme.primary,
-                (category['color'] ?? Theme.of(context).colorScheme.primary)
-                    .withOpacity(0.7),
-              ],
+              colors: isTemplate
+                  ? [
+                      Colors.orange.shade400,
+                      Colors.orange.shade600,
+                    ]
+                  : [
+                      Colors.blue.shade400,
+                      Colors.blue.shade600,
+                    ],
             ),
           ),
           child: Padding(
@@ -233,7 +229,7 @@ class _DailyLifeSkillsScreenState extends State<DailyLifeSkillsScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  category['icon'],
+                  getRandomIcons(),
                   size: 40,
                   color: Colors.white,
                 ),
