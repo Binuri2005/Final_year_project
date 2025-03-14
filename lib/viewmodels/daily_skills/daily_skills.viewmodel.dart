@@ -18,8 +18,12 @@ class DailySkillViewModel extends ChangeNotifier {
   bool _isFetchingDailySkills = false;
   bool get isFetchingDailySkills => _isFetchingDailySkills;
 
-  submitRoutine(String challengeId, List<String> completedSteps,
-      VoidCallback onSuccess) async {
+  submitRoutine(
+    String challengeId,
+    List<String> completedSteps,
+    VoidCallback onSuccess,
+    bool isTemplate,
+  ) async {
     try {
       await ApiService.sendRequest(
         method: HTTPMethod.POST,
@@ -27,6 +31,7 @@ class DailySkillViewModel extends ChangeNotifier {
         body: {
           'challengeId': challengeId,
           'completedSteps': completedSteps,
+          'isTemplate': isTemplate,
         },
       );
 

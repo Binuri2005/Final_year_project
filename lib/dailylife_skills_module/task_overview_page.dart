@@ -5,7 +5,10 @@ import 'package:provider/provider.dart';
 class TaskOverviewPage extends StatefulWidget {
   final DailySkill task;
 
-  const TaskOverviewPage({super.key, required this.task});
+  const TaskOverviewPage(
+      {super.key, required this.task, required this.isTemplate});
+
+  final bool isTemplate;
 
   @override
   State<TaskOverviewPage> createState() => _TaskOverviewPageState();
@@ -118,15 +121,26 @@ class _TaskOverviewPageState extends State<TaskOverviewPage> {
                           child: Center(
                             child: ElevatedButton.icon(
                               onPressed: () {
+                                // check time range is valid with todays date
+
+                                if (widget.task.startTime
+                                        .isAfter(DateTime.now()) ||
+                                    widget.task.endTime
+                                        .isBefore(DateTime.now())) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                        'This task is not available at this time'),
+                                    backgroundColor: Colors.red,
+                                  ));
+                                  return;
+                                }
                                 context
                                     .read<DailySkillViewModel>()
                                     .submitRoutine(
-                                  widget.task.id,
-                                  completedStepsID,
-                                  () {
-                                    Navigator.pop(context);
-                                  },
-                                );
+                                        widget.task.id, completedStepsID, () {
+                                  Navigator.pop(context);
+                                }, widget.isTemplate);
                               },
                               label: Text("Mark as complete"),
                               style: ElevatedButton.styleFrom(
@@ -297,6 +311,23 @@ class _TaskOverviewPageState extends State<TaskOverviewPage> {
               ),
             ),
             SizedBox(height: 12),
+            // display time range
+
+            Row(
+              children: [
+                Text(
+                  'Start Time: ${widget.task.startTime.hour}:${widget.task.startTime.minute} - End Time: ${widget.task.endTime.hour}:${widget.task.endTime.minute}',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+
+            Divider(),
+            SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

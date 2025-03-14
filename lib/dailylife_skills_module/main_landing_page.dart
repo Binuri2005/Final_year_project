@@ -191,7 +191,10 @@ class _DailyLifeSkillsScreenState extends State<DailyLifeSkillsScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TaskOverviewPage(task: category['task']),
+                builder: (context) => TaskOverviewPage(
+                  task: category['task'],
+                  isTemplate: isTemplate,
+                ),
               ),
             );
           } else {
