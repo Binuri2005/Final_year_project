@@ -1,4 +1,5 @@
 import 'package:app/dailylife_skills_module/main_landing_page.dart';
+import 'package:app/extenstions/user.ext.dart';
 import 'package:app/screens/home/speech_skills/speech_skill_level_screen.dart';
 import 'package:app/screens/profile/profile.view.dart';
 import 'package:app/screens/rewards/rewards_page.dart';
@@ -426,23 +427,37 @@ class Home extends StatelessWidget {
               ),
               const SizedBox(height: 15),
 
-              // Progress cards
-              _buildProgressCard(
-                title: "Weekly Activity",
-                value: "4/7",
-                percentage: 57,
-                color: const Color(0xFF4A6FE5),
-                icon: Icons.calendar_today_rounded,
-              ),
+              // // Progress cards
+              // _buildProgressCard(
+              //   title: "Weekly Activity",
+              //   value: "4/7",
+              //   percentage: 57,
+              //   color: const Color(0xFF4A6FE5),
+              //   icon: Icons.calendar_today_rounded,
+              // ),
 
               const SizedBox(height: 15),
 
               _buildProgressCard(
-                title: "Current Streak",
-                value: "3 days",
+                title: "Current Speech Skill Streak",
+                value: "${context.user!.streaks.speechStreak} Days",
                 percentage: 60,
                 color: const Color(0xFFFFA000),
                 icon: Icons.local_fire_department_rounded,
+              ),
+              _buildProgressCard(
+                title: "Current Social Skill Streak",
+                value: "${context.user!.streaks.socialStreak} Days",
+                percentage: 80,
+                color: const Color(0xFF4A6FE5),
+                icon: Icons.people_rounded,
+              ),
+              _buildProgressCard(
+                title: "Current Daily Life Skill Streak",
+                value: "${context.user!.streaks.dailyLifeStreak} Days",
+                percentage: 90,
+                color: const Color(0xFF00B894),
+                icon: Icons.home_work_rounded,
               ),
             ],
           ),
