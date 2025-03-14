@@ -56,6 +56,27 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
     viewModel.submitActiveRound(
       (data) {
         Navigator.pop(context);
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Round Submitted"),
+            content: Column(
+              children: [
+                const Text("Your answers have been submitted."),
+                const SizedBox(height: 16),
+                Text(
+                  "You scored ${data['correctQuestionCount']}/${data['totalQuestionCount']} correct answers.",
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Got it!"),
+              ),
+            ],
+          ),
+        );
         viewModel.getQuizData();
       },
       (error) {
@@ -126,7 +147,8 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
                   onPressed: _submitRound,
                   backgroundColor: Theme.of(context).primaryColor,
                   icon: const Icon(Icons.check, color: Colors.white),
-                  label: const Text('Submit',
+                  label: Text(
+                      'Submit ${currentRoundIndex == widget.rounds.length ? 'Level' : 'Round'} $currentRoundIndex',
                       style: TextStyle(color: Colors.white)),
                 ),
           floatingActionButtonLocation:

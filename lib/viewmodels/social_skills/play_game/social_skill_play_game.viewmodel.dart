@@ -47,14 +47,14 @@ class SocialSkillPlayGameViewModel extends ChangeNotifier {
 
       print(data);
 
-      await ApiService.sendRequest(
+      var json = await ApiService.sendRequest(
           method: HTTPMethod.POST,
           url: ApiConstants.submitSocialSkillRound,
           body: data);
 
       _isSubmitActiveRoundLoading = false;
       notifyListeners();
-      onSuccess(data);
+      onSuccess(json);
     } catch (e) {
       _isSubmitActiveRoundLoading = false;
       notifyListeners();
