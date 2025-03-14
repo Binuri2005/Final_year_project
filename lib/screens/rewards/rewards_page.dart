@@ -2,6 +2,7 @@ import 'package:app/extenstions/user.ext.dart';
 import 'package:app/models/user/analytics.dart';
 import 'package:app/viewmodels/user/user.viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -146,11 +147,14 @@ class _RewardsPageState extends State<RewardsPage>
                     }
                     return Column(
                       children: [
-                        _buildRewardsPreviewSection(
-                          userViewModel.userAnalytics!,
-                        ),
                         _buildChallengesPreviewSection(
                           userViewModel.userAnalytics!.dailyLifeResults,
+                        ),
+                        _buildQuizChallengesPreviewSection(
+                          userViewModel.userAnalytics!.socialSkillResults,
+                        ),
+                        _buildSpeechChallengesPreviewSection(
+                          userViewModel.userAnalytics!.speechSkillResults,
                         ),
                       ],
                     );
@@ -652,7 +656,7 @@ class _RewardsPageState extends State<RewardsPage>
   Widget _buildStreakSection() {
     return Card(
       elevation: 2,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -1288,6 +1292,140 @@ class _RewardsPageState extends State<RewardsPage>
                           ),
                           subtitle: Text(DateFormat('dd MMM yyyy hh:mm a')
                               .format(challenge.completedAt)),
+                        ),
+                      ),
+                    ))
+                .toList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSpeechChallengesPreviewSection(List<SpeechSkillResult> res) {
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(Iconsax.user_bold, color: Colors.purple),
+                    SizedBox(width: 8),
+                    Text(
+                      'Speech Skill Practice',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                TextButton(
+                  onPressed: () {
+                    // Navigate to Challenges page
+                    _navigateToChallenges();
+                  },
+                  child: const Text('See All'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            ...res
+                .map((challenge) => InkWell(
+                      // onTap: () => _showChallengeDetails(challenge),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: CircleAvatar(
+                            backgroundColor:
+                                true ? Colors.orange : Colors.grey.shade300,
+                            child: Icon(
+                              Icons.mic,
+                              color: Colors.white,
+                            ),
+                          ),
+                          title: Text(
+                            "Attempted ${challenge.speechSkillLevel.name} level",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              decoration: null,
+                            ),
+                          ),
+                          subtitle: Text(DateFormat('dd MMM yyyy hh:mm a')
+                              .format(challenge.createdAt)),
+                        ),
+                      ),
+                    ))
+                .toList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuizChallengesPreviewSection(List<SocialSkillResult> res) {
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(Iconsax.user_bold, color: Colors.purple),
+                    SizedBox(width: 8),
+                    Text(
+                      'Social Challenges',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                TextButton(
+                  onPressed: () {
+                    // Navigate to Challenges page
+                    _navigateToChallenges();
+                  },
+                  child: const Text('See All'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            ...res
+                .map((challenge) => InkWell(
+                      // onTap: () => _showChallengeDetails(challenge),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: CircleAvatar(
+                            backgroundColor:
+                                true ? Colors.green : Colors.grey.shade300,
+                            child: Icon(
+                              Icons.add_alarm_sharp,
+                              color: Colors.white,
+                            ),
+                          ),
+                          title: Text(
+                            "${challenge.levelRound.level.name} - Round ${challenge.levelRound.round}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              decoration: null,
+                            ),
+                          ),
+                          subtitle: Text(DateFormat('dd MMM yyyy hh:mm a')
+                              .format(challenge.createdAt)),
                         ),
                       ),
                     ))
