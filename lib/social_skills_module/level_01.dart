@@ -115,9 +115,18 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
                     item.id)
                 .first;
 
-        final currentRoundIndex = widget.rounds.indexWhere(
+        var currentRoundIndex = widget.rounds.indexWhere(
                 (element) => element.id == viewModel.activeRoundId) +
             1;
+
+        // reset the active round if all rounds are completed
+        if (showResults) {
+          viewModel.setActiveRoundId(
+              levelID: widget.levelID, roundID: widget.rounds.first.id);
+          currentRoundIndex = widget.rounds
+              .where((element) => element.attemptedRoundResult != null)
+              .length;
+        }
 
         return Scaffold(
           appBar: AppBar(
@@ -147,9 +156,7 @@ class _Level1GameState extends State<Level1Game> with TickerProviderStateMixin {
                   onPressed: _submitRound,
                   backgroundColor: Theme.of(context).primaryColor,
                   icon: const Icon(Icons.check, color: Colors.white),
-                  label: Text(
-                      'Submit ${currentRoundIndex == widget.rounds.length ? 'Level' : 'Round'} $currentRoundIndex',
-                      style: TextStyle(color: Colors.white)),
+                  label: Text("Submit", style: TextStyle(color: Colors.white)),
                 ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
