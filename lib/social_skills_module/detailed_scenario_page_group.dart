@@ -6,7 +6,6 @@ class GroupScenarioDetailPage extends StatelessWidget {
 
   const GroupScenarioDetailPage({required this.scenario, Key? key})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     // Fetching the data for the specific group scenario
@@ -14,7 +13,6 @@ class GroupScenarioDetailPage extends StatelessWidget {
         {
           'description': 'Description not available',
           'steps': ['No steps available'],
-          'image': '', // Use the image path from the data structure
           'roles': [],
           'dialogues': {},
         };
@@ -106,32 +104,6 @@ class GroupScenarioDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Image (using the image path from the data structure)
-                  if (scenarioContent['image'] != '')
-                    Center(
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Image.asset(
-                          scenarioContent['image'], // Dynamically set image
-                          height: 150,
-                          width: 150,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  const SizedBox(height: 20),
-
                   // Description Box
                   Container(
                     width: double.infinity,
@@ -155,8 +127,7 @@ class GroupScenarioDetailPage extends StatelessWidget {
                       ],
                     ),
                     child: Text(
-                      scenarioContent[
-                          'description'], // Dynamically set description
+                      scenarioContent['description'],
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -199,8 +170,8 @@ class GroupScenarioDetailPage extends StatelessWidget {
                                 ),
                               ],
                               border: Border.all(
-                                color: Colors.purple.shade600, // Border color
-                                width: 1, // Border width
+                                color: Colors.purple.shade600,
+                                width: 1,
                               ),
                             ),
                             child: Text(
@@ -250,8 +221,8 @@ class GroupScenarioDetailPage extends StatelessWidget {
                                 ),
                               ],
                               border: Border.all(
-                                color: Colors.purple.shade600, // Border color
-                                width: 1, // Border width
+                                color: Colors.purple.shade600,
+                                width: 1,
                               ),
                             ),
                             child: Text(
@@ -295,7 +266,7 @@ class GroupScenarioDetailPage extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.only(top: 10, bottom: 5),
                                 child: Text(
-                                  entry.key, // Role name
+                                  entry.key,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -320,9 +291,8 @@ class GroupScenarioDetailPage extends StatelessWidget {
                                     ),
                                   ],
                                   border: Border.all(
-                                    color:
-                                        Colors.purple.shade600, // Border color
-                                    width: 1, // Border width
+                                    color: Colors.purple.shade600,
+                                    width: 1,
                                   ),
                                 ),
                                 child: Column(
@@ -333,7 +303,7 @@ class GroupScenarioDetailPage extends StatelessWidget {
                                           padding:
                                               const EdgeInsets.only(bottom: 8),
                                           child: Text(
-                                            "• $dialogue", // Add a bullet point
+                                            "• $dialogue",
                                             style:
                                                 const TextStyle(fontSize: 14),
                                           ),

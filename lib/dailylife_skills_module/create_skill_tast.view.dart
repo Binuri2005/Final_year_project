@@ -115,7 +115,7 @@ class _ChallengeCreatorState extends State<ChallengeCreator>
       return;
     }
 
-    // Here you would typically save the challenge to your database
+    // save the challenge to your database
     final challenge = {
       'title': _titleController.text,
       'startDate': _startDate,
