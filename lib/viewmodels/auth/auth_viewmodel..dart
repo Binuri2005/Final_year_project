@@ -1,0 +1,146 @@
+import 'package:app/services/api/api_service.dart';
+import 'package:app/services/api/constants.dart';
+import 'package:app/services/storage/storage.service.dart';
+import 'package:flutter/cupertino.dart';
+
+class AuthViewModel extends ChangeNotifier {
+  bool _isRegisteringUser = false;
+  bool get isRegisteringUser => _isRegisteringUser;
+
+  bool _isLoggingInUser = false;
+  bool get isLoggingInUser => _isLoggingInUser;
+
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+
+  // Register user
+
+  Future verifyOTP({
+    required String email,
+    required String otp,
+    required VoidCallback onSuccess,
+    required VoidCallback onFailure,
+  }) async {
+    try {
+      _isRegisteringUser = true;
+      notifyListeners();
+
+      var response = await ApiService.sendRequest(
+        method: HTTPMethod.POST,
+        url: ApiConstants.verifyOtp,
+        body: {
+          'email': email,
+          'code': otp,
+        },
+      );
+
+      _isRegisteringUser = false;
+      notifyListeners();
+
+      onSuccess();
+
+      return true;
+    } on ApiError catch (e) {
+      _errorMessage = e.message;
+      notifyListeners();
+      onFailure();
+      return false;
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      onFailure();
+      return false;
+    } finally {
+      _isRegisteringUser = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> registerUser(
+      {required String firstName,
+      required String lastname,
+      required String email,
+      required String password,
+      required String confirmPassword}) async {
+    try {
+      _isRegisteringUser = true;
+      notifyListeners();
+
+      var response = await ApiService.sendRequest(
+        method: HTTPMethod.POST,
+        url: ApiConstants.registerEndpoint,
+        body: {
+          'firstName': firstName,
+          'lastName': lastname,
+          'email': email,
+          'password': password,
+          'confirmPassword': confirmPassword,
+        },
+      );
+
+      _isRegisteringUser = false;
+      notifyListeners();
+
+      return true;
+    } on ApiError catch (e) {
+      _errorMessage = e.message;
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
+    } finally {
+      _isRegisteringUser = false;
+      notifyListeners();
+    }
+  }
+
+// login user loginUser
+
+// Login user
+  Future<bool> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      _isLoggingInUser = true;
+      notifyListeners();
+
+      // Simulate login delay
+
+      var response = await ApiService.sendRequest(
+        method: HTTPMethod.POST,
+        url: ApiConstants.loginEndpoint,
+        body: {
+          'email': email,
+          'password': password,
+        },
+      );
+
+      _isLoggingInUser = false;
+      notifyListeners();
+
+      // Check if login was successful based on the response
+      if (response['token'] != null) {
+        await SecureStorageService().write("access_token", response['token']);
+        return true; // Login successful
+      } else {
+        _errorMessage = response['message'] ?? 'Login failed';
+        notifyListeners();
+        return false;
+      }
+    } on ApiError catch (e) {
+      _errorMessage = e.message;
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
+    } finally {
+      _isLoggingInUser = false;
+      notifyListeners();
+    }
+  }
+}
