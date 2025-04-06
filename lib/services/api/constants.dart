@@ -12,6 +12,11 @@ class ApiConstants {
 
   static const String getAllSpeechSkills = '/speech-skills';
 
+  static String getSpeechSkillSentences(
+    String difficultyLevel,
+  ) =>
+      '/speech-skills/generate?level=$difficultyLevel';
+
   static const String verifyOtp = '/auth/verify-otp';
 
   static String createChallenge = '/daily-life/create';

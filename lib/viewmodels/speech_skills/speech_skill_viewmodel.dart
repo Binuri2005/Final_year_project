@@ -3,6 +3,12 @@ import 'package:app/services/api/api_service.dart';
 import 'package:app/services/api/constants.dart';
 import 'package:flutter/cupertino.dart';
 
+enum SpeechSkillDifficultyLevel {
+  easy,
+  medium,
+  hard,
+}
+
 class SpeechSkillViewModel extends ChangeNotifier {
   bool _isSpeechSkillLoading = false;
   bool get isSpeechSkillLoading => _isSpeechSkillLoading;
@@ -15,6 +21,22 @@ class SpeechSkillViewModel extends ChangeNotifier {
 
   List<SpeechSkillLevel> _speechSkillLevels = [];
   List<SpeechSkillLevel> get speechSkillLevels => _speechSkillLevels;
+
+  Future getMoreSentences(
+    SpeechSkillDifficultyLevel difficultyLevel,
+    String speechSkillId,
+    Function(List<String> sentences) onSuccess,
+  ) async {
+    var data = await ApiService.sendRequest(
+      method: HTTPMethod.GET,
+      url: ApiConstants.getSpeechSkillSentences(
+        difficultyLevel.name,
+      ),
+      body: {},
+    );
+
+    onSuccess((data['data'] as List).map((e) => e.toString()).toList());
+  }
 
   Future<void> getSpeechSkill() async {
     try {

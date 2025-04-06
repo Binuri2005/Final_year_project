@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app/models/speech_skills/speech_skill_level.dart';
 import 'package:app/viewmodels/speech_skills/speech_skill_viewmodel.dart';
 import 'package:app/viewmodels/user/user.viewmodel.dart';
@@ -39,13 +41,24 @@ class _SpeechSkillCardsState extends State<SpeechSkillCards> {
   SpeechSpeed speed = SpeechSpeed.normal;
   int currentCardIndex = 0;
   Set<int> viewedCards = {};
+  bool _isLoadingContent = false;
+
+  final List<String> _loadingMessages = [
+    "Creating your personalized practice sentences...",
+    "Crafting perfect examples for you to practice with...",
+    "Preparing your next language challenge...",
+    "Getting some brilliant sentences ready for you...",
+    "Tailoring new practice content just for you...",
+  ];
+
+  String get _randomLoadingMessage => _loadingMessages[Random().nextInt(_loadingMessages.length)];
 
   @override
   void initState() {
     cards = widget.level.sentences
         .map((e) => SkillSentence(
-              sentence: e,
-            ))
+      sentence: e,
+    ))
         .toList();
     super.initState();
   }
@@ -103,43 +116,63 @@ class _SpeechSkillCardsState extends State<SpeechSkillCards> {
               const SizedBox(height: 30),
               Expanded(
                 flex: 5,
-                child: Center(
-                  child: CardSwiper(
-                    controller: _swiperController,
-                    cardsCount: cards.length,
-                    onSwipe: (index, c, d) async {
-                      setState(() {
-                        currentCardIndex = c ?? 0;
-                        viewedCards.add(index);
-                      });
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Center(
+                      child: CardSwiper(
+                        controller: _swiperController,
+                        cardsCount: cards.length,
+                        onSwipe: (index, c, d) async {
+                          setState(() {
+                            currentCardIndex = c ?? 0;
+                            viewedCards.add(index);
+                          });
 
-                      // Check if all cards have been viewed
-                      if (viewedCards.length >= cards.length) {
-                        context.read<SpeechSkillViewModel>().markStepAsComplete(
-                          widget.level.id,
-                          () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: const Text(
-                                    'You have completed this skill!'),
-                                backgroundColor: Colors.green,
-                              ),
-                            );
-                            Navigator.of(context).pop();
+                          // Check if close to the end of current cards (1 step away)
+                          if (viewedCards.length >= cards.length - 1) {
+                            await _loadMoreSentences();
+                          }
 
-                            context.read<UserViewModel>().getUser();
-                          },
-                        );
-                        return false;
-                      }
-                      return true;
-                    },
-                    cardBuilder: (context, index, percentThresholdX,
+                          // Check if all cards have been viewed
+                          // if (viewedCards.length >= cards.length) {
+                          //   context.read<SpeechSkillViewModel>().markStepAsComplete(
+                          //     widget.level.id,
+                          //     () {
+                          //       ScaffoldMessenger.of(context).showSnackBar(
+                          //         SnackBar(
+                          //           content: const Text(
+                          //               'You have completed this skill!'),
+                          //           backgroundColor: Colors.green,
+                          //         ),
+                          //       );
+                          //       Navigator.of(context).pop();
+                          //
+                          //       context.read<UserViewModel>().getUser();
+                          //     },
+                          //   );
+                          //   return false;
+                          // }
+                          return true;
+                        },
+                        cardBuilder: (context, index, percentThresholdX,
                             percentThresholdY) =>
-                        Center(child: cards[index]),
-                    scale: 0.9,
-                    padding: const EdgeInsets.all(20),
-                  ),
+                            Center(child: cards[index]),
+                        scale: 0.9,
+                        padding: const EdgeInsets.all(20),
+                      ),
+                    ),
+                    if (_isLoadingContent)
+                      Container(
+                        color: Colors.white.withOpacity(0.9),
+                        child: Center(
+                          child: LoadingIndicator(
+                            message: _randomLoadingMessage,
+                            color: getColor(speed),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
@@ -161,96 +194,96 @@ class _SpeechSkillCardsState extends State<SpeechSkillCards> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: SpeechSpeed.values
                           .map((e) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 4),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      speed = e;
-                                    });
-                                    switch (e) {
-                                      case SpeechSpeed.slow:
-                                        TTSService().setSpeed(25 / 100);
-                                        break;
-                                      case SpeechSpeed.slower:
-                                        TTSService().setSpeed(15 / 100);
-                                        break;
-                                      case SpeechSpeed.normal:
-                                        TTSService().setSpeed(50 / 100);
-                                        break;
-                                      case SpeechSpeed.fast:
-                                        TTSService().setSpeed(60 / 100);
-                                        break;
-                                      case SpeechSpeed.faster:
-                                        TTSService().setSpeed(65 / 100);
-                                        break;
-                                    }
-                                  },
-                                  child: AnimatedContainer(
-                                    width: 58,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 8),
-                                    duration: const Duration(milliseconds: 200),
-                                    decoration: BoxDecoration(
-                                      color: e == speed
-                                          ? getColor(e).withOpacity(0.15)
-                                          : Colors.grey.shade100,
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        color: e == speed
-                                            ? getColor(e)
-                                            : Colors.grey.shade300,
-                                        width: e == speed ? 2 : 1,
-                                      ),
-                                      boxShadow: e == speed
-                                          ? [
-                                              BoxShadow(
-                                                color: getColor(e)
-                                                    .withOpacity(0.2),
-                                                blurRadius: 10,
-                                                spreadRadius: 1,
-                                              )
-                                            ]
-                                          : [],
-                                    ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          e == SpeechSpeed.slower
-                                              ? Iconsax.backward_bold
-                                              : e == SpeechSpeed.slow
-                                                  ? Iconsax.previous_bold
-                                                  : e == SpeechSpeed.normal
-                                                      ? Iconsax.play_bold
-                                                      : e == SpeechSpeed.fast
-                                                          ? Iconsax.next_bold
-                                                          : Iconsax
-                                                              .forward_bold,
-                                          size: e == speed ? 24 : 20,
-                                          color: e == speed
-                                              ? getColor(e)
-                                              : Colors.grey.shade600,
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          e.name[0].toUpperCase() +
-                                              e.name.substring(1),
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: e == speed
-                                                ? FontWeight.bold
-                                                : FontWeight.normal,
-                                            color: e == speed
-                                                ? getColor(e)
-                                                : Colors.grey.shade600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 4),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              speed = e;
+                            });
+                            switch (e) {
+                              case SpeechSpeed.slow:
+                                TTSService().setSpeed(25 / 100);
+                                break;
+                              case SpeechSpeed.slower:
+                                TTSService().setSpeed(15 / 100);
+                                break;
+                              case SpeechSpeed.normal:
+                                TTSService().setSpeed(50 / 100);
+                                break;
+                              case SpeechSpeed.fast:
+                                TTSService().setSpeed(60 / 100);
+                                break;
+                              case SpeechSpeed.faster:
+                                TTSService().setSpeed(65 / 100);
+                                break;
+                            }
+                          },
+                          child: AnimatedContainer(
+                            width: 58,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 8),
+                            duration: const Duration(milliseconds: 200),
+                            decoration: BoxDecoration(
+                              color: e == speed
+                                  ? getColor(e).withOpacity(0.15)
+                                  : Colors.grey.shade100,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: e == speed
+                                    ? getColor(e)
+                                    : Colors.grey.shade300,
+                                width: e == speed ? 2 : 1,
+                              ),
+                              boxShadow: e == speed
+                                  ? [
+                                BoxShadow(
+                                  color: getColor(e)
+                                      .withOpacity(0.2),
+                                  blurRadius: 10,
+                                  spreadRadius: 1,
+                                )
+                              ]
+                                  : [],
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  e == SpeechSpeed.slower
+                                      ? Iconsax.backward_bold
+                                      : e == SpeechSpeed.slow
+                                      ? Iconsax.previous_bold
+                                      : e == SpeechSpeed.normal
+                                      ? Iconsax.play_bold
+                                      : e == SpeechSpeed.fast
+                                      ? Iconsax.next_bold
+                                      : Iconsax
+                                      .forward_bold,
+                                  size: e == speed ? 24 : 20,
+                                  color: e == speed
+                                      ? getColor(e)
+                                      : Colors.grey.shade600,
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  e.name[0].toUpperCase() +
+                                      e.name.substring(1),
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: e == speed
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                    color: e == speed
+                                        ? getColor(e)
+                                        : Colors.grey.shade600,
                                   ),
                                 ),
-                              ))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ))
                           .toList(),
                     ),
                   ],
@@ -274,7 +307,7 @@ class _SpeechSkillCardsState extends State<SpeechSkillCards> {
                         if (cards.isNotEmpty &&
                             currentCardIndex < cards.length) {
                           final skillSentence =
-                              widget.level.sentences[currentCardIndex];
+                          widget.level.sentences[currentCardIndex];
                           TTSService().speak(skillSentence.sentence);
                         }
                       },
@@ -294,6 +327,81 @@ class _SpeechSkillCardsState extends State<SpeechSkillCards> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  _loadMoreSentences() async {
+    setState(() {
+      _isLoadingContent = true;
+    });
+
+    await context.read<SpeechSkillViewModel>().getMoreSentences(
+      SpeechSkillDifficultyLevel.easy,
+      widget.level.id,
+          (data) {
+        setState(() {
+          cards.addAll(data.map((e) => SkillSentence(
+            sentence: SpeechSkillSentence(
+              id: Random().nextInt(100000).toString(),
+              sentence: e,
+              difficulty: widget.level.name,
+              createdAt: DateTime.now(),
+            ),
+          )).toList());
+          _isLoadingContent = false;
+        });
+      },
+    );
+  }
+}
+
+class LoadingIndicator extends StatelessWidget {
+  final String message;
+  final Color color;
+
+  const LoadingIndicator({
+    Key? key,
+    required this.message,
+    required this.color,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 15,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 60,
+            width: 60,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(color),
+              strokeWidth: 4,
+            ),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            message,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
@@ -408,7 +516,7 @@ class _SkillSentenceState extends State<SkillSentence> {
                 children: [
                   Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     decoration: BoxDecoration(
                       color: _getDifficultyColor(widget.sentence.difficulty)
                           .withOpacity(0.1),
@@ -456,9 +564,9 @@ class _SkillSentenceState extends State<SkillSentence> {
                         boxShadow: [
                           BoxShadow(
                             color: (_isSpeaking
-                                    ? _getDifficultyColor(
-                                        widget.sentence.difficulty)
-                                    : Colors.black)
+                                ? _getDifficultyColor(
+                                widget.sentence.difficulty)
+                                : Colors.black)
                                 .withOpacity(0.3),
                             blurRadius: 10,
                             spreadRadius: 1,
